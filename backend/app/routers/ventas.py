@@ -15,6 +15,7 @@ from app.schemas.ventas import (
     VentaCrear,
     VentaDetalle,
     VentaListado,
+    VerificacionTicket,
 )
 from app.services import autorizaciones
 from app.services import ventas as servicio
@@ -33,6 +34,13 @@ async def catalogo(session: DB, ctx: ConPermiso("pos.vender")) -> CatalogoPos:
 @router.get("/resumen-hoy", summary="Ventas de hoy: total, tickets, promedio, por método y por hora")
 async def resumen_hoy(session: DB, ctx: ConPermiso("pos.vender")) -> dict:
     return await servicio.resumen_hoy(session, ctx)
+
+
+@router.get("/verificar", summary="Verificar un ticket por su QR o su número")
+async def verificar(
+    session: DB, ctx: ConPermiso("pos.vender"), texto: Annotated[str, Query(min_length=3, max_length=300)]
+) -> VerificacionTicket:
+    return VerificacionTicket(**await servicio.verificar(session, ctx, texto))
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, summary="Registrar una venta (requiere Idempotency-Key)")

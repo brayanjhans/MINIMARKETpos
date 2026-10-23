@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Clock, Loader2, Pause, Printer, Store } from "lucide-react";
+import { ArrowLeft, Clock, Loader2, Pause, Printer, ReceiptText, Store } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -73,8 +73,14 @@ function Pos() {
           ))}
         </div>
         <Link
-          href="/dashboard"
+          href="/ventas"
           className="ml-auto flex items-center gap-1.5 rounded-[10px] px-2 py-1.5 text-[13px] font-semibold text-navy-ink hover:bg-navy-2 xl:ml-0"
+        >
+          <ReceiptText className="size-4" /> <span className="hidden sm:inline">Tickets</span>
+        </Link>
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-1.5 rounded-[10px] px-2 py-1.5 text-[13px] font-semibold text-navy-ink hover:bg-navy-2 xl:ml-0"
         >
           <ArrowLeft className="size-4" /> Salir
         </Link>

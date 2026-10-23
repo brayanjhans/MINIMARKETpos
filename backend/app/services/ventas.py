@@ -11,6 +11,8 @@ cliente -> serie del comprobante. Si algo falla (stock, precio cambiado, pagos q
   cambia); después corresponde una devolución.
 """
 
+import hashlib
+import hmac
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, time, timedelta
@@ -21,6 +23,7 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from app.core.config import settings
 from app.core.excepciones import Conflicto, NoEncontrado, ValidacionNegocio
 from app.dependencies.auth import ContextoUsuario
 from app.models import (
@@ -69,6 +72,70 @@ def r2(valor: Decimal) -> Decimal:
 
 def comprobante(venta: Venta) -> str:
     return f"{venta.serie}-{venta.numero:08d}"
+
+
+# --- QR y código de verificación del ticket ----------------------------------------------------------------
+
+
+def codigo_verificacion(venta: Venta) -> str:
+    """Firma corta del ticket (HMAC con la clave del servidor): si alguien cambia el número, el total o la fecha
+    de un ticket impreso, el código ya no coincide. Nadie sin la clave puede fabricar un ticket válido."""
+    datos = f"{venta.serie}|{venta.numero}|{venta.total + venta.redondeo:.2f}|{a_utc(venta.fecha):%Y%m%d%H%M%S}"
+    firma = hmac.new(f"ticket:{settings.JWT_SECRET}".encode(), datos.encode(), hashlib.sha256).hexdigest()
+    return firma[:12].upper()
+
+
+def texto_qr(venta: Venta, ruc: str, documento: tuple[str, str] | None) -> str:
+    """Contenido del QR, con el orden que usa SUNAT en sus comprobantes y el código de verificación al final:
+    RUC|TIPO|SERIE|NUMERO|IGV|TOTAL|FECHA|TIPO DOC. CLIENTE|N.° DOC. CLIENTE|CÓDIGO"""
+    tipo_doc, numero_doc = documento or ("-", "-")
+    return "|".join(
+        [
+            ruc,
+            "TK",
+            venta.serie,
+            f"{venta.numero:08d}",
+            f"{venta.igv:.2f}",
+            f"{venta.total + venta.redondeo:.2f}",
+            f"{a_local(venta.fecha):%Y-%m-%d}",
+            tipo_doc,
+            numero_doc,
+            codigo_verificacion(venta),
+        ]
+    )
+
+
+async def verificar(session: AsyncSession, ctx: ContextoUsuario, texto: str) -> dict[str, Any]:
+    """Lee el QR escaneado (o el número T001-00000123) y dice si el ticket es auténtico y en qué estado está."""
+    texto = texto.strip()
+    partes = texto.split("|")
+    if len(partes) >= 10:
+        serie, numero, codigo = partes[2].upper(), partes[3], partes[9].upper()
+    else:
+        serie, _, numero = texto.upper().partition("-")
+        codigo = None
+    if not numero.isdigit() or not serie:
+        return {"valido": False, "motivo": "No es un ticket de este sistema"}
+    venta = await session.scalar(
+        select(Venta).where(Venta.serie == serie, Venta.numero == int(numero), Venta.sucursal_id == ctx.sucursal_id)
+    )
+    if venta is None:
+        return {"valido": False, "motivo": f"El ticket {serie}-{int(numero):08d} no existe en esta sucursal"}
+    if codigo is not None and not hmac.compare_digest(codigo, codigo_verificacion(venta)):
+        return {
+            "valido": False,
+            "venta_id": venta.id,
+            "motivo": "El código del QR no coincide: el ticket fue alterado o no lo emitió este sistema",
+        }
+    return {
+        "valido": True,
+        "venta_id": venta.id,
+        "comprobante": comprobante(venta),
+        "estado": venta.estado,
+        "total": venta.total + venta.redondeo,
+        "fecha": venta.fecha,
+        "motivo": "Ticket anulado" if venta.estado == EstadoVenta.ANULADA else "Ticket auténtico",
+    }
 
 
 # --- Cálculo (función pura: el POS hace exactamente lo mismo en el navegador) -------------------------------
@@ -739,7 +806,12 @@ async def listar(
         consulta = consulta.where(Venta.estado == estado)
     if metodo:
         consulta = consulta.where(Venta.pagos.any(PagoVenta.metodo == metodo))
-    if busqueda:
+    if busqueda and busqueda.count("|") >= 3:
+        # Se escaneó el QR de un ticket: RUC|TK|SERIE|NUMERO|...
+        partes = busqueda.split("|")
+        numero = int(partes[3]) if partes[3].strip().isdigit() else -1
+        consulta = consulta.where(Venta.serie == partes[2].strip().upper(), Venta.numero == numero)
+    elif busqueda:
         texto = busqueda.strip().upper()
         numero = texto.rsplit("-", 1)[-1].lstrip("0")
         condiciones = [Venta.cliente.has(Cliente.nombre.contains(busqueda.strip()))]
@@ -810,6 +882,14 @@ async def detalle(session: AsyncSession, ctx: ContextoUsuario, venta_id: int) ->
         "fecha_anulacion": venta.fecha_anulacion,
         "motivo_anulacion": venta.motivo_anulacion,
         "puede_anular": venta.estado == EstadoVenta.COMPLETADA and turno_abierto,
+        "codigo_verificacion": codigo_verificacion(venta),
+        "qr": texto_qr(
+            venta,
+            empresa.ruc,
+            (venta.cliente.tipo_documento.value, venta.cliente.numero_documento)
+            if venta.cliente and venta.cliente.numero_documento
+            else None,
+        ),
         "empresa": {
             "ruc": empresa.ruc,
             "razon_social": empresa.razon_social,

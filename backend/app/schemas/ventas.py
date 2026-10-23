@@ -194,5 +194,17 @@ class VentaDetalle(VentaListado):
     fecha_anulacion: datetime | None
     motivo_anulacion: str | None
     puede_anular: bool
+    codigo_verificacion: str
+    qr: str
     empresa: EmpresaTicket
+
+
+class VerificacionTicket(EsquemaSalida):
+    valido: bool
+    motivo: str
+    venta_id: int | None = None
+    comprobante: str | None = None
+    estado: EstadoVenta | None = None
+    total: Decimal | None = None
+    fecha: datetime | None = None
 

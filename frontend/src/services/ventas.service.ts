@@ -8,6 +8,7 @@ import type {
   VentaDetalle,
   VentaEntrada,
   VentaListado,
+  VerificacionTicket,
 } from "@/types/ventas";
 
 export interface FiltrosVentas {
@@ -37,6 +38,7 @@ export const ventasService = {
   listar: (filtros: FiltrosVentas, signal?: AbortSignal) =>
     api<Pagina<VentaListado>>("/ventas", { params: { ...filtros }, signal }),
   obtener: (id: number) => api<VentaDetalle>(`/ventas/${id}`),
+  verificar: (texto: string) => api<VerificacionTicket>("/ventas/verificar", { params: { texto } }),
   anular: (id: number, motivo: string, autorizacion: string | null, clave: string) =>
     api<VentaDetalle>(`/ventas/${id}/anular`, { method: "POST", body: { motivo, autorizacion }, idempotencia: clave }),
   autorizar: (username: string, password: string, permiso: string) =>

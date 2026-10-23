@@ -1,5 +1,6 @@
 "use client";
 
+import { QRCodeSVG } from "qrcode.react";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -76,6 +77,10 @@ export function Ticket({ venta, className }: { venta: VentaDetalle; className?: 
       ))}
       {Number(venta.vuelto) > 0 && <Fila izq="Vuelto" der={s(venta.vuelto)} fuerte />}
       <div className="my-2 border-t border-dashed border-black" />
+      <div className="my-2 flex flex-col items-center gap-1">
+        <QRCodeSVG value={venta.qr} size={112} level="M" marginSize={0} aria-label="Código QR del ticket" />
+        <p className="tracking-widest tabular">Verificación {venta.codigo_verificacion}</p>
+      </div>
       <p className="text-center">Documento interno de venta. Canjéelo por boleta o factura si lo necesita.</p>
       {e.mensaje_ticket && <p className="mt-1 text-center font-semibold">{e.mensaje_ticket}</p>}
       {anulada && venta.motivo_anulacion && <p className="mt-2">Anulada: {venta.motivo_anulacion}</p>}

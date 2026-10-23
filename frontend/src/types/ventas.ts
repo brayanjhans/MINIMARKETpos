@@ -123,6 +123,10 @@ export interface VentaDetalle extends VentaListado {
   fecha_anulacion: string | null;
   motivo_anulacion: string | null;
   puede_anular: boolean;
+  /** Firma del servidor: si alguien altera el ticket impreso, deja de coincidir */
+  codigo_verificacion: string;
+  /** Contenido del QR: RUC|TK|SERIE|NUMERO|IGV|TOTAL|FECHA|TIPO DOC|N.° DOC|CÓDIGO */
+  qr: string;
   empresa: {
     ruc: string;
     razon_social: string;
@@ -133,6 +137,16 @@ export interface VentaDetalle extends VentaListado {
     sucursal: string;
     direccion_sucursal: string | null;
   };
+}
+
+export interface VerificacionTicket {
+  valido: boolean;
+  motivo: string;
+  venta_id: number | null;
+  comprobante: string | null;
+  estado: EstadoVenta | null;
+  total: string | null;
+  fecha: string | null;
 }
 
 export interface Autorizacion {

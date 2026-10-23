@@ -38,7 +38,7 @@ export const NAVEGACION: GrupoNavegacion[] = [
       { titulo: "Inicio", href: "/dashboard", icono: LayoutDashboard, permiso: "dashboard.ver" },
       { titulo: "Punto de venta", href: "/pos", icono: ShoppingCart, permiso: "pos.vender" },
       { titulo: "Caja", href: "/caja", icono: Wallet, permiso: "caja.ver" },
-      { titulo: "Ventas", href: "/ventas", icono: ReceiptText, permiso: "pos.vender" },
+      { titulo: "Tickets", href: "/ventas", icono: ReceiptText, permiso: "pos.vender" },
     ],
   },
   {

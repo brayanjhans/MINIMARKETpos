@@ -57,7 +57,7 @@ function Caja() {
             {tiene("pos.vender") && (
               <Button variant="outline" asChild>
                 <Link href="/ventas">
-                  <ReceiptText /> Ventas
+                  <ReceiptText /> Tickets
                 </Link>
               </Button>
             )}

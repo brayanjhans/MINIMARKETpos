@@ -45,7 +45,7 @@ function Detalle({ id }: { id: number }) {
         <div>
           <p className="text-[13px] text-muted-foreground">
             <Link href="/ventas" className="hover:underline">
-              Ventas
+              Tickets
             </Link>{" "}
             ›
           </p>

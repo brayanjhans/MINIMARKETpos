@@ -232,6 +232,10 @@
   debajo de 1024 px hay botón ☰ arriba (`BotonMenu`, también en el POS); barra inferior solo en celular.
   2) Al cobrar NO se imprime solo: ventana «Venta registrada» con el vuelto, «Imprimir ticket» (P) o
   «Siguiente venta» (Enter) (`components/pos/VentaTerminada.tsx`).
+- ✅ Pedido del usuario: QR en cada ticket (qrcode.react 4.2.0, SVG): RUC|TK|SERIE|NUMERO|IGV|TOTAL|FECHA|TIPO DOC|
+  N.° DOC|CÓDIGO, donde CÓDIGO = HMAC-SHA256 del ticket con la clave del servidor (12 caracteres). `GET
+  /ventas/verificar?texto=` dice si es auténtico, anulado o alterado; el listado acepta el QR como búsqueda.
+  «Ventas» pasó a llamarse «Tickets» (Historial de tickets, con verificador arriba); acceso desde el POS.
 - ⏳ Pendiente: revisión y aprobación del usuario. Devoluciones parciales (modelo listo) quedan para después.
 
 ## Pedido del usuario para la Fase 5

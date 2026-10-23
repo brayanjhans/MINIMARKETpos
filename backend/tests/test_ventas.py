@@ -481,3 +481,30 @@ async def test_resumen_de_hoy_sin_anuladas(admin, turno: Turno):
     r = (await turno.cajero.get("/ventas/resumen-hoy")).json()
     assert r["tickets"] == 1 and r["total"] == "11.00" and r["promedio"] == "11.00"
     assert r["por_metodo"]["YAPE"] == "11.00" and r["por_metodo"]["EFECTIVO"] == "0"
+
+
+async def test_qr_del_ticket_se_verifica_y_detecta_alteraciones(admin, turno: Turno):
+    p = await _producto_con_stock(admin)
+    v = (await _vender(turno.cajero, _venta([(p, "2")], [{"metodo": "EFECTIVO", "monto": "11.00"}], "11.00"))).json()
+    partes = v["qr"].split("|")
+    assert partes[1:4] == ["TK", "T001", v["comprobante"].split("-")[1]] and partes[5] == "11.00"
+    assert partes[9] == v["codigo_verificacion"]
+    # El mismo código al consultarla otra vez (no cambia entre la respuesta de la venta y la base de datos)
+    assert (await admin.get(f"/ventas/{v['id']}")).json()["codigo_verificacion"] == v["codigo_verificacion"]
+
+    r = (await turno.cajero.get("/ventas/verificar", params={"texto": v["qr"]})).json()
+    assert r["valido"] and r["venta_id"] == v["id"] and r["estado"] == "COMPLETADA"
+
+    alterado = "|".join([*partes[:5], "1.00", *partes[6:9], "ABCDEF123456"])
+    r = (await turno.cajero.get("/ventas/verificar", params={"texto": alterado})).json()
+    assert not r["valido"] and "alterado" in r["motivo"]
+
+    r = (await turno.cajero.get("/ventas/verificar", params={"texto": "T001-99999999"})).json()
+    assert not r["valido"]
+
+    await admin.post(f"/ventas/{v['id']}/anular", json={"motivo": "Prueba del QR"})
+    r = (await turno.cajero.get("/ventas/verificar", params={"texto": v["comprobante"]})).json()
+    assert r["valido"] and r["estado"] == "ANULADA" and r["motivo"] == "Ticket anulado"
+
+    lista = (await turno.cajero.get("/ventas", params={"busqueda": v["qr"]})).json()
+    assert [x["id"] for x in lista["items"]] == [v["id"]]
