@@ -263,7 +263,7 @@ function Conteo({ inventario: f }: { inventario: FisicoDetalle }) {
         <div className="flex flex-col gap-4">
           <section className="tarjeta bg-navy p-5 text-white dark:bg-navy-2">
             <p className="text-[13px] text-navy-ink">Diferencia neta</p>
-            <p className={cn("text-[32px] font-extrabold tracking-[-0.02em] tabular", neto < 0 && "text-[#ffb3aa]", neto > 0 && "text-[#7ee2a8]")}>
+            <p className={cn("mt-1 text-[32px] leading-[1.15] font-extrabold tracking-[-0.02em] tabular", neto < 0 && "text-[#ffb3aa]", neto > 0 && "text-[#7ee2a8]")}>
               {verCostos ? `${neto < 0 ? "−" : ""}${soles(Math.abs(neto))}` : `${faltan.length + sobran.length} líneas`}
             </p>
             <dl className="mt-2 text-sm">

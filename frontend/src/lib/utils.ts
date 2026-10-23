@@ -23,13 +23,18 @@ const formatoFechaHora = new Intl.DateTimeFormat("es-PE", {
 });
 
 const formatoFecha = new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeZone: "America/Lima" });
+// Una fecha sola ("2026-10-25", p. ej. un vencimiento) se lee como medianoche UTC: en Lima sería el día anterior
+const formatoFechaSola = new Intl.DateTimeFormat("es-PE", { dateStyle: "medium", timeZone: "UTC" });
+const SOLO_FECHA = /^\d{4}-\d{2}-\d{2}$/;
 
 export function fechaHora(valor: string | Date | null | undefined): string {
   return valor ? formatoFechaHora.format(new Date(valor)) : "—";
 }
 
 export function fecha(valor: string | Date | null | undefined): string {
-  return valor ? formatoFecha.format(new Date(valor)) : "—";
+  if (!valor) return "—";
+  if (typeof valor === "string" && SOLO_FECHA.test(valor)) return formatoFechaSola.format(new Date(valor));
+  return formatoFecha.format(new Date(valor));
 }
 
 /** Fecha y hora por separado, para apilarlas en una celda: { fecha: "2026-10-22", hora: "17:43" } */

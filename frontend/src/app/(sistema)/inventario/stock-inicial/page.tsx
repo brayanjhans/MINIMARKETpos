@@ -207,7 +207,7 @@ function StockInicial() {
         <div className="flex flex-col gap-4">
           <section className="tarjeta bg-navy p-5 text-white dark:bg-navy-2">
             <p className="text-[13px] text-navy-ink">Valor que entra al inventario</p>
-            <p className="text-[32px] font-extrabold tracking-[-0.02em] tabular">{soles(valor)}</p>
+            <p className="mt-1 text-[32px] leading-[1.15] font-extrabold tracking-[-0.02em] tabular">{soles(valor)}</p>
             <dl className="mt-2 text-sm">
               <div className="flex justify-between border-t border-sidebar-border py-2">
                 <dt className="text-navy-ink">Productos</dt>
