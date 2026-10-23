@@ -51,4 +51,5 @@ npm install --no-audit --no-fund
 if ($LASTEXITCODE -ne 0) { Falla "No se pudieron instalar las dependencias del frontend" }
 
 Set-Location $raiz
-Write-Host "`nListo: esta PC tiene el código y los datos de la otra. Enciende con traspaso\iniciar.ps1" -ForegroundColor Green
+$datos = if ($ConBase) { "y los datos de la otra PC" } else { "(con sus propios datos de prueba)" }
+Write-Host "`nListo: esta PC tiene el código al día $datos. Enciende con traspaso\iniciar.ps1" -ForegroundColor Green
