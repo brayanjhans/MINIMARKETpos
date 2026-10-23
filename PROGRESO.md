@@ -228,6 +228,10 @@
     `/caja/[id]/cerrar` (cierre ciego por billete/moneda + declarados), `/ventas` y `/ventas/[id]` (ticket, reimprimir,
     anular con supervisor). Barra superior con la caja real. Inicio con ventas de hoy reales (`/ventas/resumen-hoy`).
 - Datos de prueba: Caja 1 abierta por admin con S/ 100 y 3 ventas (efectivo, Yape, tarjeta) en la BD de trabajo.
+- ✅ Pedidos del usuario (23/10): 1) responsive: entre 768 y 1024 px el menú lateral queda compacto (íconos);
+  debajo de 1024 px hay botón ☰ arriba (`BotonMenu`, también en el POS); barra inferior solo en celular.
+  2) Al cobrar NO se imprime solo: ventana «Venta registrada» con el vuelto, «Imprimir ticket» (P) o
+  «Siguiente venta» (Enter) (`components/pos/VentaTerminada.tsx`).
 - ⏳ Pendiente: revisión y aprobación del usuario. Devoluciones parciales (modelo listo) quedan para después.
 
 ## Pedido del usuario para la Fase 5

@@ -8,12 +8,14 @@ import { toast } from "sonner";
 
 import { RequierePermiso } from "@/components/auth/RequierePermiso";
 import { AbrirCaja } from "@/components/caja/AbrirCaja";
+import { BotonMenu } from "@/components/layout/BotonMenu";
 import { AutorizacionDialog, type PedidoAutorizacion } from "@/components/pos/AutorizacionDialog";
 import { BuscadorProductos, type BuscadorHandle, type Opcion } from "@/components/pos/BuscadorProductos";
 import { Carrito } from "@/components/pos/Carrito";
 import { ClienteDialog } from "@/components/pos/ClienteDialog";
 import { ModalCobro } from "@/components/pos/ModalCobro";
 import { ImprimirTicket } from "@/components/pos/Ticket";
+import { VentaTerminada } from "@/components/pos/VentaTerminada";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAtajos } from "@/hooks/useAtajos";
@@ -43,7 +45,8 @@ function Pos() {
 
   return (
     <div className="flex h-dvh flex-col bg-background">
-      <header className="flex h-[60px] flex-none items-center gap-4 bg-navy px-4 text-white md:px-5 dark:bg-navy-2">
+      <header className="flex h-[60px] flex-none items-center gap-3 bg-navy px-3 text-white md:gap-4 md:px-5 dark:bg-navy-2">
+        <BotonMenu className="text-navy-ink hover:bg-navy-2 hover:text-white" />
         <Link href="/dashboard" aria-label="Salir del punto de venta" className="grid size-9 place-items-center rounded-[10px] bg-amarillo text-navy">
           <Store className="size-5" />
         </Link>
@@ -127,6 +130,8 @@ function Venta() {
   const [esperaAbierta, setEsperaAbierta] = useState(false);
   const [imprimir, setImprimir] = useState<VentaDetalle | null>(null);
   const [ultima, setUltima] = useState<VentaDetalle | null>(null);
+  // Venta recién cobrada: se elige imprimir el ticket o pasar a la siguiente
+  const [terminada, setTerminada] = useState<VentaDetalle | null>(null);
   // Pagos y autorizaciones del intento de cobro en curso (si falta una autorización, se reintenta con ella)
   const intento = useRef<{ pagos: PagoEntrada[]; total: string; autorizaciones: string[] } | null>(null);
 
@@ -219,13 +224,9 @@ function Venta() {
       carrito.terminar();
       setCobrando(false);
       setUltima(venta);
-      setImprimir(venta);
-      toast.success(
-        Number(venta.vuelto) > 0 ? `Venta ${venta.comprobante} · vuelto ${soles(venta.vuelto)}` : `Venta ${venta.comprobante} registrada`,
-      );
+      setTerminada(venta);
       void queryClient.invalidateQueries({ queryKey: ["pos", "catalogo"] });
       void queryClient.invalidateQueries({ queryKey: ["caja"] });
-      buscador.current?.enfocar();
     } catch (error) {
       if (AUTORIZABLE(error)) {
         setPedido({ permiso: error.datos!.permiso as string, motivo: error.message });
@@ -257,7 +258,7 @@ function Venta() {
     else setEsperaAbierta(true);
   };
 
-  const dialogoAbierto = cobrando || clienteAbierto || esperaAbierta || !!pedido;
+  const dialogoAbierto = cobrando || clienteAbierto || esperaAbierta || !!pedido || !!terminada;
   useAtajos(
     {
       F2: () => buscador.current?.enfocar(),
@@ -407,6 +408,18 @@ function Venta() {
           )}
         </DialogContent>
       </Dialog>
+      <VentaTerminada
+        venta={terminada}
+        onImprimir={() => {
+          setImprimir(terminada);
+          setTerminada(null);
+          buscador.current?.enfocar();
+        }}
+        onSiguiente={() => {
+          setTerminada(null);
+          buscador.current?.enfocar();
+        }}
+      />
       <ImprimirTicket venta={imprimir} onListo={impreso} />
     </div>
   );

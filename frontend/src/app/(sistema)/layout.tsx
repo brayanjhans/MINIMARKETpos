@@ -68,13 +68,13 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
 
   return (
     <div className="flex h-dvh overflow-hidden">
-      <div className="hidden lg:block">
+      <div className="hidden md:block">
         <Sidebar />
       </div>
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar />
         <main className="scrollbar-fino flex-1 overflow-y-auto">
-          <div className="w-full px-4 pt-1 pb-28 md:px-7 lg:pb-10">{children}</div>
+          <div className="w-full px-4 pt-1 pb-28 md:px-7 md:pb-10">{children}</div>
         </main>
       </div>
       <BarraInferior />

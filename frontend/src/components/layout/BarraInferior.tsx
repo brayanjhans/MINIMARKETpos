@@ -45,7 +45,7 @@ export function BarraInferior() {
     <>
       <nav
         aria-label="Navegación principal"
-        className="fixed inset-x-0 bottom-0 z-40 flex h-[72px] items-center border-t border-rule bg-card px-2 pb-[env(safe-area-inset-bottom)] lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex h-[72px] items-center border-t border-rule bg-card px-2 pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <Item item={inicio!} />
         <Item item={stock!} />

@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useAuth } from "@/hooks/useAuth";
 import { NAVEGACION } from "@/lib/navegacion";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUIStore } from "@/store/uiStore";
 
 interface Props {
@@ -23,7 +24,9 @@ export function Sidebar({ movil = false, alNavegar }: Props) {
   const { tiene, usuario } = useAuth();
   const colapsadoPreferido = useUIStore((s) => s.sidebarColapsado);
   const alternar = useUIStore((s) => s.alternarSidebar);
-  const colapsado = !movil && colapsadoPreferido;
+  // En pantallas medianas (tablet, laptop pequeña) el menú fijo va siempre compacto, solo con íconos
+  const ancho = useMediaQuery("(min-width: 1024px)");
+  const colapsado = !movil && (colapsadoPreferido || !ancho);
 
   const grupos = NAVEGACION.map((g) => ({ ...g, items: g.items.filter((i) => tiene(i.permiso)) })).filter(
     (g) => g.items.length > 0,
@@ -92,7 +95,7 @@ export function Sidebar({ movil = false, alNavegar }: Props) {
         ))}
       </nav>
 
-      {!movil && (
+      {!movil && ancho && (
         <button
           type="button"
           onClick={alternar}

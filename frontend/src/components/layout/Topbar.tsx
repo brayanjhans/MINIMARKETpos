@@ -9,6 +9,7 @@ import { toast } from "sonner";
 
 import { CambiarPasswordDialog } from "@/components/auth/CambiarPasswordDialog";
 import { Marca } from "@/components/comunes/Marca";
+import { BotonMenu } from "@/components/layout/BotonMenu";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -43,9 +44,10 @@ export function Topbar() {
 
   return (
     <header className="flex h-16 shrink-0 items-center gap-2.5 px-4 md:px-7">
-      <Marca className="lg:hidden" />
+      <BotonMenu className="-ml-1 hover:bg-card lg:hidden" />
+      <Marca className="md:hidden" />
 
-      <div className="hidden items-center gap-2 lg:flex">
+      <div className="hidden items-center gap-2 md:flex">
         {tiene("caja.ver") && <EstadoCaja />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild disabled={!variasSucursales}>
