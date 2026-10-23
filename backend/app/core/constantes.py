@@ -4,6 +4,10 @@ ROL_ADMINISTRADOR = "Administrador"
 ROL_CAJERO = "Cajero"
 ROL_ALMACENERO = "Almacenero"
 
+# Parámetros que existieron y se retiraron (la migración los borra de parametros_sistema)
+PARAMETROS_RETIRADOS = ("ventas.permitir_sin_stock", "inventario.ajustes_requieren_aprobacion",
+                        "inventario.metodo_salida_lotes")
+
 # módulo -> {acción: descripción}. El código del permiso es "modulo.accion".
 CATALOGO_PERMISOS: dict[str, dict[str, str]] = {
     "dashboard": {
@@ -15,6 +19,7 @@ CATALOGO_PERMISOS: dict[str, dict[str, str]] = {
         "venta_credito": "Registrar ventas al fiado",
         "devolver": "Registrar devoluciones de productos",
         "anular_venta": "Anular ventas",
+        "vender_sin_stock": "Vender productos sin stock suficiente (el stock queda negativo por regularizar)",
     },
     "caja": {
         "ver": "Ver su caja",
@@ -47,8 +52,10 @@ CATALOGO_PERMISOS: dict[str, dict[str, str]] = {
         "ver": "Ver stock y lotes",
         "kardex": "Ver kardex de productos",
         "ajustar": "Registrar ajustes y mermas",
-        "aprobar_ajustes": "Aprobar ajustes de inventario",
+        "aprobar_ajustes": "Aprobar ajustes, mermas e inventarios físicos",
         "inventario_fisico": "Realizar inventario físico",
+        "stock_inicial": "Cargar el stock inicial de productos",
+        "integridad": "Revisar la integridad del stock (stock = kardex = lotes)",
         "transferir": "Enviar transferencias entre almacenes",
         "recibir_transferencia": "Recibir transferencias entre almacenes",
     },
@@ -195,7 +202,6 @@ MOTIVOS_AJUSTE: list[tuple[str, str, bool]] = [
 
 # Parámetros del sistema: clave -> (valor, tipo, módulo, descripción)
 PARAMETROS_SISTEMA: dict[str, tuple[object, str, str, str]] = {
-    "ventas.permitir_sin_stock": (False, "BOOLEANO", "ventas", "Permitir vender productos sin stock suficiente"),
     "ventas.redondeo_efectivo": (
         "0.00", "DECIMAL", "ventas", "Redondeo del total en efectivo (0.00 = sin redondeo, 0.10 = a 10 céntimos)",
     ),
@@ -208,10 +214,6 @@ PARAMETROS_SISTEMA: dict[str, tuple[object, str, str, str]] = {
     "inventario.dias_alerta_vencimiento": (
         30, "ENTERO", "inventario", "Días de anticipación para alertar productos por vencer",
     ),
-    "inventario.ajustes_requieren_aprobacion": (
-        False, "BOOLEANO", "inventario", "Los ajustes de inventario deben ser aprobados antes de aplicarse",
-    ),
-    "inventario.metodo_salida_lotes": ("FEFO", "TEXTO", "inventario", "Salida de lotes: FEFO (primero en vencer)"),
     "clientes.dias_credito_defecto": (30, "ENTERO", "clientes", "Días de plazo por defecto para ventas al fiado"),
     "seguridad.max_intentos_login": (5, "ENTERO", "seguridad", "Intentos fallidos antes de bloquear el usuario"),
     "seguridad.minutos_bloqueo": (15, "ENTERO", "seguridad", "Minutos de bloqueo tras superar los intentos"),

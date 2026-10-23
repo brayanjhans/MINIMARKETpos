@@ -49,9 +49,11 @@ async def rechaza(db, *objetos, cambio=None) -> bool:
         return True
 
 
-async def test_stock_no_puede_ser_negativo_ni_duplicarse(base):
+async def test_stock_no_se_duplica_y_pendiente_no_negativo(base):
+    # El stock puede quedar negativo solo por una venta autorizada (lo controla el servicio de stock);
+    # lo pendiente de lote nunca puede ser negativo.
     db, p, a = base["db"], base["producto"], base["almacen"]
-    assert await rechaza(db, StockAlmacen(producto_id=p.id, almacen_id=a.id, cantidad=Decimal("-1")))
+    assert await rechaza(db, StockAlmacen(producto_id=p.id, almacen_id=a.id, pendiente_lote=Decimal("-1")))
     db.add(StockAlmacen(producto_id=p.id, almacen_id=a.id, cantidad=Decimal("10")))
     await db.flush()
     assert await rechaza(db, StockAlmacen(producto_id=p.id, almacen_id=a.id, cantidad=Decimal("1")))

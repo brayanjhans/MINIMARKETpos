@@ -2,12 +2,14 @@
 
 import uuid
 
+from app.core.constantes import TODOS_LOS_PERMISOS
+
 
 async def test_catalogo_de_permisos(admin):
     r = await admin.get("/roles/permisos")
     modulos = r.json()
     assert r.status_code == 200 and len(modulos) == 16
-    assert sum(len(m["permisos"]) for m in modulos) == 61
+    assert sum(len(m["permisos"]) for m in modulos) == len(TODOS_LOS_PERMISOS)
 
 
 async def test_crear_editar_y_eliminar_rol(admin):
@@ -27,7 +29,7 @@ async def test_crear_editar_y_eliminar_rol(admin):
 async def test_roles_del_sistema_protegidos(admin):
     roles = {r["nombre"]: r for r in (await admin.get("/roles")).json()}
     administrador = roles["Administrador"]
-    assert administrador["total_permisos"] == 61
+    assert administrador["total_permisos"] == len(TODOS_LOS_PERMISOS)
     assert (await admin.patch(f"/roles/{administrador['id']}", json={"permisos": []})).status_code == 422
     assert (await admin.delete(f"/roles/{roles['Cajero']['id']}")).status_code == 422
     r = await admin.patch(f"/roles/{roles['Cajero']['id']}", json={"nombre": "Otro nombre"})

@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from zoneinfo import ZoneInfo
 
 from app.core.config import settings
@@ -21,6 +21,11 @@ def inicio_de_hoy_utc() -> datetime:
     """Medianoche de hoy en la hora del negocio (Lima), expresada en UTC."""
     local = datetime.now(ZONA_LOCAL).replace(hour=0, minute=0, second=0, microsecond=0)
     return local.astimezone(UTC)
+
+
+def hoy_local() -> date:
+    """Fecha de hoy en la hora del negocio (para vencimientos)."""
+    return datetime.now(ZONA_LOCAL).date()
 
 
 def a_local(fecha: datetime) -> datetime:

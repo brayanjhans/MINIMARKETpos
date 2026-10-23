@@ -30,6 +30,7 @@ class TipoMovimientoInventario(enum.StrEnum):
     INVENTARIO_FISICO = "INVENTARIO_FISICO"
     TRANSFERENCIA_SALIDA = "TRANSFERENCIA_SALIDA"
     TRANSFERENCIA_ENTRADA = "TRANSFERENCIA_ENTRADA"
+    TRANSFERENCIA_ANULADA = "TRANSFERENCIA_ANULADA"  # vuelve al origen una transferencia no recibida
 
 
 class EstadoDocumento(enum.StrEnum):
@@ -38,6 +39,7 @@ class EstadoDocumento(enum.StrEnum):
     BORRADOR = "BORRADOR"
     PENDIENTE_APROBACION = "PENDIENTE_APROBACION"
     APLICADO = "APLICADO"
+    RECHAZADO = "RECHAZADO"
     ANULADO = "ANULADO"
 
 
@@ -61,6 +63,7 @@ class TipoPrecio(enum.StrEnum):
 
 class EstadoInventarioFisico(enum.StrEnum):
     EN_PROCESO = "EN_PROCESO"
+    PENDIENTE_APROBACION = "PENDIENTE_APROBACION"
     APLICADO = "APLICADO"
     CANCELADO = "CANCELADO"
 

@@ -21,6 +21,9 @@ pyjwt>=2.10
 
 # --- Utilidades (Excel / PDF / tareas programadas) ---
 openpyxl>=3.1
+defusedxml>=0.7  # openpyxl lo usa para leer Excel subidos sin riesgo de XML malicioso
+pillow>=12.0  # fotos de productos: se convierten a WEBP liviano
+pillow-heif>=1.1  # fotos HEIC de iPhone
 reportlab>=4.4
 apscheduler>=3.11,<4.0
 

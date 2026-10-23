@@ -50,6 +50,9 @@ class Settings(BaseSettings):
     # Valores por defecto del negocio
     IGV_PORCENTAJE: float = 18.0
 
+    # Archivos subidos (fotos de productos). Debe incluirse en los respaldos.
+    MEDIA_DIR: str = "media"
+
     @field_validator("CORS_ORIGENES", mode="before")
     @classmethod
     def _separar_origenes(cls, valor: str | list[str]) -> list[str]:

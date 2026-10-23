@@ -17,10 +17,11 @@ from app.models.lote import Lote
 from app.models.marca import Marca
 from app.models.movimiento_caja import MovimientoCaja
 from app.models.movimiento_inventario import MovimientoInventario
+from app.models.operacion_idempotente import OperacionIdempotente
 from app.models.pago_venta import PagoVenta
 from app.models.parametro import ParametroSistema
 from app.models.permiso import Permiso, rol_permisos
-from app.models.producto import Producto, ProductoPresentacion
+from app.models.producto import CodigoBarras, Producto, ProductoPresentacion
 from app.models.producto_proveedor import ProductoProveedor
 from app.models.proveedor import Proveedor
 from app.models.rol import Rol
@@ -40,6 +41,7 @@ __all__ = [
     "Caja",
     "Categoria",
     "Cliente",
+    "CodigoBarras",
     "Compra",
     "Correlativo",
     "CuentaPorCobrar",
@@ -60,6 +62,7 @@ __all__ = [
     "MotivoAjuste",
     "MovimientoCaja",
     "MovimientoInventario",
+    "OperacionIdempotente",
     "PagoProveedor",
     "PagoVenta",
     "ParametroSistema",

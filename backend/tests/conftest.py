@@ -18,6 +18,8 @@ URL_PRUEBAS = os.environ.get(
 os.environ["DATABASE_URL"] = URL_PRUEBAS
 os.environ["ENTORNO"] = "pruebas"
 os.environ["DB_POOL_SIZE"] = "5"
+# Las fotos de prueba van a una carpeta temporal, nunca a la de trabajo
+os.environ["MEDIA_DIR"] = os.path.join(__import__("tempfile").gettempdir(), "minimarket_test_media")
 
 import pymysql  # noqa: E402
 import pytest  # noqa: E402

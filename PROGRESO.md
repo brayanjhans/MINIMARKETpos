@@ -159,7 +159,15 @@
     no cambiar unidad ni `maneja_lotes` ni borrar productos con movimientos (solo desactivar); bloqueo optimista
     (columna `version`) al editar productos; Excel con límite de tamaño/filas, lectura segura y revalidación al
     confirmar; fotos con nombre aleatorio, borrar la anterior al reemplazar, carpeta incluida en respaldos.
-- ✅ Bocetos Transferencia, Importar Excel y Stock inicial (commit dc108ea).
+- ✅ Bocetos Transferencia, Importar Excel y Stock inicial (commit dc108ea). Usuario APROBÓ e inició la Fase 3.
+- ✅ Backend parte 1: migración `ec72af6da32e` (codigos_barras, operaciones_idempotentes, pendiente_lote, sin CHECK
+  de stock ≥ 0, triggers de kardex inmutable, aprobación en ajustes/físico, lotes en físico/transferencias,
+  version e imagen en productos). MySQL local: se activó `log_bin_trust_function_creators=1` (SET PERSIST, con
+  root una sola vez; en Docker va en docker-compose). Servicios: `transacciones.ejecutar` (reintento deadlock +
+  idempotencia), `correlativos`, `stock` (bloqueo en orden, mover, FEFO, costo promedio), `imagenes` (WEBP),
+  `productos`, `categorias` (+marcas). Routers productos, categorías/marcas, media. Pruebas: 52 OK.
+- ⏳ Pendiente backend: inventario (stock, kardex, stock inicial, ajustes con aprobación, transferencias,
+  inventario físico, integridad), Excel importar/exportar, datos demo (~30 productos que pidió el usuario).
 - ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
   Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
 

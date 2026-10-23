@@ -10,7 +10,7 @@ from sqlalchemy import text
 from app.core.config import settings
 from app.core.database import SessionLocal, engine
 from app.core.excepciones import registrar_manejadores
-from app.routers import auditoria, auth, roles, sucursales, usuarios
+from app.routers import auditoria, auth, categorias, media, productos, roles, sucursales, usuarios
 from app.utils.respuestas import RespuestaError
 
 logging.basicConfig(
@@ -58,5 +58,5 @@ async def health() -> dict[str, str]:
     return {"estado": "ok", "base_de_datos": "ok"}
 
 
-for modulo in (auth, usuarios, roles, auditoria, sucursales):
+for modulo in (auth, usuarios, roles, auditoria, sucursales, productos, categorias, media):
     app.include_router(modulo.router, prefix=settings.API_PREFIX)

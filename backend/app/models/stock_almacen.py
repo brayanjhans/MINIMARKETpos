@@ -12,12 +12,16 @@ class StockAlmacen(Base):
     """Stock en tiempo real por producto y almacén.
 
     Toda modificación se hace con SELECT ... FOR UPDATE sobre esta fila y deja un registro en el kardex.
+
+    `cantidad` puede quedar negativa SOLO por una venta sin stock autorizada (permiso pos.vender_sin_stock);
+    el servicio de stock lo impide en cualquier otra operación.
+    Si el producto maneja lotes: suma(lotes.cantidad_actual) - pendiente_lote = cantidad.
     """
 
     __tablename__ = "stock_almacen"
     __table_args__ = (
         UniqueConstraint("producto_id", "almacen_id"),
-        CheckConstraint("cantidad >= 0", name="cantidad_no_negativa"),
+        CheckConstraint("pendiente_lote >= 0", name="pendiente_lote_no_negativo"),
         CheckConstraint("stock_minimo IS NULL OR stock_minimo >= 0", name="stock_minimo_no_negativo"),
         Index("ix_stock_almacen_almacen_producto", "almacen_id", "producto_id"),
     )
@@ -26,6 +30,9 @@ class StockAlmacen(Base):
     producto_id: Mapped[int] = mapped_column(ForeignKey("productos.id", ondelete="RESTRICT"))
     almacen_id: Mapped[int] = mapped_column(ForeignKey("almacenes.id", ondelete="RESTRICT"))
     cantidad: Mapped[Decimal] = mapped_column(Cantidad, default=CERO, server_default="0")
+    # Unidades vendidas sin stock de un producto con lotes: aún no se sabe de qué lote salieron.
+    # La próxima entrada de mercadería las descuenta primero.
+    pendiente_lote: Mapped[Decimal] = mapped_column(Cantidad, default=CERO, server_default="0")
     # Si es NULL se usa el stock mínimo general del producto
     stock_minimo: Mapped[Decimal | None] = mapped_column(Cantidad)
     actualizado_en: Mapped[datetime] = mapped_column(

@@ -135,6 +135,8 @@ _ERRORES_MYSQL: dict[int, tuple[int, str, str]] = {
     1406: (422, "Un texto excede la longitud permitida", "texto_muy_largo"),
     1213: (409, "La operación entró en conflicto con otra simultánea. Intente nuevamente.", "concurrencia"),
     1205: (409, "La operación tardó demasiado esperando a otra. Intente nuevamente.", "concurrencia"),
+    # SIGNAL de los triggers (ej. el kardex es inmutable)
+    1644: (409, "La operación no está permitida: el historial de movimientos no se puede modificar", "inmutable"),
 }
 
 

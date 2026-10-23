@@ -14,6 +14,8 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_0900_ai_ci
       - --ngram-token-size=2
+      # Permite que la migración cree los triggers que hacen el kardex inmutable
+      - --log-bin-trust-function-creators=1
     volumes:
       - mysql_data:/var/lib/mysql
     ports:

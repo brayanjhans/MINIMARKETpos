@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, CheckConstraint, ForeignKey, Index, String, false, true
+from sqlalchemy import Boolean, CheckConstraint, Date, ForeignKey, Index, String, false, true
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -10,6 +10,8 @@ from app.models.base import Cantidad, CostoUnitario, EnumTexto, FechaHora, Times
 from app.models.enums import EstadoDocumento, TipoMotivoAjuste
 
 if TYPE_CHECKING:
+    from app.models.lote import Lote
+    from app.models.producto import Producto
     from app.models.sucursal import Almacen
 
 
@@ -27,7 +29,10 @@ class MotivoAjuste(TimestampMixin, Base):
 
 
 class AjusteInventario(TimestampMixin, Base):
-    """Documento de ajuste de stock. Al aplicarse genera movimientos en el kardex."""
+    """Documento de ajuste de stock: BORRADOR -> PENDIENTE_APROBACION -> APLICADO / RECHAZADO (o ANULADO).
+
+    El stock solo cambia al aprobarlo, y quien lo crea no puede aprobarlo.
+    """
 
     __tablename__ = "ajustes_inventario"
     __table_args__ = (Index("ix_ajustes_inventario_almacen_estado", "almacen_id", "estado"),)
@@ -42,12 +47,14 @@ class AjusteInventario(TimestampMixin, Base):
     observaciones: Mapped[str | None] = mapped_column(String(300))
     usuario_id: Mapped[int] = mapped_column(ForeignKey("usuarios.id", ondelete="RESTRICT"))
     aprobado_por_id: Mapped[int | None] = mapped_column(ForeignKey("usuarios.id", ondelete="RESTRICT"))
+    motivo_rechazo: Mapped[str | None] = mapped_column(String(300))
+    fecha_envio: Mapped[datetime | None] = mapped_column(FechaHora())
     fecha_aplicacion: Mapped[datetime | None] = mapped_column(FechaHora(), index=True)
 
     almacen: Mapped[Almacen] = relationship(lazy="joined")
     motivo: Mapped[MotivoAjuste] = relationship(lazy="joined")
     detalles: Mapped[list[DetalleAjusteInventario]] = relationship(
-        back_populates="ajuste", cascade="all, delete-orphan"
+        back_populates="ajuste", cascade="all, delete-orphan", order_by="DetalleAjusteInventario.id"
     )
 
 
@@ -61,5 +68,10 @@ class DetalleAjusteInventario(Base):
     lote_id: Mapped[int | None] = mapped_column(ForeignKey("lotes.id", ondelete="RESTRICT"))
     cantidad: Mapped[Decimal] = mapped_column(Cantidad)  # positivo = entrada, negativo = salida
     costo_unitario: Mapped[Decimal] = mapped_column(CostoUnitario)  # para valorizar la merma
+    # Entrada de un producto con lotes: lote nuevo (o existente con ese número) donde se guarda
+    numero_lote: Mapped[str | None] = mapped_column(String(50))
+    fecha_vencimiento: Mapped[date | None] = mapped_column(Date)
 
     ajuste: Mapped[AjusteInventario] = relationship(back_populates="detalles")
+    producto: Mapped[Producto] = relationship(lazy="joined")
+    lote: Mapped[Lote | None] = relationship(lazy="joined")
