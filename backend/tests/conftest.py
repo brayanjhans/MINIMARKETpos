@@ -106,17 +106,23 @@ class Sesion:
     cliente: AsyncClient
     headers: dict[str, str]
 
+    def _cabeceras(self, kw: dict) -> dict:
+        return {**self.headers, **kw.pop("headers", {})}
+
     async def get(self, ruta: str, **kw):
-        return await self.cliente.get(f"{API}{ruta}", headers=self.headers, **kw)
+        return await self.cliente.get(f"{API}{ruta}", headers=self._cabeceras(kw), **kw)
 
     async def post(self, ruta: str, **kw):
-        return await self.cliente.post(f"{API}{ruta}", headers=self.headers, **kw)
+        return await self.cliente.post(f"{API}{ruta}", headers=self._cabeceras(kw), **kw)
+
+    async def put(self, ruta: str, **kw):
+        return await self.cliente.put(f"{API}{ruta}", headers=self._cabeceras(kw), **kw)
 
     async def patch(self, ruta: str, **kw):
-        return await self.cliente.patch(f"{API}{ruta}", headers=self.headers, **kw)
+        return await self.cliente.patch(f"{API}{ruta}", headers=self._cabeceras(kw), **kw)
 
     async def delete(self, ruta: str, **kw):
-        return await self.cliente.delete(f"{API}{ruta}", headers=self.headers, **kw)
+        return await self.cliente.delete(f"{API}{ruta}", headers=self._cabeceras(kw), **kw)
 
 
 @pytest.fixture

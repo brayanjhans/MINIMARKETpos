@@ -19,7 +19,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from sqlalchemy import func, select
 from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import noload
+from sqlalchemy.orm import lazyload
 
 from app.core.excepciones import NoEncontrado, ValidacionNegocio
 from app.models import (
@@ -60,7 +60,12 @@ async def bloquear(session: AsyncSession, producto_ids: Iterable[int], almacen_i
     productos = {
         p.id: p
         for p in await session.scalars(
-            select(Producto).where(Producto.id.in_(pids)).order_by(Producto.id).options(noload("*")).with_for_update()
+            select(Producto)
+            .where(Producto.id.in_(pids))
+            .order_by(Producto.id)
+            .options(lazyload("*"))
+            .with_for_update()
+            .execution_options(populate_existing=True)
         )
     }
     faltan = set(pids) - productos.keys()
@@ -91,7 +96,7 @@ async def lotes_disponibles(session: AsyncSession, producto_id: int, almacen_id:
             select(Lote)
             .where(Lote.producto_id == producto_id, Lote.almacen_id == almacen_id, Lote.cantidad_actual > 0)
             .order_by(Lote.fecha_vencimiento.is_(None), Lote.fecha_vencimiento, Lote.id)
-            .options(noload("*"))
+            .options(lazyload("*"))
             .with_for_update()
             .execution_options(populate_existing=True)
         )
@@ -102,7 +107,7 @@ async def bloquear_lote(session: AsyncSession, lote_id: int, producto_id: int, a
     lote = await session.scalar(
         select(Lote)
         .where(Lote.id == lote_id)
-        .options(noload("*"))
+        .options(lazyload("*"))
         .with_for_update()
         .execution_options(populate_existing=True)
     )
@@ -124,7 +129,7 @@ async def lote_para_entrada(
     lote = await session.scalar(
         select(Lote)
         .where(Lote.producto_id == producto_id, Lote.almacen_id == almacen_id, Lote.numero_lote == numero)
-        .options(noload("*"))
+        .options(lazyload("*"))
         .with_for_update()
         .execution_options(populate_existing=True)
     )

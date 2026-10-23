@@ -61,13 +61,16 @@ async def ejecutar(
                 await session.rollback()
                 return previa
         try:
-            referencia = await accion()
+            reserva = None
             if clave:
-                session.add(
-                    OperacionIdempotente(
-                        usuario_id=usuario_id, clave=clave, operacion=operacion, referencia_id=referencia
-                    )
-                )
+                # La clave se reserva ANTES de trabajar: una petición repetida que llegue a la vez queda esperando
+                # en este INSERT hasta que la primera termine, y entonces recibe su resultado (error 1062).
+                reserva = OperacionIdempotente(usuario_id=usuario_id, clave=clave, operacion=operacion)
+                session.add(reserva)
+                await session.flush()
+            referencia = await accion()
+            if reserva is not None:
+                reserva.referencia_id = referencia
             await session.commit()
             return referencia
         except DBAPIError as exc:
