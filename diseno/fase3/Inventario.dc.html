@@ -51,11 +51,12 @@ a{color:#14213d}a:hover{color:#0b1426}
       <a class="btn" href="#" style="background:#ffc300;font-weight:800"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Ajuste o merma</a>
     </header>
 
-    <section style="display:grid;grid-template-columns:1.3fr repeat(3,minmax(0,1fr));gap:14px">
+    <section style="display:grid;grid-template-columns:1.3fr repeat(4,minmax(0,1fr));gap:12px">
       <div class="card" style="background:#14213d;color:#fff;padding:16px 18px"><div style="font-size:13px;color:#aab4cf">Valor del inventario (al costo)</div><div class="num" style="font-size:28px;font-weight:800;letter-spacing:-0.02em">S/ 18,452.30</div><div style="font-size:12px;color:#aab4cf">246 productos · 3,912 unidades</div></div>
       <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">Stock bajo</div><div class="num" style="font-size:28px;font-weight:800;color:#d6453a">9</div><div style="font-size:12px;color:#5b6475">por debajo del mínimo</div></div>
       <div class="card" style="padding:16px 18px;background:#fff7e0"><div style="font-size:13px;color:#8a6700;font-weight:600">Por vencer en 30 días</div><div class="num" style="font-size:28px;font-weight:800">4 lotes</div><div class="num" style="font-size:12px;color:#8a6700">S/ 186.40 en riesgo</div></div>
-      <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">Mermas del mes</div><div class="num" style="font-size:28px;font-weight:800">S/ 74.80</div><div style="font-size:12px;color:#5b6475">6 ajustes registrados</div></div>
+      <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">Mermas del mes</div><div class="num" style="font-size:28px;font-weight:800">S/ 74.80</div><div style="font-size:12px;color:#5b6475">6 ajustes · <b style="color:#8a6700">2 por aprobar</b></div></div>
+      <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">En tránsito</div><div class="num" style="font-size:28px;font-weight:800">S/ 96.60</div><div style="font-size:12px;color:#5b6475">2 transferencias</div></div>
     </section>
 
     <div style="display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;flex:1;min-height:0">
@@ -64,11 +65,13 @@ a{color:#14213d}a:hover{color:#0b1426}
           <span class="tab" style="background:#14213d;color:#fff;font-weight:700">Todo el stock</span>
           <span class="tab" style="background:#ffe4e1;color:#b23a2f">Stock bajo <b class="num">9</b></span>
           <span class="tab" style="background:#f3f4f8">Sin stock <b class="num">2</b></span>
+          <span class="tab" style="background:#fff3cc;color:#8a6700">Por regularizar <b class="num">1</b></span>
           <span class="tab" style="background:#f3f4f8;margin-left:auto">Últimos movimientos</span>
         </div>
         <table style="width:100%;border-collapse:collapse">
           <thead><tr><th class="th">Producto</th><th class="th" style="text-align:right">Stock</th><th class="th">Nivel</th><th class="th" style="text-align:right">Mínimo</th><th class="th" style="text-align:right">Valor</th><th class="th"><span style="position:absolute;left:-9999px">Acciones</span></th></tr></thead>
           <tbody>
+            <tr style="background:#fff7e0"><td class="td"><b>Queso fresco Laive 500 g</b><div style="font-size:12px;color:#8a6700;font-weight:600">Vendido sin stock: 2 und pendientes de lote</div></td><td class="td num" style="text-align:right;color:#8a6700;font-weight:800">−2</td><td class="td"><div class="lvl"></div></td><td class="td num" style="text-align:right;color:#5b6475">4</td><td class="td num" style="text-align:right">—</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
             <tr style="background:#fff5f4"><td class="td"><b>Aceite Primor 1 L</b></td><td class="td num" style="text-align:right;color:#d6453a;font-weight:800">3</td><td class="td"><div class="lvl"><div style="width:25%;height:6px;border-radius:9px;background:#d6453a"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">12</td><td class="td num" style="text-align:right">S/ 28.20</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
             <tr style="background:#fff5f4"><td class="td"><b>Azúcar rubia 1 kg</b></td><td class="td num" style="text-align:right;color:#d6453a;font-weight:800">5</td><td class="td"><div class="lvl"><div style="width:25%;height:6px;border-radius:9px;background:#d6453a"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">20</td><td class="td num" style="text-align:right">S/ 18.50</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
             <tr><td class="td"><b>Inca Kola 1.5 L</b></td><td class="td num" style="text-align:right;font-weight:800">48</td><td class="td"><div class="lvl"><div style="width:100%;height:6px;border-radius:9px;background:#1f9d55"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">24</td><td class="td num" style="text-align:right">S/ 230.40</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>

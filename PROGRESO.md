@@ -141,8 +141,27 @@
   * Stock: transacción + FOR UPDATE en orden fijo de producto_id + reintento ante deadlock (1213);
     estados de documentos verificados con fila bloqueada (sin doble aplicación); kardex inmutable;
     suma de lotes = stock (invariante probada); costo promedio solo con entradas; pruebas de concurrencia.
-- ⏳ Faltan bocetos: Transferencias, Importar Excel (vista previa), Carga de stock inicial; corregir texto del
-  boceto de inventario físico. Luego aprobación del usuario.
+- Segunda revisión de robustez (2026-10-23). DECISIONES del usuario:
+  * **Productos con lotes SÍ se pueden vender sin stock (con permiso)**: la venta sin lote queda como
+    "pendiente de lote" (tabla por producto+almacén); al ingresar mercadería (compra, stock inicial, ajuste +,
+    transferencia recibida) se descuenta primero lo pendiente del lote nuevo. Invariante:
+    suma(lotes) − pendiente = stock_almacen. Alerta en Inventario.
+  * **Lotes vencidos: BLOQUEAR la venta**; se dan de baja como merma.
+  * **Ajustes y mermas: SIEMPRE con aprobación** de un usuario con permiso de aprobar (Administrador). Estados
+    BORRADOR → PENDIENTE → APLICADO / RECHAZADO; el stock solo cambia al aprobar (re-validando stock en ese momento).
+    Quien crea no puede aprobar su propio ajuste (salvo que sea el único Administrador: configurable).
+  * **Transferencias: almacén virtual "En tránsito"** por sucursal: al enviar sale del origen y entra a tránsito;
+    al recibir sale de tránsito y entra al destino; lo no recibido sale de tránsito como merma. Se ve en Inventario.
+  * Técnicas (decididas por Claude): transferencias con varios lotes por producto (FEFO) y lote espejo en
+    destino; inventario físico por lote y un solo conteo abierto por producto+almacén; clave de idempotencia en
+    toda operación que cambia stock (doble clic / reintento); kardex inmutable con triggers MySQL (sin UPDATE/
+    DELETE); verificación de integridad (stock = suma kardex = suma lotes − pendiente) como endpoint + script;
+    no cambiar unidad ni `maneja_lotes` ni borrar productos con movimientos (solo desactivar); bloqueo optimista
+    (columna `version`) al editar productos; Excel con límite de tamaño/filas, lectura segura y revalidación al
+    confirmar; fotos con nombre aleatorio, borrar la anterior al reemplazar, carpeta incluida en respaldos.
+- ✅ Bocetos Transferencia, Importar Excel y Stock inicial (commit dc108ea).
+- ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
+  Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
 
 ## Siguiente paso
 Que el usuario apruebe (o ajuste) los bocetos de la Fase 3. Luego implementar backend (servicios con
