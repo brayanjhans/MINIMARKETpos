@@ -325,3 +325,60 @@ async def actualizar_costo_promedio(
                 usuario_id=usuario_id,
             )
         )
+
+
+async def reingresar_sin_lote(
+    session: AsyncSession,
+    *,
+    producto: Producto,
+    stock: StockAlmacen,
+    cantidad: Decimal,
+    tipo: TipoMovimientoInventario,
+    costo_unitario: Decimal,
+    usuario_id: int | None,
+    referencia_tipo: str,
+    referencia_id: int,
+    motivo: str,
+) -> MovimientoInventario:
+    """Devuelve al stock unidades de un producto con lotes que salieron SIN lote (venta sin stock anulada).
+
+    Primero cancelan lo que sigue "pendiente de lote". Si una compra ya cubrió ese pendiente, esas unidades se
+    descontaron del lote que llegó: el resto vuelve a ese lote (el más reciente del almacén).
+    """
+    cubre = min(stock.pendiente_lote, cantidad)
+    stock.pendiente_lote -= cubre
+    resto = cantidad - cubre
+    lote: Lote | None = None
+    if resto > 0:
+        lote = await session.scalar(
+            select(Lote)
+            .where(Lote.producto_id == producto.id, Lote.almacen_id == stock.almacen_id)
+            .order_by(Lote.id.desc())
+            .limit(1)
+            .options(lazyload("*"))
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+        if lote is None:
+            raise ValidacionNegocio(
+                f"No se encontró el lote al que volver las unidades de «{producto.nombre}»", codigo="lote_requerido"
+            )
+        lote.cantidad_actual += resto
+    anterior = stock.cantidad
+    stock.cantidad = anterior + cantidad
+    movimiento = MovimientoInventario(
+        producto_id=producto.id,
+        almacen_id=stock.almacen_id,
+        lote_id=lote.id if lote else None,
+        tipo=tipo,
+        cantidad=cantidad,
+        stock_anterior=anterior,
+        stock_nuevo=stock.cantidad,
+        costo_unitario=costo_unitario,
+        referencia_tipo=referencia_tipo,
+        referencia_id=referencia_id,
+        motivo=motivo[:300],
+        usuario_id=usuario_id,
+    )
+    session.add(movimiento)
+    return movimiento

@@ -8,7 +8,7 @@ import jwt
 
 from app.core.config import settings
 
-TipoToken = Literal["access", "refresh"]
+TipoToken = Literal["access", "refresh", "autorizacion"]
 
 # bcrypt solo considera los primeros 72 bytes de la contraseña
 BCRYPT_MAX_BYTES = 72
@@ -59,6 +59,11 @@ def crear_refresh_token(sub: str | int) -> tuple[str, str, datetime]:
     expira = datetime.now(UTC) + timedelta(days=settings.REFRESH_TOKEN_DIAS)
     token, jti = _crear_token(sub, "refresh", expira, None)
     return token, jti, expira
+
+
+def crear_token_autorizacion(supervisor_id: int, extra: dict[str, Any], minutos: int = 3) -> tuple[str, str]:
+    """Permiso de un supervisor para UNA acción de otro usuario (anular, descuento...). Vive pocos minutos."""
+    return _crear_token(supervisor_id, "autorizacion", datetime.now(UTC) + timedelta(minutes=minutos), extra)
 
 
 def decodificar_token(token: str, tipo_esperado: TipoToken) -> dict[str, Any]:

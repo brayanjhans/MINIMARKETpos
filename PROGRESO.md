@@ -7,8 +7,8 @@
 |---|---|---|
 | 1 | Infraestructura, configuración, modelos, migraciones, seed | ✅ Completada y aprobada |
 | 2 | Autenticación, usuarios, roles y permisos (backend + login y layout frontend) | ✅ Completada y aprobada |
-| 3 | Productos, categorías e inventario | 🔄 En curso (bocetos) |
-| 4 | POS y caja | ⏳ Pendiente |
+| 3 | Productos, categorías e inventario | ✅ Completada y aprobada |
+| 4 | POS y caja | 🔄 En curso |
 | 5 | Proveedores, compras y clientes | ⏳ Pendiente |
 | 6 | Reportes, dashboard y configuración | ⏳ Pendiente |
 | 7 | Tests, rendimiento, documentación, Docker | ⏳ Pendiente |
@@ -185,9 +185,40 @@
 - ✅ Revisión visual (23/10, capturas en `.taste-skill/capturas/f3r`): 13 pantallas en escritorio, celular y
   oscuro. Corregido (commit 693cdfd): vencimientos se mostraban un día antes (fecha sin hora leída como UTC)
   y la etiqueta se encimaba sobre el total en los paneles oscuros.
-- ⏳ Pendiente: que el usuario apruebe la Fase 3.
+- ✅ El usuario APROBÓ la Fase 3 (23/10) y pidió pasar a la Fase 4.
 - ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
   Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
+
+## Fase 4 — POS y caja (en curso)
+- Ya existen desde la Fase 1 los modelos: ventas, detalles_venta, pagos_venta, cajas, sesiones_caja (1 abierta por
+  cajero y por caja), arqueos_denominacion, resumen_cierre_caja, movimientos_caja, devoluciones, cuentas_por_cobrar,
+  abonos. Boceto del POS: `diseno/bodega/Pos.dc.html`. Parámetros: redondeo, descuento máximo, denominaciones.
+- ✅ Decisiones del usuario (23/10): 1) comprobante = **ticket interno** (serie T001, sin SUNAT; boleta/factura
+  electrónica más adelante con un OSE/PSE); 2) impresión **desde el navegador** (80/58 mm, Chrome en modo quiosco);
+  3) **cierre ciego** (el cajero cuenta sin ver el esperado; luego ve la diferencia); 4) anular o descuento mayor al
+  permitido → **clave del supervisor** en la misma caja (queda en auditoría quién autorizó).
+- ✅ BACKEND Fase 4 (95 pruebas OK, ruff limpio):
+  - `services/caja.py` + `/caja`: cajas de la sucursal, turno actual, abrir (bloquea la fila de la caja), ingresos/
+    egresos (egreso ≤ efectivo esperado), cierre ciego con arqueo por billete/moneda y declarados por método
+    (tarjeta, Yape, Plin…), historial por cajero. Venta = FOR SHARE del turno; cierre = FOR UPDATE (espera ventas en
+    curso; sumas con FOR SHARE para ver lo último confirmado).
+  - `services/ventas.py` + `/ventas`: catálogo del POS (todo en memoria del navegador), venta en una transacción
+    (turno → productos/stock → lotes FEFO sin vencidos → cliente → serie T001 FOR UPDATE), Idempotency-Key
+    OBLIGATORIA, el servidor recalcula y rechaza si cambió el precio (409 precio_cambiado) o el total
+    (409 total_distinto); IGV por línea (incluido en el precio), exonerados, ICBPER, descuento global prorrateado,
+    redondeo en efectivo a favor del cliente (parámetro), pago mixto, vuelto, fiado con límite (CuentaPorCobrar).
+    Anulación solo con el turno abierto (si no, devolución) y revierte stock (lotes; sin lote → `reingresar_sin_lote`).
+  - `services/autorizaciones.py` + `POST /ventas/autorizar`: clave del supervisor → token de 3 min para UN permiso,
+    UN cajero y la sucursal; se consume una sola vez (fila en operaciones_idempotentes), bloqueo por intentos
+    fallidos como el login, auditoría AUTORIZAR / AUTORIZACION_FALLIDA.
+  - `/clientes/buscar` y alta rápida (módulo completo en Fase 5).
+  - Corregido: `ContextoUsuario` guarda usuario_id y nombre como valores simples (un rollback expiraba el usuario y
+    la respuesta de una operación repetida fallaba).
+- ⏳ Frontend: POS, caja (abrir, movimientos, cierre ciego), ventas + ticket 80 mm, diálogo del supervisor.
+
+## Pedido del usuario para la Fase 5
+- Usar productos de prueba **con sus imágenes**, descargadas de internet (todo de prueba). Convertirlas a WEBP con
+  el servicio de imágenes existente.
 
 ## Siguiente paso
 Que el usuario apruebe (o ajuste) los bocetos de la Fase 3. Luego implementar backend (servicios con

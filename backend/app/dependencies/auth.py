@@ -27,10 +27,14 @@ class ContextoUsuario:
     permisos: frozenset[str]
     ip: str | None = None
     user_agent: str | None = field(default=None, repr=False)
+    # Copias simples: un rollback (reintento, operación repetida) expira el objeto `usuario` y leerlo de nuevo
+    # fuera de la transacción fallaría; estos valores siempre están disponibles.
+    usuario_id: int = field(init=False)
+    nombre: str = field(init=False)
 
-    @property
-    def usuario_id(self) -> int:
-        return self.usuario.id
+    def __post_init__(self) -> None:
+        self.usuario_id = self.usuario.id
+        self.nombre = self.usuario.nombre_completo
 
     def tiene(self, permiso: str) -> bool:
         return permiso in self.permisos
