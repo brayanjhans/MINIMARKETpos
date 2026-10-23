@@ -26,8 +26,24 @@ export function mensajeError(error: unknown): string {
     }
     return error.message;
   }
-  if (error instanceof TypeError) return "No se pudo conectar con el servidor. Verifique su conexión.";
+  if (error instanceof TypeError) return MENSAJE_SIN_CONEXION;
   return error instanceof Error ? error.message : "Ocurrió un error inesperado";
+}
+
+export const MENSAJE_SIN_CONEXION =
+  "No se pudo conectar con el servidor. Verifica que el sistema esté encendido e intenta de nuevo.";
+
+/** El backend está apagado o no responde: el proxy de Next devuelve 5xx sin nuestro formato de error. */
+function servidorCaido(status: number, cuerpo: unknown): boolean {
+  return status >= 500 && !(cuerpo as RespuestaError | null)?.codigo;
+}
+
+export function esSinConexion(error: unknown): boolean {
+  return error instanceof ApiError && error.codigo === "sin_conexion";
+}
+
+function errorSinConexion(status = 0): ApiError {
+  return new ApiError(status, { detalle: MENSAJE_SIN_CONEXION, codigo: "sin_conexion" });
 }
 
 async function leerCuerpo(respuesta: Response): Promise<unknown> {
@@ -45,15 +61,22 @@ let renovacionEnCurso: Promise<boolean> | null = null;
 
 export function renovarSesion(): Promise<boolean> {
   renovacionEnCurso ??= (async () => {
+    const store = useAuthStore.getState();
+    // Si el servidor no responde, la sesión puede seguir siendo válida: no se cierra, se avisa
+    const marcarSinConexion = () => {
+      if (store.estado !== "autenticado") store.setEstado("sin_conexion");
+    };
     try {
       const respuesta = await fetch(`${BASE}/auth/refresh`, { method: "POST", credentials: "same-origin" });
-      if (!respuesta.ok) {
-        useAuthStore.getState().limpiar();
-        return false;
+      if (respuesta.ok) {
+        store.setSesion((await respuesta.json()) as TokenRespuesta);
+        return true;
       }
-      useAuthStore.getState().setSesion((await respuesta.json()) as TokenRespuesta);
-      return true;
+      if (servidorCaido(respuesta.status, await leerCuerpo(respuesta))) marcarSinConexion();
+      else store.limpiar();
+      return false;
     } catch {
+      marcarSinConexion();
       return false;
     } finally {
       // Se libera en el siguiente ciclo para que las peticiones en espera reutilicen el resultado
@@ -100,15 +123,25 @@ export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> 
     });
   };
 
-  let respuesta = await ejecutar();
+  const ejecutarSeguro = async () => {
+    try {
+      return await ejecutar();
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") throw error;
+      throw errorSinConexion();
+    }
+  };
+
+  let respuesta = await ejecutarSeguro();
 
   // Access token vencido: se renueva con la cookie de sesión y se reintenta una vez
   if (respuesta.status === 401 && autenticado) {
     const renovado = await renovarSesion();
-    if (renovado) respuesta = await ejecutar();
+    if (renovado) respuesta = await ejecutarSeguro();
   }
 
   const cuerpo = await leerCuerpo(respuesta);
+  if (servidorCaido(respuesta.status, cuerpo)) throw errorSinConexion(respuesta.status);
   if (!respuesta.ok) {
     if (respuesta.status === 401 && autenticado) useAuthStore.getState().limpiar();
     throw new ApiError(respuesta.status, (cuerpo ?? {}) as Partial<RespuestaError>);

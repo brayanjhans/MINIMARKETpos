@@ -112,11 +112,14 @@
   `seguridad.minutos_ventana_ip`=15) → 429 `limite_ip`. Migración con índice `ix_auditoria_ip_accion_fecha`.
 - ✅ 4) En producción no arranca si JWT_SECRET es el de ejemplo o < 32 caracteres, si COOKIE_SECURE=false o DEBUG=true.
 - ✅ 5) Errores de BD: solo los de conexión dan 503 "no se pudo conectar"; los demás 500 "error interno".
-- ⏳ 6) Frontend: página 404, pantalla de error y aviso cuando el backend está apagado.
-- ⏳ 7) Volver a correr `npx next build`.
+- ✅ 6) Frontend: `app/not-found.tsx` (404), `app/(sistema)/error.tsx`, `app/global-error.tsx`; si el backend no
+  responde ya NO se cierra la sesión: estado `sin_conexion` con pantalla "Sin conexión con el servidor" + Reintentar,
+  y un solo aviso (toast) para consultas que fallan por falta de conexión (`lib/api.ts`, `providers.tsx`).
+- ✅ 7) `npx next build` OK (18 rutas). e2e 11/11. pytest 38/38.
 
 ## Siguiente paso
-Completar los puntos 2–7 de arriba. Luego, que el usuario revise el estilo Bodega en http://localhost:3010 (cierra la Fase 2). Si lo aprueba:
+Que el usuario revise el sistema en http://localhost:3010 y apruebe el cierre de la Fase 2.
+Luego: **Fase 3 — productos, categorías, marcas e inventario**, con bocetos previos en Claude Design. Si lo aprueba:
 **Fase 3 — productos, categorías, marcas e inventario** (stock por almacén, lotes, kardex, ajustes,
 transferencias, inventario físico, importar/exportar Excel), con el estilo Bodega y bocetos previos en
 Claude Design si son pantallas nuevas. El POS (Fase 4) se implementa con su boceto `diseno/bodega/Pos.dc.html`.

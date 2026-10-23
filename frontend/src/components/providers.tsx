@@ -1,15 +1,23 @@
 "use client";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { useState, type ReactNode } from "react";
+import { toast } from "sonner";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ApiError } from "@/lib/api";
+import { ApiError, esSinConexion, MENSAJE_SIN_CONEXION } from "@/lib/api";
+
+/** Un solo aviso de "sin conexión" aunque fallen varias consultas a la vez. */
+function avisarSinConexion(error: unknown) {
+  if (esSinConexion(error)) toast.error(MENSAJE_SIN_CONEXION, { id: "sin-conexion" });
+}
 
 function crearQueryClient() {
   return new QueryClient({
+    queryCache: new QueryCache({ onError: avisarSinConexion }),
+    mutationCache: new MutationCache({ onError: avisarSinConexion }),
     defaultOptions: {
       queries: {
         staleTime: 30_000,

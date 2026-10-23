@@ -1,10 +1,13 @@
 "use client";
 
+import { WifiOff } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { CambiarPasswordDialog } from "@/components/auth/CambiarPasswordDialog";
 import { MarcaSimbolo } from "@/components/comunes/Marca";
+import { PantallaAviso } from "@/components/comunes/PantallaAviso";
+import { Button } from "@/components/ui/button";
 import { BarraInferior } from "@/components/layout/BarraInferior";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
@@ -17,6 +20,7 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
   const estado = useAuthStore((s) => s.estado);
   const accessToken = useAuthStore((s) => s.accessToken);
   const debeCambiar = useAuthStore((s) => s.usuario?.debe_cambiar_password ?? false);
+  const setEstado = useAuthStore((s) => s.setEstado);
 
   // Al recargar la página el access token (en memoria) se pierde: se recupera con la cookie de sesión
   useEffect(() => {
@@ -29,6 +33,17 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
       router.replace(`/login${siguiente}`);
     }
   }, [estado, pathname, router]);
+
+  if (estado === "sin_conexion") {
+    return (
+      <PantallaAviso
+        icono={WifiOff}
+        titulo="Sin conexión con el servidor"
+        mensaje="Tu sesión sigue activa. Revisa que el sistema esté encendido y vuelve a intentar."
+        acciones={<Button onClick={() => setEstado("verificando")}>Reintentar</Button>}
+      />
+    );
+  }
 
   if (estado !== "autenticado") {
     return (
