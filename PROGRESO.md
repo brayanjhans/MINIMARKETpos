@@ -214,7 +214,21 @@
   - `/clientes/buscar` y alta rápida (módulo completo en Fase 5).
   - Corregido: `ContextoUsuario` guarda usuario_id y nombre como valores simples (un rollback expiraba el usuario y
     la respuesta de una operación repetida fallaba).
-- ⏳ Frontend: POS, caja (abrir, movimientos, cierre ciego), ventas + ticket 80 mm, diálogo del supervisor.
+- ✅ FRONTEND Fase 4 (tsc y next build OK, 34 rutas; capturas en `.taste-skill/capturas/f4`):
+  - `/pos` a pantalla completa (el layout no pone menú en /pos): catálogo en memoria (búsqueda y escaneo
+    instantáneos, `3*código` para cantidad, presentaciones por su código), carrito guardado en localStorage con su
+    Idempotency-Key (si se va la luz, se recupera y reintentar no duplica), atajos F2/F4/F6/F8/F9, lector USB sin
+    foco (`useScanner`), cobro: efectivo con vuelto y billetes sugeridos, Yape/Plin/tarjeta/transferencia con n.° de
+    operación, fiado, mixto; ventas en espera; abrir caja ahí mismo si está cerrada.
+  - `lib/ventas.ts`: mismo cálculo que el servidor con enteros (céntimos). Verificado contra Python en 500 ventas
+    aleatorias: 0 diferencias.
+  - Diálogo de autorización del supervisor (se reintenta solo con el token), ticket 80 mm por el navegador
+    (`@media print` solo imprime el ticket), F9 reimprime.
+  - `/caja` (turno, movimientos, historial por cajero), `/caja/[id]` (por método, arqueo, ventas del turno),
+    `/caja/[id]/cerrar` (cierre ciego por billete/moneda + declarados), `/ventas` y `/ventas/[id]` (ticket, reimprimir,
+    anular con supervisor). Barra superior con la caja real. Inicio con ventas de hoy reales (`/ventas/resumen-hoy`).
+- Datos de prueba: Caja 1 abierta por admin con S/ 100 y 3 ventas (efectivo, Yape, tarjeta) en la BD de trabajo.
+- ⏳ Pendiente: revisión y aprobación del usuario. Devoluciones parciales (modelo listo) quedan para después.
 
 ## Pedido del usuario para la Fase 5
 - Usar productos de prueba **con sus imágenes**, descargadas de internet (todo de prueba). Convertirlas a WEBP con

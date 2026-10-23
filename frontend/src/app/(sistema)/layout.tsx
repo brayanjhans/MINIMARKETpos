@@ -56,6 +56,16 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
     );
   }
 
+  // El punto de venta ocupa toda la pantalla (tiene su propia barra con la caja y los atajos)
+  if (pathname === "/pos") {
+    return (
+      <>
+        {children}
+        <CambiarPasswordDialog abierto={debeCambiar} onCambiar={() => undefined} obligatorio />
+      </>
+    );
+  }
+
   return (
     <div className="flex h-dvh overflow-hidden">
       <div className="hidden lg:block">

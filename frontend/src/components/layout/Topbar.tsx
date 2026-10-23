@@ -1,6 +1,8 @@
 "use client";
 
 import { Check, ChevronDown, KeyRound, LogOut, Monitor, Moon, Sun } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -18,11 +20,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 import { mensajeError } from "@/lib/api";
-import { iniciales } from "@/lib/utils";
+import { cn, fechaYHora, iniciales } from "@/lib/utils";
+import { cajaService } from "@/services/caja.service";
 
 /** Barra superior: la caja y la sucursal a la izquierda; el tema y el usuario a la derecha. */
 export function Topbar() {
-  const { usuario, logout, cambiarSucursal } = useAuth();
+  const { usuario, logout, cambiarSucursal, tiene } = useAuth();
   const [dialogoPassword, setDialogoPassword] = useState(false);
 
   if (!usuario) return null;
@@ -43,10 +46,7 @@ export function Topbar() {
       <Marca className="lg:hidden" />
 
       <div className="hidden items-center gap-2 lg:flex">
-        <span className="inline-flex h-9 items-center gap-2 rounded-[10px] bg-card px-3 text-[13px] font-semibold">
-          <span aria-hidden className="size-2 rounded-full bg-muted-foreground/50" />
-          Caja cerrada
-        </span>
+        {tiene("caja.ver") && <EstadoCaja />}
         <DropdownMenu>
           <DropdownMenuTrigger asChild disabled={!variasSucursales}>
             <button
@@ -108,6 +108,21 @@ export function Topbar() {
 
       <CambiarPasswordDialog abierto={dialogoPassword} onCambiar={setDialogoPassword} />
     </header>
+  );
+}
+
+/** La caja del usuario: abierta (con la hora) o cerrada; lleva a la pantalla de Caja. */
+function EstadoCaja() {
+  const estado = useQuery({ queryKey: ["caja", "actual"], queryFn: cajaService.actual, staleTime: 30_000 });
+  const sesion = estado.data?.sesion;
+  return (
+    <Link
+      href="/caja"
+      className="inline-flex h-9 items-center gap-2 rounded-[10px] bg-card px-3 text-[13px] font-semibold transition-colors hover:bg-accent"
+    >
+      <span aria-hidden className={cn("size-2 rounded-full", sesion ? "bg-positive" : "bg-muted-foreground/50")} />
+      {sesion ? `${sesion.caja} · abierta ${fechaYHora(sesion.fecha_apertura).hora}` : "Caja cerrada"}
+    </Link>
   );
 }
 

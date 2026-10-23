@@ -471,3 +471,13 @@ async def test_numeracion_correlativa_sin_huecos_en_paralelo(cliente, crear_usua
     numeros = sorted(int(r.json()["comprobante"].split("-")[1]) for r in respuestas)
     assert numeros == list(range(numeros[0], numeros[0] + 9))
     assert await _stock(admin, p["id"]) == 21
+
+
+async def test_resumen_de_hoy_sin_anuladas(admin, turno: Turno):
+    p = await _producto_con_stock(admin)
+    await _vender(turno.cajero, _venta([(p, "2")], [{"metodo": "YAPE", "monto": "11.00"}], "11.00"))
+    v = (await _vender(turno.cajero, _venta([(p, "1")], [{"metodo": "EFECTIVO", "monto": "5.50"}], "5.50"))).json()
+    await admin.post(f"/ventas/{v['id']}/anular", json={"motivo": "Prueba de resumen"})
+    r = (await turno.cajero.get("/ventas/resumen-hoy")).json()
+    assert r["tickets"] == 1 and r["total"] == "11.00" and r["promedio"] == "11.00"
+    assert r["por_metodo"]["YAPE"] == "11.00" and r["por_metodo"]["EFECTIVO"] == "0"

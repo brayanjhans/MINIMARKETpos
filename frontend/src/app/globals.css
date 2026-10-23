@@ -242,6 +242,26 @@
   }
 }
 
+/* Ticket: fuera de la pantalla; al imprimir, es lo único que sale (papel térmico de 80 mm, sin márgenes) */
+.ticket-impresion {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+}
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+  /* display:none (y no visibility) para que el resto de la página no ocupe papel */
+  body > *:not(.ticket-impresion) {
+    display: none !important;
+  }
+  .ticket-impresion {
+    position: static;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

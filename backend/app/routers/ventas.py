@@ -30,6 +30,11 @@ async def catalogo(session: DB, ctx: ConPermiso("pos.vender")) -> CatalogoPos:
     return CatalogoPos(**await servicio.catalogo(session, ctx))
 
 
+@router.get("/resumen-hoy", summary="Ventas de hoy: total, tickets, promedio, por método y por hora")
+async def resumen_hoy(session: DB, ctx: ConPermiso("pos.vender")) -> dict:
+    return await servicio.resumen_hoy(session, ctx)
+
+
 @router.post("", status_code=status.HTTP_201_CREATED, summary="Registrar una venta (requiere Idempotency-Key)")
 async def registrar(
     datos: VentaCrear, session: DB, ctx: ConPermiso("pos.vender"), clave: ClaveIdempotencia = None

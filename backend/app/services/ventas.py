@@ -56,7 +56,7 @@ from app.services.autorizaciones import Autorizador
 from app.services.inventario import nombres_usuarios
 from app.services.productos import almacen_venta_id
 from app.utils.paginacion import ParametrosPaginacion, paginar
-from app.utils.zona_horaria import a_utc, ahora_utc, hoy_local
+from app.utils.zona_horaria import a_local, a_utc, ahora_utc, hoy_local, inicio_de_hoy_utc
 
 MODULO = "ventas"
 DOS = Decimal("0.01")
@@ -822,3 +822,32 @@ async def detalle(session: AsyncSession, ctx: ContextoUsuario, venta_id: int) ->
         },
     }
 
+
+
+async def resumen_hoy(session: AsyncSession, ctx: ContextoUsuario) -> dict[str, Any]:
+    """Ventas de hoy (hora de Lima) para el Inicio: total, tickets, promedio, por método y por hora.
+    Las anuladas no cuentan. El cajero ve las suyas; con `caja.ver_todas`, las de toda la sucursal."""
+    desde = inicio_de_hoy_utc()
+    ventas = list(
+        await session.scalars(
+            _visibles(ctx)
+            .where(Venta.fecha >= desde, Venta.estado != EstadoVenta.ANULADA)
+            .options(selectinload(Venta.pagos))
+        )
+    )
+    por_hora: dict[int, Decimal] = defaultdict(lambda: CERO)
+    por_metodo: dict[MetodoPago, Decimal] = defaultdict(lambda: CERO)
+    total = CERO
+    for v in ventas:
+        cobrado = v.total + v.redondeo
+        total += cobrado
+        por_hora[a_local(v.fecha).hour] += cobrado
+        for p in v.pagos:
+            por_metodo[p.metodo] += p.monto
+    return {
+        "total": total,
+        "tickets": len(ventas),
+        "promedio": r2(total / len(ventas)) if ventas else None,
+        "por_metodo": {m.value: str(por_metodo.get(m, CERO)) for m in MetodoPago},
+        "por_hora": [{"hora": h, "total": str(por_hora[h])} for h in sorted(por_hora)],
+    }

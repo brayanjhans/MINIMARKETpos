@@ -12,13 +12,40 @@ import { accion } from "@/lib/auditoria";
 import { cn, fechaYHora, soles } from "@/lib/utils";
 import { auditoriaService } from "@/services/auditoria.service";
 import { usuariosService } from "@/services/usuarios.service";
+import { ventasService } from "@/services/ventas.service";
+import type { MetodoPago } from "@/types/ventas";
 
-const METODOS = [
-  { nombre: "Efectivo", clase: "bg-muted" },
-  { nombre: "Yape", clase: "bg-p-lila text-p-lila-t" },
-  { nombre: "Tarjeta", clase: "bg-p-azul text-p-azul-t" },
-  { nombre: "Plin", clase: "bg-p-agua text-p-agua-t" },
+const METODOS: { nombre: string; metodo: MetodoPago; clase: string }[] = [
+  { nombre: "Efectivo", metodo: "EFECTIVO", clase: "bg-muted" },
+  { nombre: "Yape", metodo: "YAPE", clase: "bg-p-lila text-p-lila-t" },
+  { nombre: "Tarjeta", metodo: "TARJETA", clase: "bg-p-azul text-p-azul-t" },
+  { nombre: "Plin", metodo: "PLIN", clase: "bg-p-agua text-p-agua-t" },
 ];
+
+/** Barras simples por hora (de la primera a la última hora con ventas). */
+function VentasPorHora({ horas }: { horas: { hora: number; total: string }[] }) {
+  const desde = Math.min(...horas.map((h) => h.hora), 8);
+  const hasta = Math.max(...horas.map((h) => h.hora), desde + 5);
+  const montos = new Map(horas.map((h) => [h.hora, Number(h.total)]));
+  const maximo = Math.max(...montos.values(), 1);
+  const lista = Array.from({ length: hasta - desde + 1 }, (_, i) => desde + i);
+  return (
+    <div className="my-5 flex h-[170px] items-end gap-1.5" role="img" aria-label="Ventas por hora de hoy">
+      {lista.map((h) => {
+        const monto = montos.get(h) ?? 0;
+        return (
+          <div key={h} className="flex h-full flex-1 flex-col items-center justify-end gap-1" title={`${h}:00 · ${soles(monto)}`}>
+            <div
+              className={cn("w-full max-w-9 rounded-t-md", monto ? "bg-primary" : "bg-muted")}
+              style={{ height: `${Math.max((monto / maximo) * 100, monto ? 6 : 2)}%` }}
+            />
+            <span className="text-[10px] text-muted-foreground tabular">{h}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 function saludo(): string {
   const hora = Number(
@@ -43,6 +70,13 @@ export default function InicioPage() {
     queryFn: () => auditoriaService.listar({ desde: hoy, hasta: hoy, tamanio: 5, orden: "-fecha" }),
     enabled: verAuditoria,
   });
+  const ventas = useQuery({
+    queryKey: ["ventas", "hoy", hoy],
+    queryFn: ventasService.resumenHoy,
+    enabled: tiene("pos.vender"),
+    refetchInterval: 60_000,
+  });
+  const v = ventas.data;
   const resumenUsuarios = useQuery({
     queryKey: ["usuarios", "resumen"],
     queryFn: usuariosService.resumen,
@@ -76,11 +110,23 @@ export default function InicioPage() {
       <section className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
         <div className="tarjeta col-span-2 bg-navy p-5 text-white md:col-span-1 dark:bg-navy-2">
           <p className="text-[13px] font-medium text-navy-ink">Ventas de hoy</p>
-          <p className="mt-2.5 text-[30px] leading-9 font-extrabold tracking-[-0.02em] tabular">{soles(0)}</p>
-          <p className="mt-1 text-xs text-navy-ink">Se suman solas con cada venta del punto de venta</p>
+          <p className="mt-2.5 text-[30px] leading-9 font-extrabold tracking-[-0.02em] tabular">{soles(v?.total ?? 0)}</p>
+          <p className="mt-1 text-xs text-navy-ink">
+            {tiene("caja.ver_todas") ? "De toda la sucursal, sin anuladas" : "Tus ventas de hoy, sin anuladas"}
+          </p>
         </div>
-        <Indicador icono={ReceiptText} color="bg-p-amarillo text-p-amarillo-t" etiqueta="Tickets" valor="0" />
-        <Indicador icono={Coins} color="bg-p-azul text-p-azul-t" etiqueta="Ticket promedio" valor="—" />
+        <Indicador
+          icono={ReceiptText}
+          color="bg-p-amarillo text-p-amarillo-t"
+          etiqueta="Tickets"
+          valor={ventas.isLoading ? null : String(v?.tickets ?? 0)}
+        />
+        <Indicador
+          icono={Coins}
+          color="bg-p-azul text-p-azul-t"
+          etiqueta="Ticket promedio"
+          valor={ventas.isLoading ? null : v?.promedio ? soles(v.promedio) : "—"}
+        />
         <Indicador
           className="col-span-2 md:col-span-1"
           icono={Users}
@@ -97,18 +143,22 @@ export default function InicioPage() {
             <h2 className="text-base font-bold">Ventas por hora</h2>
             <span className="text-[13px] font-medium text-muted-foreground">Hoy</span>
           </div>
-          <div className="my-5 grid h-[170px] place-items-center rounded-[14px] border-2 border-dashed border-rule text-center">
-            <div className="px-6">
-              <BarChart3 className="mx-auto size-8 text-muted-foreground/60" aria-hidden />
-              <p className="mt-2 text-sm font-semibold">Todavía no hay ventas hoy</p>
-              <p className="text-[13px] text-muted-foreground">El gráfico se llena con cada venta registrada en la caja.</p>
+          {v && v.por_hora.length > 0 ? (
+            <VentasPorHora horas={v.por_hora} />
+          ) : (
+            <div className="my-5 grid h-[170px] place-items-center rounded-[14px] border-2 border-dashed border-rule text-center">
+              <div className="px-6">
+                <BarChart3 className="mx-auto size-8 text-muted-foreground/60" aria-hidden />
+                <p className="mt-2 text-sm font-semibold">Todavía no hay ventas hoy</p>
+                <p className="text-[13px] text-muted-foreground">El gráfico se llena con cada venta registrada en la caja.</p>
+              </div>
             </div>
-          </div>
+          )}
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             {METODOS.map((m) => (
               <div key={m.nombre} className={cn("rounded-[12px] px-3 py-2.5", m.clase)}>
                 <p className="text-[13px] font-medium opacity-80">{m.nombre}</p>
-                <p className="font-bold tabular">{soles(0)}</p>
+                <p className="font-bold tabular">{soles(v?.por_metodo[m.metodo] ?? 0)}</p>
               </div>
             ))}
           </div>
