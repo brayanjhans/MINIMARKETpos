@@ -186,12 +186,16 @@ async def test_ajuste_revalida_stock_al_aprobar(admin: Sesion, almacenero: Sesio
     p = await crear_producto(admin)
     await _cargar(admin, p["id"], "5")
     roto = await _motivo(admin, "Producto dañado o roto")
-    a1 = (await almacenero.post(
-        "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-4"}]}
-    )).json()
-    a2 = (await almacenero.post(
-        "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-4"}]}
-    )).json()
+    a1 = (
+        await almacenero.post(
+            "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-4"}]}
+        )
+    ).json()
+    a2 = (
+        await almacenero.post(
+            "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-4"}]}
+        )
+    ).json()
     assert (await admin.post(f"/inventario/ajustes/{a1['id']}/aprobar")).status_code == 200
     r = await admin.post(f"/inventario/ajustes/{a2['id']}/aprobar")
     assert r.status_code == 422 and r.json()["codigo"] == "stock_insuficiente"
@@ -236,10 +240,20 @@ async def test_transferencia_con_lotes_fefo_y_faltante(admin: Sesion):
         "/inventario/stock-inicial",
         json={
             "items": [
-                {"producto_id": p["id"], "cantidad": "10", "costo_unitario": "5", "numero_lote": "L-tarde",
-                 "fecha_vencimiento": str(hoy + timedelta(days=60))},
-                {"producto_id": p["id"], "cantidad": "4", "costo_unitario": "5", "numero_lote": "L-pronto",
-                 "fecha_vencimiento": str(hoy + timedelta(days=5))},
+                {
+                    "producto_id": p["id"],
+                    "cantidad": "10",
+                    "costo_unitario": "5",
+                    "numero_lote": "L-tarde",
+                    "fecha_vencimiento": str(hoy + timedelta(days=60)),
+                },
+                {
+                    "producto_id": p["id"],
+                    "cantidad": "4",
+                    "costo_unitario": "5",
+                    "numero_lote": "L-pronto",
+                    "fecha_vencimiento": str(hoy + timedelta(days=5)),
+                },
             ]
         },
     )
@@ -270,7 +284,8 @@ async def test_transferencia_con_lotes_fefo_y_faltante(admin: Sesion):
     assert await _stock(admin, p["id"], deposito) == 5
     lotes = (await admin.get("/inventario/lotes", params={"almacen_id": deposito, "producto_id": p["id"]})).json()
     assert sorted((lote["numero_lote"], lote["cantidad_actual"]) for lote in lotes) == [
-        ("L-PRONTO", "3.000"), ("L-TARDE", "2.000")
+        ("L-PRONTO", "3.000"),
+        ("L-TARDE", "2.000"),
     ]
     # Recibir otra vez no suma dos veces
     r = await admin.post(f"/inventario/transferencias/{t['id']}/recibir", json={})
@@ -283,15 +298,19 @@ async def test_anular_transferencia_devuelve_al_origen(admin: Sesion):
     venta, deposito = await _almacenes(admin)
     p = await crear_producto(admin)
     await _cargar(admin, p["id"], "10")
-    t = (await admin.post(
-        "/inventario/transferencias",
-        json={"almacen_destino_id": deposito, "detalles": [{"producto_id": p["id"], "cantidad": "7"}]},
-    )).json()
+    t = (
+        await admin.post(
+            "/inventario/transferencias",
+            json={"almacen_destino_id": deposito, "detalles": [{"producto_id": p["id"], "cantidad": "7"}]},
+        )
+    ).json()
     assert await _stock(admin, p["id"], venta) == 3
     r = await admin.post(f"/inventario/transferencias/{t['id']}/anular")
     assert r.json()["estado"] == "ANULADA"
     assert await _stock(admin, p["id"], venta) == 10
-    tipos = [m["tipo"] for m in (await admin.get("/inventario/kardex", params={"producto_id": p["id"]})).json()["items"]]
+    tipos = [
+        m["tipo"] for m in (await admin.get("/inventario/kardex", params={"producto_id": p["id"]})).json()["items"]
+    ]
     assert tipos[0] == "TRANSFERENCIA_ANULADA"
     await _integridad_ok(admin)
 
@@ -325,20 +344,28 @@ async def test_pendiente_de_lote_se_descuenta_al_ingresar(admin: Sesion, almacen
     async with SessionLocal() as s, s.begin():
         bloqueo = await servicio_stock.bloquear(s, [p["id"]], [venta])
         servicio_stock.mover(
-            s, producto=bloqueo.productos[p["id"]], stock=bloqueo.stock(p["id"], venta), cantidad=Decimal("-2"),
-            tipo=TipoMovimientoInventario.SALIDA_VENTA, costo_unitario=Decimal("0"), usuario_id=None,
+            s,
+            producto=bloqueo.productos[p["id"]],
+            stock=bloqueo.stock(p["id"], venta),
+            cantidad=Decimal("-2"),
+            tipo=TipoMovimientoInventario.SALIDA_VENTA,
+            costo_unitario=Decimal("0"),
+            usuario_id=None,
             permitir_negativo=True,
         )
-    stock = (await admin.get("/inventario/stock", params={"estado": "por_regularizar",
-                                                           "busqueda": p["nombre"]})).json()["items"][0]
+    stock = (
+        await admin.get("/inventario/stock", params={"estado": "por_regularizar", "busqueda": p["nombre"]})
+    ).json()["items"][0]
     assert stock["cantidad"] == "-2.000" and stock["pendiente_lote"] == "2.000"
 
     # Llegan 5 en un lote nuevo: 2 cubren lo vendido y en el lote quedan 3
     sobrante = await _motivo(admin, "Bonificación del proveedor")
-    aj = (await almacenero.post(
-        "/inventario/ajustes",
-        json={"motivo_id": sobrante, "detalles": [{"producto_id": p["id"], "cantidad": "5", "numero_lote": "B-1"}]},
-    )).json()
+    aj = (
+        await almacenero.post(
+            "/inventario/ajustes",
+            json={"motivo_id": sobrante, "detalles": [{"producto_id": p["id"], "cantidad": "5", "numero_lote": "B-1"}]},
+        )
+    ).json()
     assert (await admin.post(f"/inventario/ajustes/{aj['id']}/aprobar")).status_code == 200
     assert await _stock(admin, p["id"]) == 3
     lotes = (await admin.get("/inventario/lotes", params={"producto_id": p["id"]})).json()
@@ -353,8 +380,13 @@ async def test_stock_negativo_solo_con_autorizacion(admin: Sesion):
         bloqueo = await servicio_stock.bloquear(s, [p["id"]], [venta])
         with pytest.raises(Exception) as error:
             servicio_stock.mover(
-                s, producto=bloqueo.productos[p["id"]], stock=bloqueo.stock(p["id"], venta), cantidad=Decimal("-1"),
-                tipo=TipoMovimientoInventario.SALIDA_VENTA, costo_unitario=Decimal("0"), usuario_id=None,
+                s,
+                producto=bloqueo.productos[p["id"]],
+                stock=bloqueo.stock(p["id"], venta),
+                cantidad=Decimal("-1"),
+                tipo=TipoMovimientoInventario.SALIDA_VENTA,
+                costo_unitario=Decimal("0"),
+                usuario_id=None,
             )
         assert getattr(error.value, "codigo", "") == "stock_insuficiente"
         await s.rollback()
@@ -381,9 +413,11 @@ async def test_inventario_fisico_aplica_solo_la_diferencia(admin: Sesion, almace
 
     # Mientras se cuenta, sale mercadería (aquí un ajuste aprobado de -5)
     roto = await _motivo(admin, "Producto dañado o roto")
-    aj = (await almacenero.post(
-        "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-5"}]}
-    )).json()
+    aj = (
+        await almacenero.post(
+            "/inventario/ajustes", json={"motivo_id": roto, "detalles": [{"producto_id": p["id"], "cantidad": "-5"}]}
+        )
+    ).json()
     await admin.post(f"/inventario/ajustes/{aj['id']}/aprobar")
     assert await _stock(admin, p["id"]) == 15
 
@@ -458,6 +492,8 @@ async def test_cajero_no_ajusta_ni_ve_costos_en_inventario(admin: Sesion, client
     cajero = Sesion(cliente, await iniciar_sesion(cliente, usuario["username"], clave))
     r = await cajero.get("/inventario/resumen")
     assert r.status_code == 200 and r.json()["valor_total"] is None
-    r = await cajero.post("/inventario/ajustes", json={"motivo_id": 1, "detalles": [{"producto_id": 1, "cantidad": "1"}]})
+    r = await cajero.post(
+        "/inventario/ajustes", json={"motivo_id": 1, "detalles": [{"producto_id": 1, "cantidad": "1"}]}
+    )
     assert r.status_code == 403
     assert (await cajero.post("/inventario/stock-inicial", json={"items": []})).status_code in (403, 422)

@@ -166,8 +166,16 @@
   root una sola vez; en Docker va en docker-compose). Servicios: `transacciones.ejecutar` (reintento deadlock +
   idempotencia), `correlativos`, `stock` (bloqueo en orden, mover, FEFO, costo promedio), `imagenes` (WEBP),
   `productos`, `categorias` (+marcas). Routers productos, categorías/marcas, media. Pruebas: 52 OK.
-- ⏳ Pendiente backend: inventario (stock, kardex, stock inicial, ajustes con aprobación, transferencias,
-  inventario físico, integridad), Excel importar/exportar, datos demo (~30 productos que pidió el usuario).
+- ✅ Backend parte 2: `services/inventario.py` (almacenes, stock, resumen, lotes, kardex, stock inicial,
+  integridad), `ajustes.py` (aprobación obligatoria, sin autoaprobación salvo único aprobador), `transferencias.py`
+  (FEFO por lote, en tránsito, faltantes, anulación), `inventario_fisico.py` (por lote, solo diferencia, un conteo
+  abierto por producto), `excel_productos.py` (vista previa, todo-o-nada, plantilla, exportar sin fórmulas).
+  Router `/inventario/*` y `/productos/{plantilla,exportar,importar}`. Cabecera `Idempotency-Key` (la clave se
+  reserva al inicio de la transacción). Pruebas: 77 OK (incluye concurrencia, idempotencia y kardex inmutable).
+- ✅ Datos demo: `python -m app.demo` (34 productos, almacén "Depósito", lotes, un ajuste por aprobar). Cargados
+  en la BD de trabajo; integridad correcta.
+- ⏳ Siguiente: FRONTEND de la Fase 3 según bocetos (Productos, Producto, Categorías, Inventario, Kardex, Ajuste,
+  Inventario físico, Transferencia, Importar, Stock inicial).
 - ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
   Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
 

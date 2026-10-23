@@ -1,9 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, UploadFile, status
+from fastapi import APIRouter, Depends, Query, Response, UploadFile, status
 
 from app.core.excepciones import ValidacionNegocio
 from app.dependencies import DB, ConPermiso
+from app.dependencies.idempotencia import ClaveIdempotencia
 from app.schemas.productos import (
     HistorialPrecioSalida,
     ProductoActualizar,
@@ -11,12 +12,15 @@ from app.schemas.productos import (
     ProductoDetalle,
     ProductoListado,
     ProductoPorCodigo,
+    ResultadoImportacion,
     ResumenProductos,
+    VistaImportacion,
 )
-from app.services import imagenes
+from app.services import excel_productos, imagenes
 from app.services import productos as servicio
 from app.utils.paginacion import Pagina, ParametrosPaginacion, construir_pagina, parametros_paginacion
 from app.utils.respuestas import Mensaje
+from app.utils.zona_horaria import hoy_local
 
 router = APIRouter(prefix="/productos", tags=["Productos"])
 
@@ -45,6 +49,52 @@ async def listar(
 @router.get("/resumen", summary="Conteos: activos, stock bajo, sin stock, negativos, sin código")
 async def resumen(session: DB, ctx: ConPermiso("productos.ver")) -> ResumenProductos:
     return ResumenProductos(**await servicio.resumen(session, ctx))
+
+
+_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def _descarga(contenido: bytes, nombre: str) -> Response:
+    return Response(
+        contenido, media_type=_XLSX, headers={"Content-Disposition": f'attachment; filename="{nombre}"'}
+    )
+
+
+@router.get("/plantilla", summary="Plantilla de Excel para importar productos")
+async def plantilla(_: ConPermiso("productos.importar")) -> Response:
+    return _descarga(excel_productos.plantilla(), "plantilla_productos.xlsx")
+
+
+@router.get("/exportar", summary="Exportar productos a Excel")
+async def exportar(session: DB, ctx: ConPermiso("productos.exportar"), activo: bool | None = True) -> Response:
+    contenido = await excel_productos.exportar(session, ctx, activo=activo)
+    return _descarga(contenido, f"productos_{hoy_local():%Y%m%d}.xlsx")
+
+
+async def _leer_excel(archivo: UploadFile) -> bytes:
+    partes: list[bytes] = []
+    leido = 0
+    while bloque := await archivo.read(256 * 1024):
+        leido += len(bloque)
+        if leido > excel_productos.TAMANIO_MAXIMO:
+            raise ValidacionNegocio("El archivo pesa más de 5 MB", codigo="archivo_muy_grande")
+        partes.append(bloque)
+    return b"".join(partes)
+
+
+@router.post("/importar/vista-previa", summary="Analizar un Excel sin guardar nada")
+async def vista_previa(archivo: UploadFile, session: DB, ctx: ConPermiso("productos.importar")) -> VistaImportacion:
+    filas = await excel_productos.analizar(session, ctx, await _leer_excel(archivo))
+    await session.rollback()
+    return VistaImportacion(**excel_productos.resumen_vista(filas))
+
+
+@router.post("/importar", summary="Importar el Excel (todo junto; las filas con error se omiten)")
+async def importar(
+    archivo: UploadFile, session: DB, ctx: ConPermiso("productos.importar"), clave: ClaveIdempotencia = None
+) -> ResultadoImportacion:
+    resultado = await excel_productos.importar(session, ctx, await _leer_excel(archivo), clave)
+    return ResultadoImportacion(**resultado)
 
 
 @router.get("/codigo/{codigo}", summary="Buscar por código de barras o código interno (escáner)")

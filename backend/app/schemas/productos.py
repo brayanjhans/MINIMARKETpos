@@ -244,6 +244,36 @@ class HistorialPrecioSalida(EsquemaSalida):
     creado_en: datetime
 
 
+class FilaImportacion(EsquemaSalida):
+    fila: int
+    nombre: str | None
+    codigo_barras: str | None
+    precio_venta: Decimal | None
+    precio_anterior: Decimal | None
+    stock_inicial: Decimal | None
+    accion: str = Field(description="nuevo, actualiza, sin_cambios o error")
+    errores: list[str]
+
+
+class VistaImportacion(EsquemaSalida):
+    total: int
+    nuevos: int
+    actualizan: int
+    sin_cambios: int
+    errores: int
+    con_stock: int
+    filas: list[FilaImportacion] = Field(description="Primero las filas con error (máximo 300)")
+
+
+class ResultadoImportacion(EsquemaSalida):
+    creados: int
+    actualizados: int
+    omitidos: int
+    con_stock: int
+    valor_stock: Decimal
+    repetida: bool = Field(default=False, description="La misma importación ya se había hecho (misma clave)")
+
+
 class ProductoPorCodigo(EsquemaSalida):
     """Resultado de escanear un código: el producto y, si corresponde, la presentación."""
 
