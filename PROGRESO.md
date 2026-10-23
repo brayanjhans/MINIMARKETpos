@@ -182,8 +182,10 @@
   conteo con escáner), /inventario/stock-inicial. Cliente: `api()` admite FormData, `descargar()` para Excel y
   `nuevaClave()` (Idempotency-Key creada al abrir cada formulario; funciona también por http en la red local).
   `npx tsc --noEmit` y `npx next build` OK (30 rutas). Pruebas backend 77 OK.
-- ⏳ Pendiente: revisar visualmente con los servidores levantados (se cerraron por poca memoria) y que el
-  usuario apruebe la Fase 3.
+- ✅ Revisión visual (23/10, capturas en `.taste-skill/capturas/f3r`): 13 pantallas en escritorio, celular y
+  oscuro. Corregido (commit 693cdfd): vencimientos se mostraban un día antes (fecha sin hora leída como UTC)
+  y la etiqueta se encimaba sobre el total en los paneles oscuros.
+- ⏳ Pendiente: que el usuario apruebe la Fase 3.
 - ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
   Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
 
