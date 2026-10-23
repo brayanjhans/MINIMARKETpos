@@ -174,8 +174,16 @@
   reserva al inicio de la transacción). Pruebas: 77 OK (incluye concurrencia, idempotencia y kardex inmutable).
 - ✅ Datos demo: `python -m app.demo` (34 productos, almacén "Depósito", lotes, un ajuste por aprobar). Cargados
   en la BD de trabajo; integridad correcta.
-- ⏳ Siguiente: FRONTEND de la Fase 3 según bocetos (Productos, Producto, Categorías, Inventario, Kardex, Ajuste,
-  Inventario físico, Transferencia, Importar, Stock inicial).
+- ✅ FRONTEND Fase 3 (estilo Bodega, según bocetos): /productos (contadores, filtros, margen, stock), /productos/nuevo
+  y /productos/[id] (ficha con presentaciones, IGV, lotes, foto WEBP, stock por almacén, historial de precios, aviso
+  de edición concurrente), /productos/importar (subir → revisar → importar), /categorias (categorías + marcas),
+  /inventario (resumen, stock, por vencer, en tránsito), /inventario/kardex, /inventario/ajustes (+nuevo, +[id] con
+  aprobar/rechazar), /inventario/transferencias (+nueva, +[id] recibir con faltantes), /inventario/fisicos (+[id]
+  conteo con escáner), /inventario/stock-inicial. Cliente: `api()` admite FormData, `descargar()` para Excel y
+  `nuevaClave()` (Idempotency-Key creada al abrir cada formulario; funciona también por http en la red local).
+  `npx tsc --noEmit` y `npx next build` OK (30 rutas). Pruebas backend 77 OK.
+- ⏳ Pendiente: revisar visualmente con los servidores levantados (se cerraron por poca memoria) y que el
+  usuario apruebe la Fase 3.
 - ⏳ Ajustar bocetos a la segunda revisión: Ajuste (pendiente de aprobación), Inventario físico (por lote),
   Transferencia (lotes + en tránsito), Inventario (en tránsito, pendiente de lote, stock negativo). Luego aprobación.
 
