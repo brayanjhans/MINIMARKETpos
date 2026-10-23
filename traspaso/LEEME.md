@@ -76,8 +76,21 @@ desde donde quedamos.
 - **«No se puede cargar el archivo .ps1»**: usar el comando completo, con `-ExecutionPolicy Bypass`.
 - **Puerto ocupado**: otro programa usa el 8010 o el 3010; cerrarlo.
 
-## Al volver a cambiar de PC
-Exportar de nuevo y reemplazar `minimarket.sql` (desde la carpeta del proyecto; pide la contraseña `minimarket`):
+## Trabajar en dos PCs (ir y volver)
+El código viaja por GitHub; la base de datos viaja en `minimarket.sql`. **Regla: se trabaja en una PC a la vez.**
+
+| Momento | Comando | Qué hace |
+|---|---|---|
+| **Al terminar** en una PC | `powershell -ExecutionPolicy Bypass -File traspaso\guardar.ps1` | exporta la base y sube TODO a GitHub |
+| **Al llegar** a la otra PC | `powershell -ExecutionPolicy Bypass -File traspaso\actualizar.ps1` | baja todo y carga esa base (reemplaza la de esa PC) |
+
+O pídeselo a Claude: **«me voy a la otra PC, guarda todo»** / **«vengo de la otra PC, actualiza todo»**.
+
+⚠️ Si trabajas en las dos PCs sin hacer guardar → actualizar entre medio, al actualizar se pierden los datos de la
+PC que no se guardó (la base no se mezcla, se reemplaza). `actualizar.ps1` se detiene si encuentra cambios de
+código sin guardar.
+
+Exportar a mano (lo mismo que hace `guardar.ps1`; pide la contraseña `minimarket`):
 ```
 mysqldump -u minimarket -p --single-transaction --routines --triggers --no-tablespaces --set-gtid-purged=OFF --default-character-set=utf8mb4 --result-file=traspaso/minimarket.sql minimarket
 ```
