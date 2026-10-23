@@ -104,8 +104,17 @@
   interruptores amarillos, "N cambios sin guardar"); 7) Auditoría (línea de tiempo + resumen + "Para revisar");
   8) capturas con `node frontend/scripts/capturas.mjs .taste-skill/bodega` y `verificar_frontend.py`.
 
+### Cierre de Fase 2: robustez (en curso, 2026-10-23)
+- ✅ 1) Git: repositorio en https://github.com/brayanjhans/MINIMARKETpos (primer commit db3d235).
+- ⏳ 2) Pruebas pytest reales (pasar los scripts de `backend/scripts/` a `backend/tests/`).
+- ⏳ 3) Límite de intentos de login por IP.
+- ⏳ 4) No arrancar en producción con JWT_SECRET por defecto.
+- ⏳ 5) Mensajes de error de BD más precisos (ProgrammingError ≠ "error de comunicación").
+- ⏳ 6) Frontend: página 404, pantalla de error y aviso cuando el backend está apagado.
+- ⏳ 7) Volver a correr `npx next build`.
+
 ## Siguiente paso
-Que el usuario revise el estilo Bodega en http://localhost:3010 (cierra la Fase 2). Si lo aprueba:
+Completar los puntos 2–7 de arriba. Luego, que el usuario revise el estilo Bodega en http://localhost:3010 (cierra la Fase 2). Si lo aprueba:
 **Fase 3 — productos, categorías, marcas e inventario** (stock por almacén, lotes, kardex, ajustes,
 transferencias, inventario físico, importar/exportar Excel), con el estilo Bodega y bocetos previos en
 Claude Design si son pantallas nuevas. El POS (Fase 4) se implementa con su boceto `diseno/bodega/Pos.dc.html`.

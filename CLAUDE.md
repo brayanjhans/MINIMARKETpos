@@ -18,6 +18,13 @@
 - Frontend: Next.js 16 (App Router) + TS 5 + Tailwind 4 + shadcn/ui + Framer Motion + TanStack Query 5 +
   Zustand 5. El frontend llama al backend vía rewrite `/api/v1` (mismo origen, cookie httpOnly de refresh).
 
+## Repositorio Git
+- Remoto: https://github.com/brayanjhans/MINIMARKETpos (rama `main`). Se sube por HTTPS con Git Credential
+  Manager (ya autorizado en esta PC). Identidad local: brayanjhans / brayanjhansalmerco@gmail.com.
+- Hacer commit al terminar cada parte importante y subir (`git push`) cuando el usuario lo apruebe o lo pida.
+- Mensajes de commit en español; pasar el mensaje con `git commit -F archivo` (PowerShell rompe los here-strings).
+- Nunca subir `.env`, `.venv`, `node_modules`, `.next` ni capturas de `.taste-skill/` (ya están en `.gitignore`).
+
 ## Puertos (IMPORTANTE)
 - Este proyecto usa **backend 8010 y frontend 3010**. Los puertos 3000/8000 los usa otro proyecto del
   usuario (`C:\laragon\www\garantias_seacee`): no ocuparlos ni detener sus procesos.
