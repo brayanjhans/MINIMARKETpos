@@ -236,6 +236,9 @@
   N.° DOC|CÓDIGO, donde CÓDIGO = HMAC-SHA256 del ticket con la clave del servidor (12 caracteres). `GET
   /ventas/verificar?texto=` dice si es auténtico, anulado o alterado; el listado acepta el QR como búsqueda.
   «Ventas» pasó a llamarse «Tickets» (Historial de tickets, con verificador arriba); acceso desde el POS.
+- ✅ Traspaso a otra PC (`traspaso/`): `minimarket.sql` (BD de prueba; probado: se restaura con 51 tablas y 2
+  triggers), `instalar.ps1` (programas, venv, .env con clave nueva, BD como root, migraciones, npm ci),
+  `iniciar.ps1` y `LEEME.md` (guía completa). `backend/.env` NO se sube (repositorio público).
 - ⏳ Pendiente: revisión y aprobación del usuario. Devoluciones parciales (modelo listo) quedan para después.
 
 ## Pedido del usuario para la Fase 5
