@@ -8,8 +8,8 @@
 | 1 | Infraestructura, configuración, modelos, migraciones, seed | ✅ Completada y aprobada |
 | 2 | Autenticación, usuarios, roles y permisos (backend + login y layout frontend) | ✅ Completada y aprobada |
 | 3 | Productos, categorías e inventario | ✅ Completada y aprobada |
-| 4 | POS y caja | 🔄 En curso |
-| 5 | Proveedores, compras y clientes | ⏳ Pendiente |
+| 4 | POS y caja | ✅ Completada y aprobada |
+| 5 | Proveedores, compras y clientes | ⏭️ Siguiente (en la otra PC) |
 | 6 | Reportes, dashboard y configuración | ⏳ Pendiente |
 | 7 | Tests, rendimiento, documentación, Docker | ⏳ Pendiente |
 
@@ -239,16 +239,20 @@
 - ✅ Traspaso a otra PC (`traspaso/`): `minimarket.sql` (BD de prueba; probado: se restaura con 51 tablas y 2
   triggers), `instalar.ps1` (programas, venv, .env con clave nueva, BD como root, migraciones, npm ci),
   `iniciar.ps1` y `LEEME.md` (guía completa). `backend/.env` NO se sube (repositorio público).
-- ⏳ Pendiente: revisión y aprobación del usuario. Devoluciones parciales (modelo listo) quedan para después.
+- ✅ El usuario aprobó la Fase 4 (23/10) y pidió seguir la Fase 5 en la otra PC. Devoluciones parciales (modelo listo) quedan para después.
 
 ## Pedido del usuario para la Fase 5
 - Usar productos de prueba **con sus imágenes**, descargadas de internet (todo de prueba). Convertirlas a WEBP con
   el servicio de imágenes existente.
 
 ## Siguiente paso
-Que el usuario apruebe (o ajuste) los bocetos de la Fase 3. Luego implementar backend (servicios con
-SELECT ... FOR UPDATE para todo cambio de stock, kardex, costo promedio, importación/exportación Excel) + pruebas
-pytest de inventario, y después el frontend con el estilo Bodega. Si lo aprueba:
-**Fase 3 — productos, categorías, marcas e inventario** (stock por almacén, lotes, kardex, ajustes,
-transferencias, inventario físico, importar/exportar Excel), con el estilo Bodega y bocetos previos en
-Claude Design si son pantallas nuevas. El POS (Fase 4) se implementa con su boceto `diseno/bodega/Pos.dc.html`.
+**Fase 5 — proveedores, compras y clientes**, en la OTRA PC. Al llegar: si es la primera vez, `traspaso/instalar.ps1`;
+si no, `traspaso/actualizar.ps1`. Luego:
+1. Mostrar al usuario el plan de la Fase 5 y preguntar las decisiones importantes (como en las Fases 3 y 4).
+2. Proveedores (CRUD, productos por proveedor), compras/órdenes de compra con recepción de mercadería (entra al
+   stock con `services/stock.py`: lotes, costo promedio, kardex ENTRADA_COMPRA; anulación), pagos a proveedores.
+3. Clientes completos (ya existen `/clientes/buscar` y alta rápida) y cobranza del fiado: abonos (`Abono`, el
+   efectivo entra a la caja abierta; `caja.totales` ya suma abonos en efectivo) y estado de cuenta.
+4. Pedido del usuario: productos de prueba **con fotos descargadas de internet** (todo de prueba), convertidas a
+   WEBP con `services/imagenes.py`.
+5. Pruebas pytest (compras, abonos, concurrencia), capturas, commit y `traspaso/guardar.ps1`.
