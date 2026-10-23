@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Bodega · Inicio en celular</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;padding:16px;box-sizing:border-box}
+.lbl{font-size:12px;color:#5b6475;font-weight:500}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#8a93a6;text-decoration:none;flex:1}
+.tab svg{width:22px;height:22px}
+</style>
+</helmet>
+<div style="width:390px;height:844px;display:flex;flex-direction:column;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <header style="background:#14213d;color:#fff;padding:18px 18px 70px;border-radius:0 0 28px 28px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:34px;height:34px;border-radius:10px;background:#ffc300;display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/></svg>
+      </div>
+      <div style="line-height:1.2"><div style="font-weight:800;font-size:15px">Minimarket</div><div style="font-size:12px;color:#ffc300;font-weight:600">Sucursal Principal</div></div>
+      <div style="margin-left:auto;width:34px;height:34px;border-radius:10px;background:#1d2d52;display:grid;place-items:center;font-weight:800;font-size:12px;color:#ffc300">AQ</div>
+    </div>
+    <div style="margin-top:22px;font-size:13px;color:#aab4cf">Ventas de hoy</div>
+    <div class="num" style="font-size:36px;font-weight:800;letter-spacing:-0.03em">S/ 4,812.50</div>
+    <span style="display:inline-block;margin-top:6px;font-size:12px;background:#ffc300;color:#14213d;padding:3px 9px;border-radius:20px;font-weight:700">+12% vs jueves pasado</span>
+  </header>
+
+  <main style="flex:1;padding:0 16px;margin-top:-50px;display:flex;flex-direction:column;gap:12px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+      <div class="card"><div class="lbl">Tickets</div><div class="num" style="font-size:24px;font-weight:800">87</div></div>
+      <div class="card"><div class="lbl">Ticket promedio</div><div class="num" style="font-size:24px;font-weight:800">S/ 55.32</div></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">Ventas por hora</b><span class="lbl">8 – 20 h</span></div>
+      <div style="display:flex;align-items:flex-end;gap:5px;height:90px;margin-top:14px">
+        <div style="flex:1;height:18px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:38px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:46px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:62px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:90px;background:#14213d;border-radius:4px 4px 0 0"></div><div style="flex:1;height:80px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:56px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:43px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:49px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:66px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:77px;background:#ffc300;border-radius:4px 4px 0 0"></div><div style="flex:1;height:58px;background:#dfe4f0;border-radius:4px 4px 0 0"></div><div style="flex:1;height:28px;background:#dfe4f0;border-radius:4px 4px 0 0"></div>
+      </div>
+    </div>
+    <div class="card" style="background:#fff7e0">
+      <b style="font-size:15px">Atención hoy</b>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14px"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Aceite Primor 1 L<span class="lbl" style="margin-left:auto">quedan 3</span></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px;font-size:14px"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Azúcar rubia 1 kg<span class="lbl" style="margin-left:auto">quedan 5</span></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px;font-size:14px"><span style="width:8px;height:8px;border-radius:9px;background:#e8a400"></span>Yogurt Gloria 1 L<span class="lbl" style="margin-left:auto">vence en 2 días</span></div>
+    </div>
+  </main>
+
+  <nav style="height:72px;background:#fff;display:flex;align-items:center;padding:0 8px;border-top:1px solid #eef0f4;position:relative">
+    <a class="tab" href="#" style="color:#14213d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Inicio</a>
+    <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Stock</a>
+    <a class="tab" href="#" aria-label="Nueva venta" style="flex:none;margin-top:-34px"><span style="width:58px;height:58px;border-radius:18px;background:#ffc300;display:grid;place-items:center;box-shadow:0 8px 18px rgba(255,195,0,.45)"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#14213d" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></a>
+    <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>Caja</a>
+    <a class="tab" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Más</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

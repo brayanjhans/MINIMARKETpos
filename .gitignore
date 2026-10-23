@@ -1,0 +1,33 @@
+# Entornos y secretos
+.env
+*.env.local
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Capturas y archivos de trabajo de taste-skill (se conservan solo las notas y la dirección elegida)
+.taste-skill/*
+!.taste-skill/notas.md
+!.taste-skill/direction.json
+
+# Claude Code: configuración local de cada PC
+.claude/settings.local.json
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Estilo "Bodega" (aprobado por el usuario, bocetos en diseno/bodega/):
+ * menú azul noche, amarillo para la acción principal y el ítem activo, fondo gris claro,
+ * tarjetas blancas redondeadas y colores pastel para categorías, roles y tipos de evento.
+ */
+:root {
+  --radius: 12px;
+
+  /* Marca */
+  --navy: #14213d;
+  --navy-2: #1d2d52;
+  --navy-ink: #aab4cf;
+  --amarillo: #ffc300;
+  --amarillo-suave: #fff3cc;
+  --amarillo-tinta: #8a6700;
+  --aviso-fondo: #fff7e0;
+
+  /* Superficies y texto */
+  --background: #f3f4f8;
+  --foreground: #14213d;
+  --card: #ffffff;
+  --card-foreground: #14213d;
+  --popover: #ffffff;
+  --popover-foreground: #14213d;
+  --muted: #f3f4f8;
+  --muted-foreground: #5b6475;
+  --accent: #eef1f7;
+  --accent-foreground: #14213d;
+  --cabecera-tabla: #f7f8fb;
+
+  /* Acciones */
+  --primary: #ffc300;
+  --primary-foreground: #14213d;
+  --secondary: #14213d;
+  --secondary-foreground: #ffffff;
+  --destructive: #d6453a;
+  --destructive-foreground: #ffffff;
+
+  /* Líneas */
+  --border: #e6e9f0;
+  --rule: #eef0f4;
+  --input: #dfe3ec;
+  --ring: #2f5bd3;
+
+  /* Estados */
+  --positive: #1f9d55;
+  --warning: #e8a400;
+  --pill-positive-bg: #e3f6ea;
+  --pill-positive-ink: #13703b;
+  --pill-negative-bg: #ffe4e1;
+  --pill-negative-ink: #b23a2f;
+  --pill-warning-bg: #fff3cc;
+  --pill-warning-ink: #8a6700;
+  --pill-neutral-bg: #eef0f4;
+  --pill-neutral-ink: #4a5263;
+
+  /* Pasteles para categorías, roles y eventos (fondo / tinta) */
+  --p-amarillo: #fff3cc;   --p-amarillo-t: #8a6700;
+  --p-azul: #e4ecff;       --p-azul-t: #2f5bd3;
+  --p-coral: #ffe4e1;      --p-coral-t: #c2412f;
+  --p-agua: #e0f7f4;       --p-agua-t: #0f7d70;
+  --p-lila: #f3e8ff;       --p-lila-t: #6b3fa0;
+  --p-naranja: #ffe9d6;    --p-naranja-t: #b55a00;
+  --p-verde: #e3f6ea;      --p-verde-t: #13703b;
+
+  --sidebar: #14213d;
+  --sidebar-foreground: #aab4cf;
+  --sidebar-border: #1d2d52;
+
+  --chart-1: #14213d;
+  --chart-2: #ffc300;
+  --chart-3: #dfe4f0;
+}
+
+.dark {
+  --navy: #0a1020;
+  --navy-2: #18233f;
+  --navy-ink: #9aa6c2;
+  --amarillo-suave: #3a3214;
+  --amarillo-tinta: #ffd75e;
+  --aviso-fondo: #2a2412;
+
+  --background: #0d1322;
+  --foreground: #e8ecf5;
+  --card: #161f35;
+  --card-foreground: #e8ecf5;
+  --popover: #1a2440;
+  --popover-foreground: #e8ecf5;
+  --muted: #1a2440;
+  --muted-foreground: #9aa6c2;
+  --accent: #1f2a48;
+  --accent-foreground: #e8ecf5;
+  --cabecera-tabla: #1a2440;
+
+  --primary: #ffc300;
+  --primary-foreground: #14213d;
+  --secondary: #e8ecf5;
+  --secondary-foreground: #14213d;
+  --destructive: #f07167;
+  --destructive-foreground: #14213d;
+
+  --border: #24304d;
+  --rule: #1f2a46;
+  --input: #2c3a5c;
+  --ring: #7fa4ff;
+
+  --positive: #4cc985;
+  --warning: #ffcf4d;
+  --pill-positive-bg: #163526;
+  --pill-positive-ink: #6fe0a2;
+  --pill-negative-bg: #3a1d1f;
+  --pill-negative-ink: #ff9d94;
+  --pill-warning-bg: #3a3214;
+  --pill-warning-ink: #ffd75e;
+  --pill-neutral-bg: #232e4c;
+  --pill-neutral-ink: #c3cbe0;
+
+  --p-amarillo: #3a3214;   --p-amarillo-t: #ffd75e;
+  --p-azul: #1c2b55;       --p-azul-t: #8fb0ff;
+  --p-coral: #3a1f22;      --p-coral-t: #ff9d94;
+  --p-agua: #123532;       --p-agua-t: #5fd6c6;
+  --p-lila: #2c1f45;       --p-lila-t: #c9a6ff;
+  --p-naranja: #3a2814;    --p-naranja-t: #ffb36b;
+  --p-verde: #163526;      --p-verde-t: #6fe0a2;
+
+  --sidebar: #0a1020;
+  --sidebar-foreground: #9aa6c2;
+  --sidebar-border: #18233f;
+
+  --chart-1: #e8ecf5;
+  --chart-2: #ffc300;
+  --chart-3: #2c3a5c;
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
+  --radius-2xl: 24px;
+
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-navy-ink: var(--navy-ink);
+  --color-amarillo: var(--amarillo);
+  --color-amarillo-suave: var(--amarillo-suave);
+  --color-amarillo-tinta: var(--amarillo-tinta);
+  --color-aviso-fondo: var(--aviso-fondo);
+  --color-cabecera-tabla: var(--cabecera-tabla);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-positive: var(--positive);
+  --color-warning: var(--warning);
+  --color-pill-positive-bg: var(--pill-positive-bg);
+  --color-pill-positive-ink: var(--pill-positive-ink);
+  --color-pill-negative-bg: var(--pill-negative-bg);
+  --color-pill-negative-ink: var(--pill-negative-ink);
+  --color-pill-warning-bg: var(--pill-warning-bg);
+  --color-pill-warning-ink: var(--pill-warning-ink);
+  --color-pill-neutral-bg: var(--pill-neutral-bg);
+  --color-pill-neutral-ink: var(--pill-neutral-ink);
+
+  --color-p-amarillo: var(--p-amarillo);
+  --color-p-amarillo-t: var(--p-amarillo-t);
+  --color-p-azul: var(--p-azul);
+  --color-p-azul-t: var(--p-azul-t);
+  --color-p-coral: var(--p-coral);
+  --color-p-coral-t: var(--p-coral-t);
+  --color-p-agua: var(--p-agua);
+  --color-p-agua-t: var(--p-agua-t);
+  --color-p-lila: var(--p-lila);
+  --color-p-lila-t: var(--p-lila-t);
+  --color-p-naranja: var(--p-naranja);
+  --color-p-naranja-t: var(--p-naranja-t);
+  --color-p-verde: var(--p-verde);
+  --color-p-verde-t: var(--p-verde-t);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  /* Montos y cantidades: cifras de ancho fijo para que las columnas cuadren */
+  .cifra,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* En "components" (menos prioridad que las utilidades) para que bg-navy u otro fondo la sobrescriban */
+@layer components {
+  .tarjeta {
+    background: var(--card);
+    border-radius: 18px;
+  }
+}
+
+@layer utilities {
+  .scrollbar-fino {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

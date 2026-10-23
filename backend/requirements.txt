@@ -1,0 +1,30 @@
+# --- Núcleo web ---
+fastapi>=0.120,<1.0
+uvicorn[standard]>=0.38
+python-multipart>=0.0.20
+
+# --- Base de datos ---
+sqlalchemy[asyncio]>=2.0.44,<2.1
+aiomysql>=0.2
+cryptography>=46.0  # autenticación caching_sha2_password de MySQL 8
+alembic>=1.17
+
+# --- Validación y configuración ---
+pydantic>=2.12,<3.0
+pydantic-settings>=2.11
+email-validator>=2.3
+tzdata>=2025.2  # zona horaria America/Lima en Windows
+
+# --- Seguridad ---
+bcrypt>=5.0
+pyjwt>=2.10
+
+# --- Utilidades (Excel / PDF / tareas programadas) ---
+openpyxl>=3.1
+reportlab>=4.4
+apscheduler>=3.11,<4.0
+
+# --- Tests ---
+pytest>=8.4
+pytest-asyncio>=1.2
+httpx>=0.28

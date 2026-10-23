@@ -1,0 +1,58 @@
+Vamos a desarrollar un SISTEMA WEB INTERNO para un MINIMARKET (POS, inventario y administración).
+NO incluye tienda online para clientes. Prioridades: que sea MUY RÁPIDO, ROBUSTO y con un DISEÑO MODERNO Y CUIDADO.
+
+## STACK (obligatorio)
+- Backend: FastAPI (Python 3.12+), SQLAlchemy 2.0 (async), Pydantic v2, Alembic, PostgreSQL, JWT para autenticación.
+- Frontend: Next.js (App Router) + TypeScript + Tailwind CSS + shadcn/ui + Framer Motion + Recharts + Lucide icons. NO usar Vite.
+- Estado en el frontend: Zustand. Peticiones: TanStack Query.
+- Despliegue: Docker + docker-compose (backend, frontend, postgres).
+
+## ESTRUCTURA
+Ya existe la estructura de carpetas en /minimarket (backend/ y frontend/ separados, con archivos vacíos).
+RESPÉTALA. Si necesitas agregar archivos, sigue la misma organización.
+- backend/app: core/, models/, schemas/, routers/, services/, dependencies/, jobs/, utils/
+- frontend/src: app/(auth)/login, app/(sistema)/[módulos], components/, services/, hooks/, store/, types/, lib/
+
+## MÓDULOS Y FUNCIONALIDADES
+1. Auth y usuarios: login con JWT + refresh token, roles (Administrador, Cajero, Almacenero), permisos por módulo, auditoría de acciones.
+2. Productos y categorías: CRUD, código de barras, precio de costo y de venta, unidad de medida, imagen, búsqueda por nombre o código, importar/exportar Excel.
+3. Inventario: stock en tiempo real, stock mínimo con alertas, lotes con fecha de vencimiento y alerta de productos por vencer, kardex (entradas/salidas/ajustes), ajustes por merma, inventario físico.
+4. POS (punto de venta): pantalla de venta ultrarrápida, lector de código de barras USB, búsqueda instantánea, atajos de teclado (F2 buscar, F4 cobrar, etc.), descuentos, pagos en efectivo (con cálculo del vuelto), tarjeta, Yape/Plin y pago mixto, venta al fiado, impresión de ticket en impresora térmica, anulaciones solo con permiso.
+5. Caja: apertura con monto inicial, ingresos y egresos, cierre con arqueo (esperado vs. contado), historial por cajero. No se puede vender sin caja abierta.
+6. Proveedores y compras: registro de proveedores, órdenes de compra, recepción de mercadería que actualiza el stock, cuentas por pagar.
+7. Clientes: registro (DNI/RUC), historial de compras, cuentas por cobrar (fiado) y abonos.
+8. Reportes y dashboard: ventas del día, ticket promedio, productos más vendidos, productos sin movimiento, ganancias (venta - costo), ventas por cajero/método de pago/categoría, exportar a PDF y Excel, gráficos.
+9. Configuración: datos de la empresa (RUC, logo, dirección), IGV, series de comprobantes, impresoras.
+
+## REGLAS DE ROBUSTEZ (muy importante)
+- Toda venta, compra y ajuste de stock dentro de una TRANSACCIÓN de base de datos (si algo falla, se revierte todo).
+- Evitar condiciones de carrera en el stock (bloqueo de filas con SELECT ... FOR UPDATE).
+- Validar TODO en el backend (precios, stock, permisos); nunca confiar en el frontend.
+- Índices en código de barras, nombre de producto y fechas.
+- Manejo centralizado de errores con mensajes claros en español.
+- Contraseñas con bcrypt, variables sensibles en .env.
+- Tests con pytest para ventas, caja e inventario.
+- Paginación en todos los listados.
+
+## DISEÑO DEL FRONTEND
+- Diseño moderno, limpio y profesional, tipo dashboard SaaS.
+- Modo claro y oscuro.
+- Menú lateral colapsable con iconos y barra superior con usuario y caja activa.
+- Animaciones suaves con Framer Motion (sin exagerar, que no ralenticen).
+- El POS debe estar optimizado para trabajar SOLO CON TECLADO y lector de códigos, con botones grandes y legibles.
+- Responsive: PC de caja, tablet y celular.
+- Tablas con búsqueda, filtros y ordenamiento. Notificaciones tipo toast. Estados de carga con skeletons.
+- Todo el texto de la interfaz en ESPAÑOL. Moneda: soles (S/).
+
+## FORMA DE TRABAJO
+Trabaja POR FASES y DETENTE al final de cada fase para que yo revise antes de continuar:
+- Fase 1: docker-compose, configuración del backend, conexión a BD, modelos, migraciones Alembic y datos iniciales (usuario admin de prueba, roles, categorías).
+- Fase 2: autenticación, usuarios, roles y permisos (backend + login y layout del frontend).
+- Fase 3: productos, categorías e inventario.
+- Fase 4: POS y caja.
+- Fase 5: proveedores, compras y clientes.
+- Fase 6: reportes, dashboard y configuración.
+- Fase 7: tests, revisión de rendimiento y documentación (README con cómo instalar y ejecutar).
+
+Antes de empezar, revisa la estructura existente y muéstrame tu plan para la Fase 1.
+Código limpio, tipado, comentado en español solo donde haga falta.

@@ -1,0 +1,11 @@
+# Finales de línea LF en el repositorio (Docker y Linux los necesitan así)
+* text=auto eol=lf
+
+# Binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary

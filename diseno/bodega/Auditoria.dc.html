@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Bodega · Auditoría</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:14px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.chip{height:34px;display:inline-flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;background:#fff;font-size:13px;font-weight:600}
+.ev{display:grid;grid-template-columns:56px 36px 1fr auto;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid #eef0f4;font-size:14px}
+.ico{width:36px;height:36px;border-radius:11px;display:grid;place-items:center}
+.ico svg{width:17px;height:17px}
+.who{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.mini{width:22px;height:22px;border-radius:7px;display:inline-grid;place-items:center;font-size:10px;font-weight:800}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:22px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 14px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">TIENDA</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Inicio</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Punto de venta</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>Reportes</a>
+    <div class="grp">ADMINISTRACIÓN</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/></svg>Usuarios</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Roles y permisos</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>Auditoría</a>
+  </aside>
+
+  <main style="flex:1;padding:22px 28px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;min-width:0">
+    <header style="display:flex;align-items:center;gap:14px">
+      <div><h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.02em">Auditoría</h1><div style="font-size:14px;color:#5b6475">Quién hizo qué, y cuándo</div></div>
+      <span class="chip" style="margin-left:auto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Hoy, 22 oct</span>
+      <a href="#" style="display:flex;align-items:center;gap:8px;background:#14213d;color:#fff;font-weight:700;font-size:14px;height:38px;padding:0 16px;border-radius:12px;text-decoration:none">Exportar Excel</a>
+    </header>
+
+    <div style="display:flex;gap:8px">
+      <span class="chip" style="background:#14213d;color:#fff">Todo</span>
+      <span class="chip"><span style="width:8px;height:8px;border-radius:9px;background:#1f9d55"></span>Ingresos</span>
+      <span class="chip"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Fallos y bloqueos 2</span>
+      <span class="chip"><span style="width:8px;height:8px;border-radius:9px;background:#2f5bd3"></span>Usuarios</span>
+      <span class="chip"><span style="width:8px;height:8px;border-radius:9px;background:#e8a400"></span>Roles y permisos</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:16px;flex:1;min-height:0">
+      <section class="card" style="overflow:hidden">
+        <div style="padding:14px 18px;font-weight:800;font-size:15px">Hoy</div>
+        <div class="ev"><span class="num" style="color:#5b6475">13:41</span><span class="ico" style="background:#ffe4e1;color:#d6453a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span><div><span class="who"><span class="mini" style="background:#ffe4e1;color:#c2412f">JP</span>Jorge Paredes</span> quedó <b style="color:#d6453a">bloqueado 15 min</b> tras 5 intentos</div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.24</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">13:38</span><span class="ico" style="background:#ffe4e1;color:#d6453a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><span class="who"><span class="mini" style="background:#ffe4e1;color:#c2412f">JP</span>Jorge Paredes</span> ingresó una contraseña incorrecta</div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.24</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">13:02</span><span class="ico" style="background:#e3f6ea;color:#1f9d55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4v18h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span><div><span class="who"><span class="mini" style="background:#fff3cc;color:#8a6700">RM</span>Rosa Mamani</span> ingresó en <b>Sucursal Sur</b></div><span class="num" style="font-size:12px;color:#8a93a6">192.168.2.11</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">11:20</span><span class="ico" style="background:#fff3cc;color:#b38600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><div><span class="who"><span class="mini" style="background:#14213d;color:#ffc300">CT</span>Carlos Torres</span> dio al rol <b>Cajero</b>: descuentos y devoluciones</div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.10</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">10:05</span><span class="ico" style="background:#e4ecff;color:#2f5bd3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M19 8v6M16 11h6"/></svg></span><div><span class="who"><span class="mini" style="background:#14213d;color:#ffc300">CT</span>Carlos Torres</span> creó el usuario <b>Rosa Mamani</b> (Cajera)</div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.10</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">09:15</span><span class="ico" style="background:#e3f6ea;color:#1f9d55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4v18h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span><div><span class="who"><span class="mini" style="background:#e4ecff;color:#2f5bd3">LH</span>Luis Huamán</span> ingresó en <b>Sucursal Principal</b></div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.31</span></div>
+        <div class="ev"><span class="num" style="color:#5b6475">07:58</span><span class="ico" style="background:#e3f6ea;color:#1f9d55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 3h4v18h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span><div><span class="who"><span class="mini" style="background:#fff3cc;color:#8a6700">AQ</span>Ana Quispe</span> ingresó en <b>Sucursal Principal</b></div><span class="num" style="font-size:12px;color:#8a93a6">192.168.1.22</span></div>
+      </section>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card" style="padding:18px;background:#14213d;color:#fff">
+          <div style="font-size:13px;color:#aab4cf">Eventos de hoy</div>
+          <div class="num" style="font-size:34px;font-weight:800">7</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13px">
+            <div style="display:flex;justify-content:space-between"><span>Ingresos</span><b class="num">3</b></div>
+            <div style="display:flex;justify-content:space-between;color:#ffb3aa"><span>Fallos y bloqueos</span><b class="num">2</b></div>
+            <div style="display:flex;justify-content:space-between"><span>Cambios de administración</span><b class="num">2</b></div>
+          </div>
+        </div>
+        <div class="card" style="padding:18px;background:#fff7e0">
+          <div style="font-weight:800;font-size:15px">Para revisar</div>
+          <p style="margin:8px 0 12px;font-size:13px;line-height:1.5;color:#5b6475">Jorge Paredes intentó ingresar 5 veces seguidas desde la caja 1. Puede ser un olvido o alguien probando su clave.</p>
+          <a href="#" style="display:inline-flex;height:36px;align-items:center;padding:0 14px;border-radius:10px;background:#ffc300;font-weight:700;font-size:13px;text-decoration:none">Ver usuario</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

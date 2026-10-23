@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Bodega · Punto de venta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.num{font-variant-numeric:tabular-nums}
+.kbd{display:inline-grid;place-items:center;min-width:26px;height:22px;padding:0 6px;border-radius:6px;background:#1d2d52;color:#ffc300;font-size:11px;font-weight:800;box-sizing:border-box}
+.cat{height:36px;padding:0 14px;border-radius:10px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px;border:0;font-family:inherit}
+.tile{background:#fff;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;border:2px solid transparent;font-family:inherit;text-align:left;color:#14213d}
+.tile-ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:13px}
+.item{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid #eef0f4}
+.qty{display:flex;align-items:center;gap:8px;background:#f3f4f8;border-radius:10px;padding:3px}
+.qbtn{width:26px;height:26px;border-radius:8px;border:0;background:#fff;color:#14213d;font-weight:800;font-family:inherit}
+.pay{height:58px;border-radius:14px;border:2px solid #dfe3ec;background:#fff;font-family:inherit;font-weight:700;font-size:13px;color:#14213d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;flex-direction:column;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+
+  <!-- Barra de caja -->
+  <header style="height:60px;background:#14213d;color:#fff;display:flex;align-items:center;gap:16px;padding:0 22px;flex:none">
+    <div style="width:36px;height:36px;border-radius:10px;background:#ffc300;display:grid;place-items:center">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/></svg>
+    </div>
+    <div style="font-weight:800;font-size:16px">Punto de venta</div>
+    <span style="background:#1d2d52;border-radius:20px;padding:5px 12px;font-size:13px;color:#c3cbe0"><b style="color:#ffc300">●</b> Caja 1 · abierta 08:00</span>
+    <span style="font-size:13px;color:#aab4cf">Ticket <b class="num" style="color:#fff">T001-00000125</b></span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#aab4cf">
+      <span><span class="kbd">F2</span> Buscar</span><span><span class="kbd">F4</span> Cobrar</span><span><span class="kbd">F6</span> Cliente</span><span><span class="kbd">F8</span> En espera</span><span><span class="kbd">Esc</span> Salir</span>
+    </div>
+    <div style="width:36px;height:36px;border-radius:10px;background:#ffc300;color:#14213d;display:grid;place-items:center;font-weight:800;font-size:13px">AQ</div>
+  </header>
+
+  <div style="flex:1;display:flex;gap:18px;padding:18px;min-height:0">
+    <!-- Productos -->
+    <section style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0">
+      <label style="display:flex;align-items:center;gap:12px;background:#fff;border:2.5px solid #ffc300;border-radius:16px;height:62px;padding:0 18px">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#14213d" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5v14M6 5v14M10 5v14M13 5v14M17 5v14M21 5v14"/></svg>
+        <input aria-label="Buscar producto o escanear código" placeholder="Escanea el código o escribe el producto…" style="flex:1;border:0;outline:0;font:inherit;font-size:18px;font-weight:600;background:transparent;color:#14213d">
+        <span class="kbd" style="height:28px;min-width:34px;font-size:12px">F2</span>
+      </label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="cat" style="background:#14213d;color:#ffc300">Todos</button>
+        <button type="button" class="cat" style="background:#fff3cc;color:#8a6700">Bebidas</button>
+        <button type="button" class="cat" style="background:#e4ecff;color:#2f5bd3">Lácteos</button>
+        <button type="button" class="cat" style="background:#ffe9d6;color:#b55a00">Abarrotes</button>
+        <button type="button" class="cat" style="background:#ffe4e1;color:#c2412f">Snacks</button>
+        <button type="button" class="cat" style="background:#e0f7f4;color:#0f7d70">Limpieza</button>
+        <button type="button" class="cat" style="background:#f3e8ff;color:#6b3fa0">Panadería</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;flex:1;align-content:start">
+        <button type="button" class="tile" style="border-color:#ffc300"><div class="tile-ico" style="background:#fff3cc;color:#8a6700">IK</div><div style="font-weight:700;font-size:14px">Inca Kola 1.5 L</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 6.50</b><span style="font-size:12px;color:#5b6475">48 und</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#e4ecff;color:#2f5bd3">LG</div><div style="font-weight:700;font-size:14px">Leche Gloria 400 g</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 4.20</b><span style="font-size:12px;color:#5b6475">96 und</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#ffe9d6;color:#b55a00">AC</div><div style="font-weight:700;font-size:14px">Arroz Costeño 1 kg</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 4.90</b><span style="font-size:12px;color:#5b6475">33 und</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#f3e8ff;color:#6b3fa0">PF</div><div style="font-weight:700;font-size:14px">Pan francés</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 0.30</b><span style="font-size:12px;color:#5b6475">180 und</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#fff3cc;color:#8a6700">CP</div><div style="font-weight:700;font-size:14px">Cerveza Pilsen 355 ml</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 4.50</b><span style="font-size:12px;color:#5b6475">Six pack S/ 25</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#ffe4e1;color:#c2412f">PL</div><div style="font-weight:700;font-size:14px">Papas Lay's 42 g</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 2.00</b><span style="font-size:12px;color:#5b6475">64 und</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#ffe9d6;color:#b55a00">AP</div><div style="font-weight:700;font-size:14px">Aceite Primor 1 L</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 11.90</b><span style="font-size:12px;color:#d6453a;font-weight:700">Quedan 3</span></div></button>
+        <button type="button" class="tile"><div class="tile-ico" style="background:#e0f7f4;color:#0f7d70">BO</div><div style="font-weight:700;font-size:14px">Bolsa plástica</div><div style="display:flex;justify-content:space-between;width:100%"><b class="num" style="font-size:16px">S/ 0.00</b><span style="font-size:12px;color:#5b6475">+ ICBPER 0.50</span></div></button>
+      </div>
+    </section>
+
+    <!-- Carrito -->
+    <section style="width:420px;background:#fff;border-radius:20px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h2 style="margin:0;font-size:18px;font-weight:800">Venta actual</h2>
+        <span style="font-size:13px;color:#5b6475;display:flex;align-items:center;gap:6px">Cliente: <b style="color:#14213d">Varios</b> <span class="kbd">F6</span></span>
+      </div>
+      <div style="margin-top:8px;flex:1">
+        <div class="item"><div><div style="font-weight:700;font-size:14px">Leche Gloria 400 g</div><div class="num" style="font-size:12px;color:#5b6475">S/ 4.20 c/u</div></div><div class="qty"><button type="button" class="qbtn">−</button><b class="num">2</b><button type="button" class="qbtn">+</button></div><b class="num" style="width:62px;text-align:right">8.40</b></div>
+        <div class="item"><div><div style="font-weight:700;font-size:14px">Arroz Costeño 1 kg</div><div class="num" style="font-size:12px;color:#5b6475">S/ 4.90 c/u</div></div><div class="qty"><button type="button" class="qbtn">−</button><b class="num">1</b><button type="button" class="qbtn">+</button></div><b class="num" style="width:62px;text-align:right">4.90</b></div>
+        <div class="item" style="background:#fff7e0;margin:0 -10px;padding:12px 10px;border-radius:12px;border-top-color:transparent"><div><div style="font-weight:700;font-size:14px">Inca Kola 1.5 L</div><div class="num" style="font-size:12px;color:#8a6700;font-weight:600">recién escaneado</div></div><div class="qty" style="background:#fff"><button type="button" class="qbtn" style="background:#f3f4f8">−</button><b class="num">1</b><button type="button" class="qbtn" style="background:#f3f4f8">+</button></div><b class="num" style="width:62px;text-align:right">6.50</b></div>
+        <div class="item"><div><div style="font-weight:700;font-size:14px">Pan francés</div><div class="num" style="font-size:12px;color:#5b6475">S/ 0.30 c/u</div></div><div class="qty"><button type="button" class="qbtn">−</button><b class="num">10</b><button type="button" class="qbtn">+</button></div><b class="num" style="width:62px;text-align:right">3.00</b></div>
+        <div class="item"><div><div style="font-weight:700;font-size:14px">Bolsa plástica</div><div class="num" style="font-size:12px;color:#5b6475">ICBPER S/ 0.50</div></div><div class="qty"><button type="button" class="qbtn">−</button><b class="num">1</b><button type="button" class="qbtn">+</button></div><b class="num" style="width:62px;text-align:right">0.50</b></div>
+      </div>
+      <div class="num" style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:#5b6475;padding:12px 0;border-top:1px dashed #dfe3ec">
+        <div style="display:flex;justify-content:space-between"><span>Op. gravada</span><span>19.32</span></div>
+        <div style="display:flex;justify-content:space-between"><span>IGV 18%</span><span>3.48</span></div>
+        <div style="display:flex;justify-content:space-between"><span>ICBPER</span><span>0.50</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px">
+        <button type="button" class="pay" style="border-color:#14213d;background:#14213d;color:#ffc300">Efectivo</button>
+        <button type="button" class="pay" style="color:#6b3fa0">Yape</button>
+        <button type="button" class="pay" style="color:#0f7d70">Plin</button>
+        <button type="button" class="pay" style="color:#2f5bd3">Tarjeta</button>
+      </div>
+      <button type="button" style="height:74px;border:0;border-radius:16px;background:#ffc300;color:#14213d;font-family:inherit;display:flex;align-items:center;justify-content:space-between;padding:0 22px">
+        <span style="text-align:left"><span style="display:block;font-weight:800;font-size:18px">Cobrar</span><span style="font-size:12px;font-weight:700;opacity:.75">5 productos · F4</span></span>
+        <span class="num" style="font-size:32px;font-weight:800;letter-spacing:-0.02em">S/ 23.30</span>
+      </button>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

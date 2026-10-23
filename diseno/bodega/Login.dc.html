@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Bodega · Ingreso</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.fact{display:flex;gap:14px;align-items:flex-start}
+.fact-ico{width:40px;height:40px;border-radius:12px;background:#1d2d52;display:grid;place-items:center;flex:none}
+.inp{height:48px;border-radius:12px;border:1.5px solid #dfe3ec;background:#fff;padding:0 14px;font:inherit;font-size:15px;color:#14213d;box-sizing:border-box;width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+
+  <!-- Panel de marca -->
+  <section style="width:600px;background:#14213d;color:#fff;padding:48px 56px;box-sizing:border-box;display:flex;flex-direction:column;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:#ffc300;opacity:.12"></div>
+    <div style="position:absolute;right:60px;bottom:-160px;width:300px;height:300px;border-radius:50%;border:44px solid #ffc300;opacity:.08"></div>
+    <div style="display:flex;align-items:center;gap:12px;position:relative">
+      <div style="width:46px;height:46px;border-radius:14px;background:#ffc300;display:grid;place-items:center">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg>
+      </div>
+      <div style="font-weight:800;font-size:22px;letter-spacing:-0.02em">Minimarket</div>
+    </div>
+    <h1 style="position:relative;margin:auto 0 0;font-size:46px;line-height:1.08;font-weight:800;letter-spacing:-0.035em">Vende rápido.<br><span style="color:#ffc300">Controla todo.</span></h1>
+    <p style="position:relative;margin:16px 0 34px;font-size:16px;line-height:1.55;color:#c3cbe0;max-width:420px">La caja, el inventario y la administración de tu minimarket en un solo lugar.</p>
+    <div style="position:relative;display:flex;flex-direction:column;gap:18px">
+      <div class="fact"><div class="fact-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffc300" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5v14M7 5v14M11 5v14M14 5v14M18 5v14M21 5v14"/></svg></div><div><div style="font-weight:700">Lector de códigos y atajos</div><div style="font-size:14px;color:#aab4cf">F2 buscar, F4 cobrar. Todo con el teclado.</div></div></div>
+      <div class="fact"><div class="fact-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffc300" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div><div><div style="font-weight:700">Stock en tiempo real</div><div style="font-size:14px;color:#aab4cf">Por sucursal, con lotes y fechas de vencimiento.</div></div></div>
+      <div class="fact"><div class="fact-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffc300" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div><div style="font-weight:700">Efectivo, Yape, Plin y tarjeta</div><div style="font-size:14px;color:#aab4cf">Con cálculo del vuelto y cierre de caja.</div></div></div>
+    </div>
+  </section>
+
+  <!-- Formulario -->
+  <section style="flex:1;background:#f3f4f8;display:flex;align-items:center;justify-content:center">
+    <form style="width:400px;background:#fff;border-radius:24px;padding:40px;box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+      <div>
+        <h2 style="margin:0;font-size:28px;font-weight:800;letter-spacing:-0.02em">Ingresar</h2>
+        <p style="margin:6px 0 0;color:#5b6475;font-size:15px">Usa tu usuario y contraseña de la tienda.</p>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Usuario
+        <input class="inp" value="ana.quispe" aria-label="Usuario">
+      </label>
+      <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Contraseña
+        <span style="position:relative;display:block">
+          <input class="inp" type="password" value="Clave2026" aria-label="Contraseña" style="padding-right:46px">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#8a93a6" stroke-width="2" style="position:absolute;right:14px;top:14px" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+      </label>
+      <div style="display:flex;align-items:center;gap:8px;background:#fff7e0;color:#8a6700;border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4"/></svg>Las mayúsculas están activadas
+      </div>
+      <button type="button" style="height:50px;border:0;border-radius:12px;background:#ffc300;color:#14213d;font:inherit;font-size:16px;font-weight:800">Ingresar</button>
+      <p style="margin:0;text-align:center;font-size:13px;color:#5b6475">¿Olvidaste tu contraseña? Pide una temporal al administrador.</p>
+    </form>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
