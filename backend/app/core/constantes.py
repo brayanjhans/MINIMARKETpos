@@ -215,6 +215,12 @@ PARAMETROS_SISTEMA: dict[str, tuple[object, str, str, str]] = {
     "clientes.dias_credito_defecto": (30, "ENTERO", "clientes", "Días de plazo por defecto para ventas al fiado"),
     "seguridad.max_intentos_login": (5, "ENTERO", "seguridad", "Intentos fallidos antes de bloquear el usuario"),
     "seguridad.minutos_bloqueo": (15, "ENTERO", "seguridad", "Minutos de bloqueo tras superar los intentos"),
+    "seguridad.max_intentos_ip": (
+        20, "ENTERO", "seguridad", "Ingresos fallidos permitidos desde un mismo equipo (IP) dentro de la ventana",
+    ),
+    "seguridad.minutos_ventana_ip": (
+        15, "ENTERO", "seguridad", "Minutos que se cuentan los ingresos fallidos de un mismo equipo (IP)",
+    ),
     "caja.denominaciones": (
         ["200", "100", "50", "20", "10", "5", "2", "1", "0.50", "0.20", "0.10"],
         "JSON",

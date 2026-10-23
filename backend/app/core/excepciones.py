@@ -45,6 +45,11 @@ class PermisoDenegado(ErrorNegocio):
     codigo = "permiso_denegado"
 
 
+class DemasiadosIntentos(ErrorNegocio):
+    status_code = status.HTTP_429_TOO_MANY_REQUESTS
+    codigo = "demasiados_intentos"
+
+
 class ValidacionNegocio(ErrorNegocio):
     status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
     codigo = "validacion"
@@ -133,6 +138,17 @@ _ERRORES_MYSQL: dict[int, tuple[int, str, str]] = {
 }
 
 
+# Códigos de MySQL que significan que no hay conexión (servidor caído, conexión perdida o rechazada)
+_ERRORES_CONEXION_MYSQL = {1040, 1045, 1053, 2002, 2003, 2005, 2006, 2013, 2055}
+
+
+def _es_error_de_conexion(exc: DBAPIError) -> bool:
+    if exc.connection_invalidated or isinstance(exc.orig, ConnectionError | OSError):
+        return True
+    args = getattr(exc.orig, "args", ())
+    return bool(args) and isinstance(args[0], int) and args[0] in _ERRORES_CONEXION_MYSQL
+
+
 def _clasificar_error_bd(exc: DBAPIError) -> tuple[int, str, str] | None:
     args = getattr(exc.orig, "args", ())
     if args and isinstance(args[0], int) and args[0] in _ERRORES_MYSQL:
@@ -177,11 +193,19 @@ def registrar_manejadores(app: FastAPI) -> None:
             logger.warning("Error de integridad: %s", exc.orig)
             status_code, mensaje, codigo = clasificado
             return _respuesta(status_code, mensaje, codigo)
+        if _es_error_de_conexion(exc):
+            logger.error("Sin conexión con la base de datos: %s", exc.orig)
+            return _respuesta(
+                status.HTTP_503_SERVICE_UNAVAILABLE,
+                "No se pudo conectar con la base de datos. Intente nuevamente en unos segundos.",
+                "base_de_datos_no_disponible",
+            )
+        # Error de programación o de datos inesperado: es un fallo del sistema, no de la red
         logger.exception("Error de base de datos", exc_info=exc)
         return _respuesta(
-            status.HTTP_503_SERVICE_UNAVAILABLE,
-            "Error de comunicación con la base de datos. Intente nuevamente.",
-            "base_de_datos",
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "Ocurrió un error interno al procesar la operación. Si se repite, contacte al administrador.",
+            "error_base_de_datos",
         )
 
     @app.exception_handler(Exception)

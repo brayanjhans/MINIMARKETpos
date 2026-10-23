@@ -5,12 +5,12 @@ from datetime import timedelta
 from functools import cache
 
 import jwt
-from sqlalchemy import delete, or_, select, update
+from sqlalchemy import delete, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.core.config import settings
-from app.core.excepciones import NoAutenticado, PermisoDenegado, ValidacionNegocio
+from app.core.excepciones import DemasiadosIntentos, NoAutenticado, PermisoDenegado, ValidacionNegocio
 from app.core.security import (
     crear_access_token,
     crear_refresh_token,
@@ -21,7 +21,7 @@ from app.core.security import (
     verify_password,
 )
 from app.dependencies.auth import ContextoUsuario, cargar_usuario
-from app.models import RefreshToken, Rol, Sucursal, Usuario
+from app.models import Auditoria, RefreshToken, Rol, Sucursal, Usuario
 from app.schemas.auth import CambiarPasswordEntrada, LoginEntrada, TokenRespuesta, UsuarioSesion
 from app.schemas.roles import RolResumen
 from app.schemas.sucursales import SucursalResumen
@@ -111,7 +111,31 @@ async def revocar_sesiones(
     await session.execute(consulta)
 
 
+async def _verificar_limite_ip(session: AsyncSession, ip: str | None) -> None:
+    """Frena a quien prueba contraseñas con muchos usuarios distintos desde el mismo equipo.
+
+    Cuenta los ingresos fallidos de la IP en la ventana (la auditoría ya los registra), así el límite
+    vale aunque el servidor tenga varios procesos y sobrevive a reinicios.
+    """
+    if not ip:
+        return
+    maximo = await parametros.obtener(session, "seguridad.max_intentos_ip")
+    minutos = await parametros.obtener(session, "seguridad.minutos_ventana_ip")
+    desde = ahora_utc() - timedelta(minutes=minutos)
+    fallidos = await session.scalar(
+        select(func.count(Auditoria.id)).where(
+            Auditoria.accion == "LOGIN_FALLIDO", Auditoria.ip == ip, Auditoria.creado_en >= desde
+        )
+    )
+    if fallidos >= maximo:
+        raise DemasiadosIntentos(
+            f"Demasiados intentos fallidos desde este equipo. Espere {minutos} minutos e intente de nuevo.",
+            codigo="limite_ip",
+        )
+
+
 async def login(session: AsyncSession, datos: LoginEntrada, ip: str | None, user_agent: str | None) -> ResultadoSesion:
+    await _verificar_limite_ip(session, ip)
     username = datos.username.strip().lower()
     usuario = await session.scalar(
         select(Usuario)

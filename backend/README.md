@@ -23,6 +23,7 @@ copy .env.example .env          # ajustar DATABASE_URL si es necesario
 
 - API: http://localhost:8010 · Documentación interactiva: http://localhost:8010/docs
 - Se usa el puerto 8010 (no 8000) para no chocar con otros proyectos de la PC.
-- Verificaciones: `$env:PYTHONPATH="."; .\.venv\Scripts\python scripts\verificar_fase2.py`
+- Pruebas: `.\.venv\Scripts\python -m pytest` (base aparte `minimarket_test`, creada una vez con
+  `CREATE DATABASE minimarket_test ...; GRANT ALL PRIVILEGES ON minimarket_test.* TO 'minimarket'@'localhost';`)
 - Usuario inicial: `admin` / `Admin123*` (configurable en `.env`)
 - Nueva migración tras cambiar modelos: `alembic revision --autogenerate -m "descripcion"`

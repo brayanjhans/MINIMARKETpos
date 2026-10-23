@@ -10,7 +10,11 @@ from app.models.base import FechaHora
 
 class Auditoria(Base):
     __tablename__ = "auditoria"
-    __table_args__ = (Index("ix_auditoria_modulo_fecha", "modulo", "creado_en"),)
+    __table_args__ = (
+        Index("ix_auditoria_modulo_fecha", "modulo", "creado_en"),
+        # Límite de ingresos fallidos por equipo: cuenta por IP en una ventana de tiempo
+        Index("ix_auditoria_ip_accion_fecha", "ip", "accion", "creado_en"),
+    )
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     usuario_id: Mapped[int | None] = mapped_column(

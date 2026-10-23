@@ -33,8 +33,9 @@
 - Migrar: `.venv\Scripts\alembic upgrade head` · Nueva migración: `.venv\Scripts\alembic revision --autogenerate -m "..."`
 - Datos iniciales: `.venv\Scripts\python -m app.seed` · API: `.venv\Scripts\uvicorn app.main:app --reload --port 8010`
 - Frontend (desde `frontend/`): `npm run dev` (puerto 3010) · Tipos: `npx tsc --noEmit` · Build: `npx next build`
-- Verificaciones (desde `backend/`, con `$env:PYTHONPATH="."`): `scripts\verificar_fase1.py`, `verificar_fase2.py`,
-  `verificar_frontend.py` (este último con ambos servidores levantados)
+- **Pruebas** (desde `backend/`): `.venv\Scripts\python -m pytest` — usan la base `minimarket_test`, que se
+  borra y recrea en cada corrida (nunca tocan `minimarket`). Correrlas antes de cada commit.
+- Prueba de punta a punta con los servidores levantados: `.venv\Scripts\python scripts\verificar_frontend.py`
 - Next 16: `src/proxy.ts` reemplaza a `middleware.ts`. shadcn genera `import { cn } from "cn"`: corregir a `@/lib/utils`.
 - Lint: `.venv\Scripts\ruff check app --select F,I,E,B,UP --line-length 120 --target-version py314`
 - En las migraciones de MySQL, el `downgrade` debe eliminar tablas sin `op.drop_index` previos.

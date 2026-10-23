@@ -106,10 +106,12 @@
 
 ### Cierre de Fase 2: robustez (en curso, 2026-10-23)
 - ✅ 1) Git: repositorio en https://github.com/brayanjhans/MINIMARKETpos (primer commit db3d235).
-- ⏳ 2) Pruebas pytest reales (pasar los scripts de `backend/scripts/` a `backend/tests/`).
-- ⏳ 3) Límite de intentos de login por IP.
-- ⏳ 4) No arrancar en producción con JWT_SECRET por defecto.
-- ⏳ 5) Mensajes de error de BD más precisos (ProgrammingError ≠ "error de comunicación").
+- ✅ 2) pytest: 38 pruebas en `backend/tests/` (auth, usuarios, roles, auditoría, integridad de BD, configuración)
+  sobre la base `minimarket_test` que se recrea en cada corrida. Se borraron los scripts verificar_fase1/2/resumenes.
+- ✅ 3) Límite por IP: cuenta LOGIN_FALLIDO de la IP en la auditoría (parámetros `seguridad.max_intentos_ip`=20 y
+  `seguridad.minutos_ventana_ip`=15) → 429 `limite_ip`. Migración con índice `ix_auditoria_ip_accion_fecha`.
+- ✅ 4) En producción no arranca si JWT_SECRET es el de ejemplo o < 32 caracteres, si COOKIE_SECURE=false o DEBUG=true.
+- ✅ 5) Errores de BD: solo los de conexión dan 503 "no se pudo conectar"; los demás 500 "error interno".
 - ⏳ 6) Frontend: página 404, pantalla de error y aviso cuando el backend está apagado.
 - ⏳ 7) Volver a correr `npx next build`.
 

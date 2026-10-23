@@ -1,8 +1,10 @@
 from functools import lru_cache
 from typing import Annotated, Literal
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+
+JWT_SECRET_EJEMPLO = "cambiar-esta-clave-en-produccion"
 
 
 class Settings(BaseSettings):
@@ -27,7 +29,7 @@ class Settings(BaseSettings):
     DB_ECHO: bool = False
 
     # Seguridad / JWT
-    JWT_SECRET: str = "cambiar-esta-clave-en-produccion"
+    JWT_SECRET: str = JWT_SECRET_EJEMPLO
     JWT_ALGORITMO: str = "HS256"
     ACCESS_TOKEN_MINUTOS: int = 30
     REFRESH_TOKEN_DIAS: int = 7
@@ -54,6 +56,25 @@ class Settings(BaseSettings):
         if isinstance(valor, str):
             return [o.strip() for o in valor.split(",") if o.strip()]
         return valor
+
+    @model_validator(mode="after")
+    def _exigir_configuracion_segura(self) -> Settings:
+        """En producción el sistema no arranca con valores de ejemplo: cualquiera podría falsificar sesiones."""
+        if self.ENTORNO != "produccion":
+            return self
+        problemas = []
+        if self.JWT_SECRET == JWT_SECRET_EJEMPLO or len(self.JWT_SECRET) < 32:
+            problemas.append(
+                "JWT_SECRET es el de ejemplo o tiene menos de 32 caracteres "
+                '(genere uno con: python -c "import secrets; print(secrets.token_urlsafe(64))")'
+            )
+        if not self.COOKIE_SECURE:
+            problemas.append("COOKIE_SECURE debe ser true (la cookie de sesión solo debe viajar por HTTPS)")
+        if self.DEBUG:
+            problemas.append("DEBUG debe ser false")
+        if problemas:
+            raise ValueError("Configuración insegura para producción:\n- " + "\n- ".join(problemas))
+        return self
 
     @property
     def es_produccion(self) -> bool:
