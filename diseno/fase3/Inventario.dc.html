@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Inventario</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 15px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#14213d;background:#fff}
+.btn svg{width:17px;height:17px}
+.tab{height:36px;display:inline-flex;align-items:center;gap:6px;padding:0 14px;border-radius:10px;font-size:13.5px;font-weight:600}
+.th{font-size:12px;color:#5b6475;font-weight:700;text-align:left;padding:10px 14px;background:#f7f8fb}
+.td{padding:9px 14px;border-top:1px solid #eef0f4;font-size:14px;vertical-align:middle}
+.lvl{height:6px;border-radius:9px;background:#eef0f4;width:110px}
+.lote{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #eef0f4;font-size:14px}
+.dias{width:46px;height:46px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;line-height:1.1}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div>
+        <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.02em">Inventario</h1>
+        <div style="font-size:14px;color:#5b6475">Almacén principal · Sucursal Principal <a href="#" style="font-weight:700;margin-left:4px">Cambiar</a></div>
+      </div>
+      <a class="btn" href="#" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"/></svg>Inventario físico</a>
+      <a class="btn" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 8h13l-4-4M20 16H7l4 4"/></svg>Transferir</a>
+      <a class="btn" href="#" style="background:#ffc300;font-weight:800"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Ajuste o merma</a>
+    </header>
+
+    <section style="display:grid;grid-template-columns:1.3fr repeat(3,minmax(0,1fr));gap:14px">
+      <div class="card" style="background:#14213d;color:#fff;padding:16px 18px"><div style="font-size:13px;color:#aab4cf">Valor del inventario (al costo)</div><div class="num" style="font-size:28px;font-weight:800;letter-spacing:-0.02em">S/ 18,452.30</div><div style="font-size:12px;color:#aab4cf">246 productos · 3,912 unidades</div></div>
+      <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">Stock bajo</div><div class="num" style="font-size:28px;font-weight:800;color:#d6453a">9</div><div style="font-size:12px;color:#5b6475">por debajo del mínimo</div></div>
+      <div class="card" style="padding:16px 18px;background:#fff7e0"><div style="font-size:13px;color:#8a6700;font-weight:600">Por vencer en 30 días</div><div class="num" style="font-size:28px;font-weight:800">4 lotes</div><div class="num" style="font-size:12px;color:#8a6700">S/ 186.40 en riesgo</div></div>
+      <div class="card" style="padding:16px 18px"><div style="font-size:13px;color:#5b6475">Mermas del mes</div><div class="num" style="font-size:28px;font-weight:800">S/ 74.80</div><div style="font-size:12px;color:#5b6475">6 ajustes registrados</div></div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;flex:1;min-height:0">
+      <section class="card" style="overflow:hidden">
+        <div style="display:flex;align-items:center;gap:6px;padding:12px 14px">
+          <span class="tab" style="background:#14213d;color:#fff;font-weight:700">Todo el stock</span>
+          <span class="tab" style="background:#ffe4e1;color:#b23a2f">Stock bajo <b class="num">9</b></span>
+          <span class="tab" style="background:#f3f4f8">Sin stock <b class="num">2</b></span>
+          <span class="tab" style="background:#f3f4f8;margin-left:auto">Últimos movimientos</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr><th class="th">Producto</th><th class="th" style="text-align:right">Stock</th><th class="th">Nivel</th><th class="th" style="text-align:right">Mínimo</th><th class="th" style="text-align:right">Valor</th><th class="th"><span style="position:absolute;left:-9999px">Acciones</span></th></tr></thead>
+          <tbody>
+            <tr style="background:#fff5f4"><td class="td"><b>Aceite Primor 1 L</b></td><td class="td num" style="text-align:right;color:#d6453a;font-weight:800">3</td><td class="td"><div class="lvl"><div style="width:25%;height:6px;border-radius:9px;background:#d6453a"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">12</td><td class="td num" style="text-align:right">S/ 28.20</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+            <tr style="background:#fff5f4"><td class="td"><b>Azúcar rubia 1 kg</b></td><td class="td num" style="text-align:right;color:#d6453a;font-weight:800">5</td><td class="td"><div class="lvl"><div style="width:25%;height:6px;border-radius:9px;background:#d6453a"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">20</td><td class="td num" style="text-align:right">S/ 18.50</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+            <tr><td class="td"><b>Inca Kola 1.5 L</b></td><td class="td num" style="text-align:right;font-weight:800">48</td><td class="td"><div class="lvl"><div style="width:100%;height:6px;border-radius:9px;background:#1f9d55"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">24</td><td class="td num" style="text-align:right">S/ 230.40</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+            <tr><td class="td"><b>Leche Gloria 400 g</b></td><td class="td num" style="text-align:right;font-weight:800">96</td><td class="td"><div class="lvl"><div style="width:100%;height:6px;border-radius:9px;background:#1f9d55"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">48</td><td class="td num" style="text-align:right">S/ 316.80</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+            <tr><td class="td"><b>Arroz Costeño 1 kg</b></td><td class="td num" style="text-align:right;font-weight:800">33</td><td class="td"><div class="lvl"><div style="width:82%;height:6px;border-radius:9px;background:#e8a400"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">20</td><td class="td num" style="text-align:right">S/ 130.35</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+            <tr><td class="td"><b>Cerveza Pilsen 355 ml</b></td><td class="td num" style="text-align:right;font-weight:800">120</td><td class="td"><div class="lvl"><div style="width:100%;height:6px;border-radius:9px;background:#1f9d55"></div></div></td><td class="td num" style="text-align:right;color:#5b6475">48</td><td class="td num" style="text-align:right">S/ 384.00</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Kardex</a></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card" style="padding:16px 18px;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:16px;font-weight:800">Por vencer</h2><span style="font-size:12px;color:#5b6475">lo que vence primero, sale primero</span></div>
+        <div class="lote" style="margin-top:6px"><div class="dias" style="background:#ffe4e1;color:#b23a2f"><b class="num" style="font-size:17px">2</b><span style="font-size:10px;font-weight:700">días</span></div><div style="flex:1;min-width:0"><b>Yogurt Gloria fresa 1 L</b><div class="num" style="font-size:12px;color:#5b6475">Lote L-0921 · 6 und · S/ 30.60</div></div></div>
+        <div class="lote"><div class="dias" style="background:#ffe4e1;color:#b23a2f"><b class="num" style="font-size:17px">4</b><span style="font-size:10px;font-weight:700">días</span></div><div style="flex:1;min-width:0"><b>Jamón Braedt 200 g</b><div class="num" style="font-size:12px;color:#5b6475">Lote B-3310 · 5 und · S/ 41.50</div></div></div>
+        <div class="lote"><div class="dias" style="background:#fff3cc;color:#8a6700"><b class="num" style="font-size:17px">12</b><span style="font-size:10px;font-weight:700">días</span></div><div style="flex:1;min-width:0"><b>Queso fresco Laive 500 g</b><div class="num" style="font-size:12px;color:#5b6475">Lote Q-118 · 4 und · S/ 58.00</div></div></div>
+        <div class="lote"><div class="dias" style="background:#fff3cc;color:#8a6700"><b class="num" style="font-size:17px">25</b><span style="font-size:10px;font-weight:700">días</span></div><div style="flex:1;min-width:0"><b>Pan de molde Bimbo</b><div class="num" style="font-size:12px;color:#5b6475">Lote PM-77 · 8 und · S/ 56.30</div></div></div>
+        <a href="#" style="margin-top:auto;padding-top:10px;display:inline-flex;align-items:center;justify-content:center;height:38px;border-radius:10px;background:#fff7e0;color:#8a6700;font-weight:700;font-size:13px;text-decoration:none">Registrar como merma lo vencido</a>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

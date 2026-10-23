@@ -6,8 +6,8 @@
 | Fase | Descripción | Estado |
 |---|---|---|
 | 1 | Infraestructura, configuración, modelos, migraciones, seed | ✅ Completada y aprobada |
-| 2 | Autenticación, usuarios, roles y permisos (backend + login y layout frontend) | ✅ Completada — esperando revisión del usuario |
-| 3 | Productos, categorías e inventario | ⏳ Pendiente |
+| 2 | Autenticación, usuarios, roles y permisos (backend + login y layout frontend) | ✅ Completada y aprobada |
+| 3 | Productos, categorías e inventario | 🔄 En curso (bocetos) |
 | 4 | POS y caja | ⏳ Pendiente |
 | 5 | Proveedores, compras y clientes | ⏳ Pendiente |
 | 6 | Reportes, dashboard y configuración | ⏳ Pendiente |
@@ -117,9 +117,19 @@
   y un solo aviso (toast) para consultas que fallan por falta de conexión (`lib/api.ts`, `providers.tsx`).
 - ✅ 7) `npx next build` OK (18 rutas). e2e 11/11. pytest 38/38.
 
+## Fase 3 (en curso)
+- ✅ Bocetos en Claude Design (mismo lienzo, sección "Fase 3"; copias en `diseno/fase3/`): Productos (lista con
+  contadores, filtros por categoría, margen, stock bajo), Producto (datos, precio con ganancia calculada, IGV
+  gravado/exonerado/inafecto, ICBPER, presentaciones, stock mínimo, lotes, imagen, stock por almacén, historial de
+  precios), Categorías y marcas, Inventario (valor, stock bajo, por vencer, mermas del mes, lotes por vencer),
+  Kardex (saldo por movimiento), Nuevo ajuste/merma (motivos, lotes, pérdida total), Inventario físico (conteo con
+  escáner, diferencias y valor). Datos de ejemplo verificados (márgenes, valores y saldos cuadran).
+- ⏳ Esperando aprobación de los bocetos.
+
 ## Siguiente paso
-Que el usuario revise el sistema en http://localhost:3010 y apruebe el cierre de la Fase 2.
-Luego: **Fase 3 — productos, categorías, marcas e inventario**, con bocetos previos en Claude Design. Si lo aprueba:
+Que el usuario apruebe (o ajuste) los bocetos de la Fase 3. Luego implementar backend (servicios con
+SELECT ... FOR UPDATE para todo cambio de stock, kardex, costo promedio, importación/exportación Excel) + pruebas
+pytest de inventario, y después el frontend con el estilo Bodega. Si lo aprueba:
 **Fase 3 — productos, categorías, marcas e inventario** (stock por almacén, lotes, kardex, ajustes,
 transferencias, inventario físico, importar/exportar Excel), con el estilo Bodega y bocetos previos en
 Claude Design si son pantallas nuevas. El POS (Fase 4) se implementa con su boceto `diseno/bodega/Pos.dc.html`.

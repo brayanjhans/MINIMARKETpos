@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Nuevo ajuste</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box;padding:18px 20px}
+.mot{height:40px;display:inline-flex;align-items:center;gap:8px;padding:0 14px;border-radius:12px;font-size:13.5px;font-weight:600;background:#f3f4f8;border:2px solid transparent}
+.th{font-size:12px;color:#5b6475;font-weight:700;text-align:left;padding:10px 12px;background:#f7f8fb;white-space:nowrap}
+.td{padding:10px 12px;border-top:1px solid #eef0f4;font-size:14px;vertical-align:middle}
+.cant{display:inline-flex;align-items:center;gap:8px;background:#f3f4f8;border-radius:10px;padding:3px}
+.cb{width:28px;height:28px;border-radius:8px;background:#fff;display:grid;place-items:center;font-weight:800}
+.fila{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div><div style="font-size:13px;color:#5b6475;font-weight:600">Inventario ›</div><h1 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-0.02em">Nuevo ajuste <span class="num" style="color:#5b6475;font-weight:600;font-size:18px">AJ-000005</span></h1></div>
+    </header>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <section class="card">
+          <h2 style="margin:0 0 10px;font-size:15px;font-weight:800">¿Por qué se ajusta el stock?</h2>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="mot" style="background:#fffbea;border-color:#ffc300;font-weight:800"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Producto vencido</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Dañado o roto</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#d6453a"></span>Robo o pérdida</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#e8a400"></span>Consumo interno</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#1f9d55"></span>Sobrante encontrado</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#1f9d55"></span>Bonificación del proveedor</span>
+            <span class="mot"><span style="width:8px;height:8px;border-radius:9px;background:#8a93a6"></span>Corrección de error</span>
+          </div>
+          <p style="margin:10px 0 0;font-size:13px;color:#5b6475"><span style="display:inline-block;width:8px;height:8px;border-radius:9px;background:#d6453a;margin-right:6px"></span>Rojo: cuenta como merma (pérdida) en los reportes de ganancia.</p>
+        </section>
+
+        <section class="card" style="flex:1;padding:0;overflow:hidden">
+          <div style="padding:14px 16px;display:flex;align-items:center;gap:10px">
+            <label style="flex:1;display:flex;align-items:center;gap:10px;background:#f3f4f8;border:2px solid #ffc300;border-radius:12px;height:44px;padding:0 12px;color:#8a93a6;font-size:14px">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#14213d" stroke-width="2" aria-hidden="true"><path d="M3 5v14M6 5v14M10 5v14M13 5v14M17 5v14M21 5v14"/></svg>
+              <input aria-label="Agregar producto" placeholder="Escanea o busca el producto para agregarlo" style="border:0;outline:0;background:transparent;font:inherit;width:100%">
+            </label>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead><tr><th class="th" style="padding-left:16px">Producto</th><th class="th">Lote</th><th class="th" style="text-align:right">Stock</th><th class="th" style="text-align:center">Se retira</th><th class="th" style="text-align:right">Queda</th><th class="th" style="text-align:right;padding-right:16px">Pérdida</th></tr></thead>
+            <tbody>
+              <tr><td class="td" style="padding-left:16px"><b>Yogurt Gloria fresa 1 L</b><div class="num" style="font-size:12px;color:#5b6475">S/ 5.10 c/u</div></td><td class="td num"><span style="background:#ffe4e1;color:#b23a2f;font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px">L-0921 · vence hoy</span></td><td class="td num" style="text-align:right">6</td><td class="td" style="text-align:center"><span class="cant"><span class="cb">−</span><b class="num">2</b><span class="cb">+</span></span></td><td class="td num" style="text-align:right;font-weight:700">4</td><td class="td num" style="text-align:right;padding-right:16px;color:#c2412f;font-weight:700">S/ 10.20</td></tr>
+              <tr><td class="td" style="padding-left:16px"><b>Pan francés</b><div class="num" style="font-size:12px;color:#5b6475">S/ 0.18 c/u</div></td><td class="td" style="color:#5b6475">—</td><td class="td num" style="text-align:right">180</td><td class="td" style="text-align:center"><span class="cant"><span class="cb">−</span><b class="num">15</b><span class="cb">+</span></span></td><td class="td num" style="text-align:right;font-weight:700">165</td><td class="td num" style="text-align:right;padding-right:16px;color:#c2412f;font-weight:700">S/ 2.70</td></tr>
+              <tr><td class="td" style="padding-left:16px"><b>Huevos rosados (unidad)</b><div class="num" style="font-size:12px;color:#5b6475">S/ 0.45 c/u</div></td><td class="td num"><span style="background:#fff3cc;color:#8a6700;font-size:12px;font-weight:700;padding:3px 8px;border-radius:7px">H-2210 · 6 días</span></td><td class="td num" style="text-align:right">90</td><td class="td" style="text-align:center"><span class="cant"><span class="cb">−</span><b class="num">6</b><span class="cb">+</span></span></td><td class="td num" style="text-align:right;font-weight:700">84</td><td class="td num" style="text-align:right;padding-right:16px;color:#c2412f;font-weight:700">S/ 2.70</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <section class="card" style="background:#14213d;color:#fff">
+          <div style="font-size:13px;color:#aab4cf">Pérdida total (merma)</div>
+          <div class="num" style="font-size:34px;font-weight:800;letter-spacing:-0.02em;color:#ffb3aa">S/ 15.60</div>
+          <div class="fila" style="border-top:1px solid #1d2d52;margin-top:8px"><span style="color:#c3cbe0">Productos</span><b class="num">3</b></div>
+          <div class="fila" style="border-top:1px solid #1d2d52"><span style="color:#c3cbe0">Unidades que salen</span><b class="num">23</b></div>
+          <div class="fila" style="border-top:1px solid #1d2d52"><span style="color:#c3cbe0">Almacén</span><b>Principal</b></div>
+        </section>
+        <section class="card">
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Observación
+            <textarea style="height:84px;border-radius:10px;border:1.5px solid #dfe3ec;padding:10px 12px;font:inherit;font-size:14px;resize:none">Revisión de la mañana: lácteos vencidos y pan del día anterior.</textarea>
+          </label>
+          <p style="margin:10px 0 0;font-size:12px;color:#5b6475">El stock cambia al aplicar. Queda registrado en el kardex de cada producto y en la auditoría.</p>
+        </section>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:auto">
+          <a href="#" style="height:50px;border-radius:12px;background:#ffc300;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;text-decoration:none">Aplicar ajuste</a>
+          <a href="#" style="height:42px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;text-decoration:none">Guardar como borrador</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Productos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;color:#14213d;background:#fff}
+.chip{height:34px;display:inline-flex;align-items:center;gap:6px;padding:0 12px;border-radius:10px;font-size:13px;font-weight:600;background:#f3f4f8}
+.th{font-size:12px;color:#5b6475;font-weight:700;text-align:left;padding:11px 14px;background:#f7f8fb;white-space:nowrap}
+.td{padding:10px 14px;border-top:1px solid #eef0f4;font-size:14px;vertical-align:middle}
+.thumb{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.cat{display:inline-flex;height:24px;align-items:center;padding:0 9px;border-radius:8px;font-size:12px;font-weight:700}
+.stat{padding:14px 18px;display:flex;align-items:center;gap:12px}
+.dot{width:10px;height:10px;border-radius:9px}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">TIENDA</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Inicio</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Punto de venta</a>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+    <div class="grp">ADMINISTRACIÓN</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/></svg>Usuarios</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div><h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.02em">Productos</h1><div style="font-size:14px;color:#5b6475">248 productos en 10 categorías</div></div>
+      <a class="btn" href="#" style="margin-left:auto"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>Importar Excel</a>
+      <a class="btn" href="#"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 15v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>Exportar</a>
+      <a class="btn" href="#" style="background:#ffc300"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nuevo producto</a>
+    </header>
+
+    <section style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+      <div class="card stat" style="background:#14213d;color:#fff"><div><div style="font-size:13px;color:#aab4cf">Activos</div><div class="num" style="font-size:26px;font-weight:800">246</div></div></div>
+      <div class="card stat"><span class="dot" style="background:#d6453a"></span><div><div style="font-size:13px;color:#5b6475">Stock bajo</div><div class="num" style="font-size:26px;font-weight:800;color:#d6453a">9</div></div></div>
+      <div class="card stat"><span class="dot" style="background:#e8a400"></span><div><div style="font-size:13px;color:#5b6475">Por vencer (30 días)</div><div class="num" style="font-size:26px;font-weight:800">4</div></div></div>
+      <div class="card stat"><span class="dot" style="background:#a0a8b8"></span><div><div style="font-size:13px;color:#5b6475">Sin stock</div><div class="num" style="font-size:26px;font-weight:800">2</div></div></div>
+    </section>
+
+    <section class="card" style="flex:1;overflow:hidden;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px">
+        <label style="display:flex;align-items:center;gap:8px;background:#f3f4f8;border-radius:10px;padding:0 12px;height:38px;width:330px;color:#8a93a6;font-size:14px">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5v14M6 5v14M10 5v14M13 5v14M17 5v14M21 5v14"/></svg>
+          <input aria-label="Buscar producto" placeholder="Nombre o código de barras" style="border:0;outline:0;background:transparent;font:inherit;width:100%">
+        </label>
+        <span class="chip" style="background:#14213d;color:#fff;font-weight:700">Todas</span>
+        <span class="chip"><span class="dot" style="width:8px;height:8px;background:#3b82f6"></span>Bebidas</span>
+        <span class="chip"><span class="dot" style="width:8px;height:8px;background:#f59e0b"></span>Abarrotes</span>
+        <span class="chip"><span class="dot" style="width:8px;height:8px;background:#facc15"></span>Lácteos</span>
+        <span class="chip">+7</span>
+        <span class="chip" style="margin-left:auto;background:#ffe4e1;color:#b23a2f;font-weight:700">Solo stock bajo</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr><th class="th">Producto</th><th class="th">Categoría</th><th class="th" style="text-align:right">Precio venta</th><th class="th" style="text-align:right">Costo</th><th class="th" style="text-align:right">Margen</th><th class="th" style="text-align:right">Stock</th><th class="th"><span style="position:absolute;left:-9999px">Acciones</span></th></tr></thead>
+        <tbody>
+          <tr><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#fff3cc;color:#8a6700">IK</div><div><b>Inca Kola 1.5 L</b><div class="num" style="font-size:12px;color:#5b6475">7750182006116 · 2 presentaciones</div></div></div></td><td class="td"><span class="cat" style="background:#e4ecff;color:#2f5bd3">Bebidas</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 6.50</td><td class="td num" style="text-align:right;color:#5b6475">4.80</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">26.2%</td><td class="td num" style="text-align:right"><b>48</b> <span style="color:#5b6475;font-size:12px">und</span></td><td class="td" style="color:#8a93a6;text-align:right">•••</td></tr>
+          <tr><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#e4ecff;color:#2f5bd3">LG</div><div><b>Leche Gloria 400 g</b><div class="num" style="font-size:12px;color:#5b6475">7751271011038</div></div></div></td><td class="td"><span class="cat" style="background:#fff3cc;color:#8a6700">Lácteos y huevos</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 4.20</td><td class="td num" style="text-align:right;color:#5b6475">3.30</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">21.4%</td><td class="td num" style="text-align:right"><b>96</b> <span style="color:#5b6475;font-size:12px">und</span></td><td class="td" style="color:#8a93a6;text-align:right">•••</td></tr>
+          <tr style="background:#fff5f4"><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#ffe9d6;color:#b55a00">AP</div><div><b>Aceite Primor 1 L</b><div class="num" style="font-size:12px;color:#5b6475">7750243051243</div></div></div></td><td class="td"><span class="cat" style="background:#ffe9d6;color:#b55a00">Abarrotes</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 11.90</td><td class="td num" style="text-align:right;color:#5b6475">9.40</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">21.0%</td><td class="td num" style="text-align:right;color:#d6453a"><b>3</b> <span style="font-size:12px">/ mín 12</span></td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Comprar</a></td></tr>
+          <tr><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#ffe9d6;color:#b55a00">AC</div><div><b>Arroz Costeño 1 kg</b><div class="num" style="font-size:12px;color:#5b6475">7750885001018</div></div></div></td><td class="td"><span class="cat" style="background:#ffe9d6;color:#b55a00">Abarrotes</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 4.90</td><td class="td num" style="text-align:right;color:#5b6475">3.95</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">19.4%</td><td class="td num" style="text-align:right"><b>33</b> <span style="color:#5b6475;font-size:12px">und</span></td><td class="td" style="color:#8a93a6;text-align:right">•••</td></tr>
+          <tr><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#fff3cc;color:#8a6700">CP</div><div><b>Cerveza Pilsen 355 ml</b><div class="num" style="font-size:12px;color:#5b6475">7750182000017 · six pack S/ 25.00</div></div></div></td><td class="td"><span class="cat" style="background:#ffe4e1;color:#c2412f">Licores</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 4.50</td><td class="td num" style="text-align:right;color:#5b6475">3.20</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">28.9%</td><td class="td num" style="text-align:right"><b>120</b> <span style="color:#5b6475;font-size:12px">und</span></td><td class="td" style="color:#8a93a6;text-align:right">•••</td></tr>
+          <tr><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#f3e8ff;color:#6b3fa0">PF</div><div><b>Pan francés</b><div class="num" style="font-size:12px;color:#5b6475">Sin código · se vende por unidad</div></div></div></td><td class="td"><span class="cat" style="background:#f3e8ff;color:#6b3fa0">Panadería</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 0.30</td><td class="td num" style="text-align:right;color:#5b6475">0.18</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">40.0%</td><td class="td num" style="text-align:right"><b>180</b> <span style="color:#5b6475;font-size:12px">und</span></td><td class="td" style="color:#8a93a6;text-align:right">•••</td></tr>
+          <tr style="opacity:.75"><td class="td"><div style="display:flex;align-items:center;gap:12px"><div class="thumb" style="background:#e0f7f4;color:#0f7d70">DB</div><div><b>Detergente Bolívar 500 g</b><div class="num" style="font-size:12px;color:#5b6475">7750243003372</div></div></div></td><td class="td"><span class="cat" style="background:#e0f7f4;color:#0f7d70">Limpieza</span></td><td class="td num" style="text-align:right;font-weight:800">S/ 6.80</td><td class="td num" style="text-align:right;color:#5b6475">5.10</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">25.0%</td><td class="td num" style="text-align:right;color:#5b6475;font-weight:700">Sin stock</td><td class="td" style="text-align:right"><a href="#" style="font-size:13px;font-weight:700">Comprar</a></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

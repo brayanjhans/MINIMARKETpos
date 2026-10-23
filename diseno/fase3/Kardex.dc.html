@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Kardex</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.th{font-size:12px;color:#5b6475;font-weight:700;text-align:left;padding:10px 14px;background:#f7f8fb;white-space:nowrap}
+.td{padding:10px 14px;border-top:1px solid #eef0f4;font-size:14px;vertical-align:middle}
+.mov{display:inline-flex;height:24px;align-items:center;gap:6px;padding:0 9px;border-radius:8px;font-size:12px;font-weight:700;white-space:nowrap}
+.dato{display:flex;flex-direction:column;gap:2px}
+.dato span{font-size:12px;color:#aab4cf}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div><div style="font-size:13px;color:#5b6475;font-weight:600">Inventario › Kardex</div><h1 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-0.02em">Inca Kola 1.5 L</h1></div>
+      <span style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:10px;background:#fff;font-size:13px;font-weight:600">20 oct – 23 oct 2026</span>
+      <a href="#" style="display:inline-flex;align-items:center;height:38px;padding:0 14px;border-radius:10px;background:#14213d;color:#fff;font-weight:700;font-size:13px;text-decoration:none">Exportar Excel</a>
+    </header>
+
+    <section class="card" style="background:#14213d;color:#fff;padding:16px 20px;display:flex;align-items:center;gap:36px">
+      <div style="width:52px;height:52px;border-radius:14px;background:#ffc300;color:#14213d;display:grid;place-items:center;font-weight:800;font-size:16px">IK</div>
+      <div class="dato"><span>Stock actual · Almacén principal</span><b class="num" style="font-size:26px">48 und</b></div>
+      <div class="dato"><span>Costo promedio</span><b class="num" style="font-size:20px">S/ 4.80</b></div>
+      <div class="dato"><span>Valor del stock</span><b class="num" style="font-size:20px">S/ 230.40</b></div>
+      <div class="dato"><span>Entradas del periodo</span><b class="num" style="font-size:20px;color:#7ee2a8">+36</b></div>
+      <div class="dato"><span>Salidas del periodo</span><b class="num" style="font-size:20px;color:#ffb3aa">−18</b></div>
+    </section>
+
+    <section class="card" style="flex:1;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr><th class="th">Fecha</th><th class="th">Movimiento</th><th class="th">Documento</th><th class="th">Detalle</th><th class="th" style="text-align:right">Entrada</th><th class="th" style="text-align:right">Salida</th><th class="th" style="text-align:right">Saldo</th><th class="th">Quién</th></tr></thead>
+        <tbody>
+          <tr><td class="td num">20/10 08:10</td><td class="td"><span class="mov" style="background:#eef0f4;color:#4a5263">Saldo inicial</span></td><td class="td" style="color:#5b6475">—</td><td class="td" style="color:#5b6475">Stock al inicio del periodo</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;font-weight:800">30</td><td class="td" style="color:#5b6475">—</td></tr>
+          <tr><td class="td num">20/10 09:30</td><td class="td"><span class="mov" style="background:#e3f6ea;color:#13703b">Compra</span></td><td class="td num"><a href="#" style="font-weight:700">OC-000012</a></td><td class="td" style="color:#5b6475">Corporación Lindley · S/ 4.80 c/u</td><td class="td num" style="text-align:right;color:#13703b;font-weight:700">+36</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;font-weight:800">66</td><td class="td">Luis H.</td></tr>
+          <tr><td class="td num">21/10 11:02</td><td class="td"><span class="mov" style="background:#e4ecff;color:#2f5bd3">Venta</span></td><td class="td num"><a href="#" style="font-weight:700">T001-00000118</a></td><td class="td" style="color:#5b6475">2 unidades</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;color:#c2412f;font-weight:700">−2</td><td class="td num" style="text-align:right;font-weight:800">64</td><td class="td">Ana Q.</td></tr>
+          <tr><td class="td num">21/10 18:40</td><td class="td"><span class="mov" style="background:#e4ecff;color:#2f5bd3">Venta</span></td><td class="td num"><a href="#" style="font-weight:700">T001-00000121</a></td><td class="td" style="color:#5b6475">1 six pack (6 und)</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;color:#c2412f;font-weight:700">−6</td><td class="td num" style="text-align:right;font-weight:800">58</td><td class="td">Ana Q.</td></tr>
+          <tr style="background:#fff7e0"><td class="td num">22/10 07:55</td><td class="td"><span class="mov" style="background:#ffe4e1;color:#c2412f">Merma</span></td><td class="td num"><a href="#" style="font-weight:700">AJ-000004</a></td><td class="td" style="color:#5b6475">Producto dañado o roto · botella rota</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;color:#c2412f;font-weight:700">−1</td><td class="td num" style="text-align:right;font-weight:800">57</td><td class="td">Luis H.</td></tr>
+          <tr><td class="td num">22/10 13:10</td><td class="td"><span class="mov" style="background:#f3e8ff;color:#6b3fa0">Transferencia</span></td><td class="td num"><a href="#" style="font-weight:700">TR-000002</a></td><td class="td" style="color:#5b6475">Enviado a Almacén Sur</td><td class="td num" style="text-align:right">—</td><td class="td num" style="text-align:right;color:#c2412f;font-weight:700">−9</td><td class="td num" style="text-align:right;font-weight:800">48</td><td class="td">Carlos T.</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

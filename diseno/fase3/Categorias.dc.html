@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Categorías y marcas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.catc{border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:#fff;border:2px solid transparent}
+.ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.ico svg{width:20px;height:20px}
+.bar{height:6px;border-radius:9px;background:#eef0f4}
+.mrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #eef0f4;font-size:14px}
+.mlogo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:12px;flex:none}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div><h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.02em">Categorías y marcas</h1><div style="font-size:14px;color:#5b6475">Cómo se ordena el catálogo en el punto de venta y en los reportes</div></div>
+      <a href="#" style="margin-left:auto;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:12px;background:#ffc300;font-weight:800;font-size:14px;text-decoration:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nueva categoría</a>
+    </header>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;flex:1;min-height:0">
+      <section>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px"><h2 style="margin:0;font-size:16px;font-weight:800">Categorías <span class="num" style="color:#5b6475;font-weight:600">10</span></h2><a href="#" style="font-size:13px;font-weight:700;color:#5b6475">Las 9 con más productos · ver las 10</a></div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#ffe9d6;color:#b55a00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 016 0"/></svg></div><div><b>Abarrotes</b><div class="num" style="font-size:12px;color:#5b6475">64 productos</div></div></div><div class="bar"><div style="width:100%;height:6px;border-radius:9px;background:#f59e0b"></div></div></div>
+          <div class="catc" style="border-color:#ffc300;background:#fffbea"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#e4ecff;color:#2f5bd3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 2h8l-1 4v15a1 1 0 01-1 1h-4a1 1 0 01-1-1V6z"/></svg></div><div><b>Bebidas</b><div class="num" style="font-size:12px;color:#5b6475">42 productos</div></div></div><div class="bar"><div style="width:66%;height:6px;border-radius:9px;background:#3b82f6"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#e0f7f4;color:#0f7d70"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 3h10v4H7zM5 7h14v14H5z"/></svg></div><div><b>Limpieza</b><div class="num" style="font-size:12px;color:#5b6475">31 productos</div></div></div><div class="bar"><div style="width:48%;height:6px;border-radius:9px;background:#06b6d4"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#ffe4e1;color:#c2412f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 4h10l-2 16H9z"/></svg></div><div><b>Snacks y golosinas</b><div class="num" style="font-size:12px;color:#5b6475">27 productos</div></div></div><div class="bar"><div style="width:42%;height:6px;border-radius:9px;background:#ec4899"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#f3e8ff;color:#6b3fa0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M8 13l-2 8h12l-2-8"/></svg></div><div><b>Cuidado personal</b><div class="num" style="font-size:12px;color:#5b6475">22 productos</div></div></div><div class="bar"><div style="width:34%;height:6px;border-radius:9px;background:#8b5cf6"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#fff3cc;color:#8a6700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 3h8v6a4 4 0 01-8 0z"/><path d="M12 13v8M8 21h8"/></svg></div><div><b>Lácteos y huevos</b><div class="num" style="font-size:12px;color:#5b6475">18 productos</div></div></div><div class="bar"><div style="width:28%;height:6px;border-radius:9px;background:#facc15"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#ffe4e1;color:#c2412f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 3h6v5l2 3v10H7V11l2-3z"/></svg></div><div><b>Licores</b><div class="num" style="font-size:12px;color:#5b6475">15 productos</div></div></div><div class="bar"><div style="width:23%;height:6px;border-radius:9px;background:#ef4444"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#ffe9d6;color:#b55a00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 14c0-5 4-9 8-9s8 4 8 9H4z"/><path d="M3 14h18v3H3z"/></svg></div><div><b>Panadería</b><div class="num" style="font-size:12px;color:#5b6475">12 productos</div></div></div><div class="bar"><div style="width:19%;height:6px;border-radius:9px;background:#d97706"></div></div></div>
+          <div class="catc"><div style="display:flex;align-items:center;gap:10px"><div class="ico" style="background:#ffe9d6;color:#b55a00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="12" rx="8" ry="5"/></svg></div><div><b>Embutidos y carnes</b><div class="num" style="font-size:12px;color:#5b6475">9 productos</div></div></div><div class="bar"><div style="width:14%;height:6px;border-radius:9px;background:#f97316"></div></div></div>
+        </div>
+      </section>
+
+      <section class="card" style="padding:18px 20px;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:16px;font-weight:800">Marcas <span class="num" style="color:#5b6475;font-weight:600">38</span></h2><a href="#" style="font-size:13px;font-weight:700">+ Nueva marca</a></div>
+        <label style="display:flex;align-items:center;gap:8px;background:#f3f4f8;border-radius:10px;padding:0 12px;height:36px;margin:12px 0 4px;color:#8a93a6;font-size:13px"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input aria-label="Buscar marca" placeholder="Buscar marca" style="border:0;outline:0;background:transparent;font:inherit;width:100%"></label>
+        <div class="mrow"><div class="mlogo" style="background:#ffe9d6;color:#b55a00">AL</div><span style="flex:1;font-weight:600">Alicorp</span><span class="num" style="color:#5b6475">22 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#e4ecff;color:#2f5bd3">GL</div><span style="flex:1;font-weight:600">Gloria</span><span class="num" style="color:#5b6475">14 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#ffe4e1;color:#c2412f">BK</div><span style="flex:1;font-weight:600">Backus</span><span class="num" style="color:#5b6475">11 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#fff3cc;color:#8a6700">PE</div><span style="flex:1;font-weight:600">PepsiCo</span><span class="num" style="color:#5b6475">9 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#e0f7f4;color:#0f7d70">LD</div><span style="flex:1;font-weight:600">Corporación Lindley</span><span class="num" style="color:#5b6475">8 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#f3e8ff;color:#6b3fa0">LV</div><span style="flex:1;font-weight:600">Laive</span><span class="num" style="color:#5b6475">7 productos</span></div>
+        <div class="mrow"><div class="mlogo" style="background:#ffe9d6;color:#b55a00">CO</div><span style="flex:1;font-weight:600">Costeño</span><span class="num" style="color:#5b6475">6 productos</span></div>
+        <a href="#" style="margin-top:auto;padding-top:10px;font-size:13px;font-weight:700;color:#5b6475">Ver las 38 marcas</a>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
