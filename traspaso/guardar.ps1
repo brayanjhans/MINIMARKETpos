@@ -1,5 +1,6 @@
-﻿# AL TERMINAR en esta PC: exporta la base de datos y sube TODO (código + base) a GitHub.
-# Uso:  powershell -ExecutionPolicy Bypass -File traspaso\guardar.ps1
+﻿# AL TERMINAR en esta PC: sube el código a GitHub. Con -ConBase también exporta la base de datos de prueba.
+# Uso:  powershell -ExecutionPolicy Bypass -File traspaso\guardar.ps1 [-ConBase]
+param([switch]$ConBase)
 $ErrorActionPreference = "Continue"
 $raiz = Split-Path -Parent $PSScriptRoot
 $respaldo = Join-Path $PSScriptRoot "minimarket.sql"
@@ -16,6 +17,7 @@ function Buscar($exe) {
 }
 
 Set-Location $raiz
+if ($ConBase) {
 Paso "Exportando la base de datos minimarket"
 $mysqldump = Buscar "mysqldump"
 $env:MYSQL_PWD = "minimarket"
@@ -25,10 +27,12 @@ $codigo = $LASTEXITCODE
 Remove-Item Env:MYSQL_PWD -ErrorAction SilentlyContinue
 if ($codigo -ne 0) { Falla "No se pudo exportar la base (¿MySQL encendido?)" }
 Write-Host "Base exportada: $((Get-Item $respaldo).Length / 1KB -as [int]) KB"
+}
 
 Paso "Subiendo a GitHub"
 git add -A
-git commit -q -m "Traspaso: base de datos y cambios del $(Get-Date -Format 'yyyy-MM-dd HH:mm') en $env:COMPUTERNAME"
+if (-not (git status --porcelain)) { Write-Host "No hay cambios que subir"; git push; exit 0 }
+git commit -q -m "Traspaso: cambios del $(Get-Date -Format 'yyyy-MM-dd HH:mm') en $env:COMPUTERNAME"
 git push
 if ($LASTEXITCODE -ne 0) { Falla "No se pudo subir a GitHub (¿internet? ¿hay cambios de la otra PC sin bajar? usa actualizar.ps1 primero)" }
 Write-Host "`nListo. En la otra PC ejecuta: powershell -ExecutionPolicy Bypass -File traspaso\actualizar.ps1" -ForegroundColor Green

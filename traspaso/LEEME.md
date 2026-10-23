@@ -77,18 +77,21 @@ desde donde quedamos.
 - **Puerto ocupado**: otro programa usa el 8010 o el 3010; cerrarlo.
 
 ## Trabajar en dos PCs (ir y volver)
-El código viaja por GitHub; la base de datos viaja en `minimarket.sql`. **Regla: se trabaja en una PC a la vez.**
+Mientras el sistema no esté en producción, los datos son **de prueba**: cada PC tiene los suyos y no hace falta
+llevarlos. Lo que viaja es el **código** (por GitHub). Si una fase agrega tablas, al actualizar se aplican las
+migraciones y la base de esa PC queda al día, conservando sus datos.
 
 | Momento | Comando | Qué hace |
 |---|---|---|
-| **Al terminar** en una PC | `powershell -ExecutionPolicy Bypass -File traspaso\guardar.ps1` | exporta la base y sube TODO a GitHub |
-| **Al llegar** a la otra PC | `powershell -ExecutionPolicy Bypass -File traspaso\actualizar.ps1` | baja todo y carga esa base (reemplaza la de esa PC) |
+| **Al terminar** en una PC | `powershell -ExecutionPolicy Bypass -File traspaso\guardar.ps1` | sube el código a GitHub |
+| **Al llegar** a la otra PC | `powershell -ExecutionPolicy Bypass -File traspaso\actualizar.ps1` | baja el código, instala lo nuevo y aplica las migraciones |
 
 O pídeselo a Claude: **«me voy a la otra PC, guarda todo»** / **«vengo de la otra PC, actualiza todo»**.
 
-⚠️ Si trabajas en las dos PCs sin hacer guardar → actualizar entre medio, al actualizar se pierden los datos de la
-PC que no se guardó (la base no se mezcla, se reemplaza). `actualizar.ps1` se detiene si encuentra cambios de
-código sin guardar.
+Solo si quieres los **mismos datos** en las dos PCs (o la base se dañó): `guardar.ps1 -ConBase` exporta la base al
+salir y `actualizar.ps1 -ConBase` la carga al llegar (reemplaza la de esa PC).
+
+`actualizar.ps1` se detiene si encuentra código sin subir en esa PC, para no mezclar trabajos.
 
 Exportar a mano (lo mismo que hace `guardar.ps1`; pide la contraseña `minimarket`):
 ```

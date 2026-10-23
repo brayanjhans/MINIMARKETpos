@@ -12,10 +12,10 @@
 - Si es una **PC nueva** (no hay `backend/.venv`, `frontend/node_modules` o la BD `minimarket`): seguir
   `traspaso/LEEME.md` (instalación + importar `traspaso/minimarket.sql`) antes de continuar.
 
-- El usuario trabaja en **dos PCs** con el mismo GitHub. Si dice que se va a la otra PC («guarda todo», «me voy»):
-  ejecutar `traspaso/guardar.ps1` (exporta la BD a `traspaso/minimarket.sql`, commit y push). Si dice que viene de
-  la otra PC («actualiza todo», «vengo de la otra»): hacer lo de `traspaso/actualizar.ps1` (pull, importar la BD,
-  pip/npm, migraciones), avisando antes que la BD de esta PC se reemplaza. Detalle en `traspaso/LEEME.md`.
+- El usuario trabaja en **dos PCs** con el mismo GitHub. Todo es local y los datos son de prueba: NO hace falta
+  sincronizar la BD. «Me voy / guarda todo» → `traspaso/guardar.ps1` (commit + push del código). «Vengo de la otra /
+  actualiza todo» → `traspaso/actualizar.ps1` (pull, pip, npm, `alembic upgrade head`; conserva los datos de esa PC).
+  Solo si pide los mismos datos o la BD se dañó: la opción `-ConBase`. Detalle en `traspaso/LEEME.md`.
 
 ## Stack y decisiones tomadas (no cambiar sin consultar)
 - Backend: FastAPI + SQLAlchemy 2 async + Pydantic v2 + Alembic. **Python 3.14** (venv en `backend/.venv`).
