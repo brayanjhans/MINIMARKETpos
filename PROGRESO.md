@@ -124,7 +124,25 @@
   precios), Categorías y marcas, Inventario (valor, stock bajo, por vencer, mermas del mes, lotes por vencer),
   Kardex (saldo por movimiento), Nuevo ajuste/merma (motivos, lotes, pérdida total), Inventario físico (conteo con
   escáner, diferencias y valor). Datos de ejemplo verificados (márgenes, valores y saldos cuadran).
-- ⏳ Esperando aprobación de los bocetos.
+- Revisión de robustez (2026-10-23). DECISIONES del usuario y reglas acordadas:
+  * **Vender sin stock: SÍ, con permiso** `pos.vender_sin_stock` (solo Administrador por defecto, auditado).
+    Solo las VENTAS pueden dejar `stock_almacen.cantidad` negativo (quitar el CHECK ≥ 0 de esa columna con
+    migración); ajustes/mermas/transferencias nunca. Los lotes nunca negativos. Alerta "stock negativo por
+    regularizar" en Inventario. Reemplaza al parámetro `ventas.permitir_sin_stock` (quitarlo).
+  * **Fotos: SÍ, siempre lo más livianas posible** (pedido explícito del usuario): se aceptan JPG/PNG/WEBP/HEIC
+    hasta 10 MB y el servidor SIEMPRE las convierte a **WEBP**: corrige orientación EXIF, máx. 800 px (calidad ~75,
+    objetivo 30–60 KB) + miniatura 160 px (~5–10 KB) para listas y POS; se eliminan metadatos EXIF/GPS.
+    Pillow (+ pillow-heif para HEIC). Servir con caché larga y `loading="lazy"`. Validar el contenido real
+    (no confiar en la extensión) y rechazar imágenes gigantes (límite de píxeles contra "bombas de descompresión").
+  * Inventario físico: guardar stock al iniciar el conteo y aplicar SOLO la diferencia sobre el stock actual.
+  * Códigos de barras en UNA tabla única (producto + presentaciones) para unicidad real en BD.
+  * Carga de stock inicial (manual y por Excel) con lote/vencimiento → kardex "STOCK_INICIAL".
+  * Exportar Excel protegido contra inyección de fórmulas. Importar Excel con vista previa y todo-o-nada.
+  * Stock: transacción + FOR UPDATE en orden fijo de producto_id + reintento ante deadlock (1213);
+    estados de documentos verificados con fila bloqueada (sin doble aplicación); kardex inmutable;
+    suma de lotes = stock (invariante probada); costo promedio solo con entradas; pruebas de concurrencia.
+- ⏳ Faltan bocetos: Transferencias, Importar Excel (vista previa), Carga de stock inicial; corregir texto del
+  boceto de inventario físico. Luego aprobación del usuario.
 
 ## Siguiente paso
 Que el usuario apruebe (o ajuste) los bocetos de la Fase 3. Luego implementar backend (servicios con

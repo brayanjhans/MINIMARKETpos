@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Fase 3 · Transferencia</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#14213d}a:hover{color:#0b1426}
+.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 14px;border-radius:12px;color:#aab4cf;font-size:14px;font-weight:500;text-decoration:none}
+.nav svg{width:18px;height:18px}
+.grp{font-size:11px;color:#6f7ea3;font-weight:700;padding:12px 14px 4px}
+.num{font-variant-numeric:tabular-nums}
+.card{background:#fff;border-radius:18px;box-sizing:border-box}
+.th{font-size:12px;color:#5b6475;font-weight:700;text-align:left;padding:10px 14px;background:#f7f8fb;white-space:nowrap}
+.td{padding:10px 14px;border-top:1px solid #eef0f4;font-size:14px;vertical-align:middle}
+.alm{flex:1;border-radius:16px;padding:14px 16px;background:#fff}
+.paso{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
+.paso i{width:26px;height:26px;border-radius:20px;display:grid;place-items:center;font-style:normal;font-size:12px}
+.tr{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid #eef0f4;font-size:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;display:flex;background:#f3f4f8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#14213d;overflow:hidden">
+  <aside style="width:236px;background:#14213d;padding:20px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:2px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 10px">
+      <div style="width:38px;height:38px;border-radius:11px;background:#ffc300;display:grid;place-items:center"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#14213d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></div>
+      <div><div style="color:#fff;font-weight:800;font-size:17px">Minimarket</div><div style="color:#ffc300;font-size:12px;font-weight:600">Sucursal Principal</div></div>
+    </div>
+    <div class="grp">INVENTARIO</div>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>Productos</a>
+    <a class="nav" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Categorías y marcas</a>
+    <a class="nav" href="#" style="background:#ffc300;color:#14213d;font-weight:700"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M7 21v-8h10v8"/></svg>Inventario</a>
+  </aside>
+
+  <main style="flex:1;padding:20px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;min-width:0">
+    <header style="display:flex;align-items:center;gap:10px">
+      <div><div style="font-size:13px;color:#5b6475;font-weight:600">Inventario › Transferencias</div><h1 style="margin:0;font-size:24px;font-weight:800;letter-spacing:-0.02em">Transferencia <span class="num" style="color:#5b6475;font-weight:600;font-size:18px">TR-000003</span></h1></div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:18px">
+        <span class="paso"><i style="background:#1f9d55;color:#fff">✓</i>Preparada</span>
+        <span style="width:30px;height:2px;background:#ffc300"></span>
+        <span class="paso"><i style="background:#ffc300;color:#14213d">2</i>En camino</span>
+        <span style="width:30px;height:2px;background:#dfe3ec"></span>
+        <span class="paso" style="color:#8a93a6"><i style="background:#eef0f4;color:#8a93a6">3</i>Recibida</span>
+      </div>
+    </header>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="alm"><div style="font-size:12px;color:#5b6475;font-weight:600">Sale de</div><b style="font-size:16px">Almacén principal</b><div style="font-size:13px;color:#5b6475">Sucursal Principal · envió Carlos Torres, hoy 13:10</div></div>
+      <div style="width:46px;height:46px;border-radius:14px;background:#14213d;display:grid;place-items:center;flex:none"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffc300" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="alm" style="border:2px solid #ffc300;background:#fffbea"><div style="font-size:12px;color:#8a6700;font-weight:700">Llega a</div><b style="font-size:16px">Almacén Sur</b><div style="font-size:13px;color:#5b6475">Sucursal Sur · lo confirma quien recibe</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;flex:1;min-height:0">
+      <section class="card" style="overflow:hidden">
+        <div style="padding:14px 16px;font-weight:800;font-size:15px">Recibir mercadería <span style="font-weight:500;color:#5b6475;font-size:13px">· marca lo que realmente llegó</span></div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr><th class="th" style="padding-left:16px">Producto</th><th class="th">Lote</th><th class="th" style="text-align:right">Enviado</th><th class="th" style="text-align:center">Recibido</th><th class="th" style="padding-right:16px">Estado</th></tr></thead>
+          <tbody>
+            <tr><td class="td" style="padding-left:16px"><b>Inca Kola 1.5 L</b></td><td class="td" style="color:#5b6475">—</td><td class="td num" style="text-align:right">9</td><td class="td" style="text-align:center"><input class="num" value="9" aria-label="Recibido" style="width:70px;height:34px;border-radius:10px;border:1.5px solid #dfe3ec;text-align:center;font:inherit;font-weight:800"></td><td class="td" style="padding-right:16px"><span style="color:#13703b;font-weight:700;font-size:13px">● Completo</span></td></tr>
+            <tr><td class="td" style="padding-left:16px"><b>Leche Gloria 400 g</b></td><td class="td num" style="color:#5b6475">LG-1022</td><td class="td num" style="text-align:right">24</td><td class="td" style="text-align:center"><input class="num" value="24" aria-label="Recibido" style="width:70px;height:34px;border-radius:10px;border:1.5px solid #dfe3ec;text-align:center;font:inherit;font-weight:800"></td><td class="td" style="padding-right:16px"><span style="color:#13703b;font-weight:700;font-size:13px">● Completo</span></td></tr>
+            <tr style="background:#fff5f4"><td class="td" style="padding-left:16px"><b>Huevos rosados (unidad)</b></td><td class="td num" style="color:#5b6475">H-2210</td><td class="td num" style="text-align:right">30</td><td class="td" style="text-align:center"><input class="num" value="27" aria-label="Recibido" style="width:70px;height:34px;border-radius:10px;border:1.5px solid #d6453a;text-align:center;font:inherit;font-weight:800"></td><td class="td" style="padding-right:16px"><span style="color:#c2412f;font-weight:700;font-size:13px">● Faltan 3 (rotos)</span></td></tr>
+          </tbody>
+        </table>
+        <p style="margin:0;padding:12px 16px;font-size:13px;color:#5b6475;border-top:1px solid #eef0f4">Lo que no llega vuelve como merma del almacén de origen, con su motivo. Nada se pierde sin registro.</p>
+      </section>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <section class="card" style="padding:16px 18px">
+          <h2 style="margin:0 0 6px;font-size:15px;font-weight:800">En camino</h2>
+          <div class="tr" style="border-top:0"><span style="width:8px;height:8px;border-radius:9px;background:#ffc300"></span><div style="flex:1"><b class="num">TR-000003</b><div style="font-size:12px;color:#5b6475">Principal → Sur · 3 productos</div></div></div>
+          <div class="tr"><span style="width:8px;height:8px;border-radius:9px;background:#ffc300"></span><div style="flex:1"><b class="num">TR-000001</b><div style="font-size:12px;color:#5b6475">Sur → Principal · 1 producto · desde ayer</div></div></div>
+        </section>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:auto">
+          <a href="#" style="height:50px;border-radius:12px;background:#ffc300;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;text-decoration:none">Confirmar recepción</a>
+          <a href="#" style="height:42px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;text-decoration:none">Anular transferencia</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
