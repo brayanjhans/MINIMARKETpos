@@ -79,6 +79,7 @@ export interface Movimiento {
   id: number;
   creado_en: string;
   producto_id: number;
+  producto: string;
   almacen_id: number;
   tipo: TipoMovimiento;
   cantidad: string;

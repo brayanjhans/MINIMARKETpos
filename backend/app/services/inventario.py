@@ -425,7 +425,8 @@ async def kardex(
 ) -> tuple[list[dict[str, Any]], int]:
     almacen = await almacen_visible(session, ctx, almacen_id)
     consulta = (
-        select(MovimientoInventario, Lote.numero_lote, Usuario.nombre_completo)
+        select(MovimientoInventario, Lote.numero_lote, Usuario.nombre_completo, Producto.nombre)
+        .join(Producto, Producto.id == MovimientoInventario.producto_id)
         .outerjoin(Lote, Lote.id == MovimientoInventario.lote_id)
         .outerjoin(Usuario, Usuario.id == MovimientoInventario.usuario_id)
         .where(MovimientoInventario.almacen_id == almacen.id)
@@ -445,7 +446,7 @@ async def kardex(
 
     # Número de documento (AJ-000001, TR-...) en una consulta por tipo
     por_tipo: dict[str, set[int]] = defaultdict(set)
-    for m, _, _ in filas:
+    for m, *_ in filas:
         if m.referencia_tipo in _DOCUMENTOS and m.referencia_id:
             por_tipo[m.referencia_tipo].add(m.referencia_id)
     numeros: dict[tuple[str, int], str] = {}
@@ -460,6 +461,7 @@ async def kardex(
             "id": m.id,
             "creado_en": m.creado_en,
             "producto_id": m.producto_id,
+            "producto": producto,
             "almacen_id": m.almacen_id,
             "tipo": m.tipo,
             "cantidad": m.cantidad,
@@ -473,7 +475,7 @@ async def kardex(
             "motivo": m.motivo,
             "usuario": usuario,
         }
-        for m, lote, usuario in filas
+        for m, lote, usuario, producto in filas
     ], total
 
 

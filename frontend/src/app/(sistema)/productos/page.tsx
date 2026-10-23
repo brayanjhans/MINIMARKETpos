@@ -5,7 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Download, Ellipsis, FileSpreadsheet, History, Pencil, Plus, Power, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { RequierePermiso } from "@/components/auth/RequierePermiso";
@@ -37,20 +37,21 @@ const TAMANIO = 20;
 const TODAS = "todas";
 type Estado = NonNullable<FiltrosProductos["estado"]> | "todos" | "inactivos";
 
-export default function ProductosPage() {
+export default function ProductosPage({ searchParams }: { searchParams: Promise<{ categoria?: string }> }) {
+  const { categoria } = use(searchParams);
   return (
     <RequierePermiso permiso="productos.ver">
-      <Productos />
+      <Productos categoriaInicial={categoria && /^\d+$/.test(categoria) ? categoria : TODAS} />
     </RequierePermiso>
   );
 }
 
-function Productos() {
+function Productos({ categoriaInicial }: { categoriaInicial: string }) {
   const { tiene } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
   const [busqueda, setBusqueda] = useState("");
-  const [categoria, setCategoria] = useState(TODAS);
+  const [categoria, setCategoria] = useState(categoriaInicial);
   const [estado, setEstado] = useState<Estado>("todos");
   const [pagina, setPagina] = useState(1);
   const [orden, setOrden] = useState<string | undefined>("nombre");

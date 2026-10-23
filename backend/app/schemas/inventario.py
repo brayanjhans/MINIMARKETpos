@@ -87,6 +87,7 @@ class MovimientoSalida(EsquemaSalida):
     id: int
     creado_en: datetime
     producto_id: int
+    producto: str
     almacen_id: int
     tipo: TipoMovimientoInventario
     cantidad: Decimal
