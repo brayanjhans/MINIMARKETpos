@@ -147,6 +147,7 @@ async def cargar_demo() -> None:
                         marca_id=await _id_por_nombre(session, Marca, marca),
                         unidad_medida=unidad,
                         precio_venta=Decimal(precio),
+                        precio_costo=Decimal(costo),
                         stock_minimo=Decimal(minimo),
                         tipo_afectacion_igv=igv,
                         maneja_lotes=lotes is not None,

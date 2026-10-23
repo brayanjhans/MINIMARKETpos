@@ -90,11 +90,20 @@ type Parametros = Record<string, string | number | boolean | null | undefined>;
 
 interface Opciones {
   method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
+  /** Objeto (se envía como JSON) o FormData (archivos) */
   body?: unknown;
   params?: Parametros;
   signal?: AbortSignal;
   /** false para endpoints públicos (login) */
   autenticado?: boolean;
+  /** Clave única de la operación: si se reintenta (doble clic, red), el servidor no la repite */
+  idempotencia?: string;
+}
+
+/** Clave nueva para una operación que cambia el stock. Generarla al abrir el formulario, no al enviar. */
+export function nuevaClave(): string {
+  // getRandomValues funciona también por http en la red local (randomUUID exige https o localhost)
+  return Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 function construirUrl(ruta: string, params?: Parametros): string {
@@ -106,18 +115,21 @@ function construirUrl(ruta: string, params?: Parametros): string {
   return `${BASE}${ruta}${qs ? `?${qs}` : ""}`;
 }
 
-export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> {
-  const { method = "GET", body, params, signal, autenticado = true } = opciones;
+async function pedir(ruta: string, opciones: Opciones): Promise<Response> {
+  const { method = "GET", body, params, signal, autenticado = true, idempotencia } = opciones;
+  const esArchivo = body instanceof FormData;
 
   const ejecutar = () => {
     const headers: Record<string, string> = { Accept: "application/json" };
-    if (body !== undefined) headers["Content-Type"] = "application/json";
+    // Con FormData el navegador pone el Content-Type (con el separador de partes)
+    if (body !== undefined && !esArchivo) headers["Content-Type"] = "application/json";
+    if (idempotencia) headers["Idempotency-Key"] = idempotencia;
     const token = useAuthStore.getState().accessToken;
     if (autenticado && token) headers.Authorization = `Bearer ${token}`;
     return fetch(construirUrl(ruta, params), {
       method,
       headers,
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      body: body === undefined ? undefined : esArchivo ? body : JSON.stringify(body),
       credentials: "same-origin",
       signal,
     });
@@ -139,7 +151,12 @@ export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> 
     const renovado = await renovarSesion();
     if (renovado) respuesta = await ejecutarSeguro();
   }
+  return respuesta;
+}
 
+export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> {
+  const { autenticado = true } = opciones;
+  const respuesta = await pedir(ruta, opciones);
   const cuerpo = await leerCuerpo(respuesta);
   if (servidorCaido(respuesta.status, cuerpo)) throw errorSinConexion(respuesta.status);
   if (!respuesta.ok) {
@@ -147,4 +164,22 @@ export async function api<T>(ruta: string, opciones: Opciones = {}): Promise<T> 
     throw new ApiError(respuesta.status, (cuerpo ?? {}) as Partial<RespuestaError>);
   }
   return cuerpo as T;
+}
+
+/** Descarga un archivo (Excel) con la sesión actual y lo guarda con el nombre que indica el servidor. */
+export async function descargar(ruta: string, params?: Parametros, nombrePorDefecto = "archivo.xlsx"): Promise<void> {
+  const respuesta = await pedir(ruta, { params });
+  if (!respuesta.ok) {
+    const cuerpo = await leerCuerpo(respuesta);
+    if (servidorCaido(respuesta.status, cuerpo)) throw errorSinConexion(respuesta.status);
+    throw new ApiError(respuesta.status, (cuerpo ?? {}) as Partial<RespuestaError>);
+  }
+  const nombre =
+    /filename="?([^"]+)"?/.exec(respuesta.headers.get("Content-Disposition") ?? "")?.[1] ?? nombrePorDefecto;
+  const url = URL.createObjectURL(await respuesta.blob());
+  const enlace = Object.assign(document.createElement("a"), { href: url, download: nombre });
+  document.body.append(enlace);
+  enlace.click();
+  enlace.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
