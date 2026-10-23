@@ -9,6 +9,9 @@
   cada una para que el usuario revise.
 - Comunicación con el usuario: en español.
 
+- Si es una **PC nueva** (no hay `backend/.venv`, `frontend/node_modules` o la BD `minimarket`): seguir
+  `traspaso/LEEME.md` (instalación + importar `traspaso/minimarket.sql`) antes de continuar.
+
 ## Stack y decisiones tomadas (no cambiar sin consultar)
 - Backend: FastAPI + SQLAlchemy 2 async + Pydantic v2 + Alembic. **Python 3.14** (venv en `backend/.venv`).
 - **Base de datos: MySQL 8** local (servicio MySQL80). BD `minimarket`, usuario `minimarket`/`minimarket`.
