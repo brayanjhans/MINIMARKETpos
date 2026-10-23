@@ -34,3 +34,6 @@ Thumbs.db
 
 # Fotos subidas (van en los respaldos, no en git)
 backend/media/
+
+# Respaldos de la base de datos (tienen datos del negocio): no se suben
+respaldos/
